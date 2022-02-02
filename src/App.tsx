@@ -5,14 +5,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import { AuthPage } from './modules/auth/auth-page';
+import { UserPage } from './modules/user/user-page';
 import { AudiocallPage } from './modules/games/audiocall/audiocall-page';
 import { SprintPage } from './modules/games/sprint/sprint-page';
 import { MainPage } from './modules/main/main-page';
 import { StatisticsPage } from './modules/statistics/statistics-page';
 import { TextbookPage } from './modules/textbook/textbook-page';
 
-function App() {
+function App(): JSX.Element {
   return (
     <div className="App">
       <Router>
@@ -29,8 +29,8 @@ function App() {
           <Route path="/statistics">
             <StatisticsPage />
           </Route>
-          <Route path="/auth">
-            <AuthPage />
+          <Route path="/user">
+            <UserPage />
           </Route>
           <Route path="/">
             <MainPage />
