@@ -15,10 +15,12 @@ export const TextbookPage: React.FC = observer(() => {
       <CardContainer wordsCollection={toJS(textbookState.currentWords)} />
       <div id="group-num">Group: {textbookState.wordGroup + 1}</div>
       <div id="page-num">Page: {textbookState.wordPage + 1}</div>
-      
+  
       <div>
         <button onClick={() => textbookState.setPrevWordPage()}>prev</button>
         <button onClick={() => textbookState.setNextWordPage()}>next</button>
+        <button>Audiocall</button>
+        <button>Sprint</button>
       </div>
 
       <div>

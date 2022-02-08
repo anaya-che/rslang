@@ -1,16 +1,14 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { UserPage } from './modules/user/user-page';
 import { AudiocallPage } from './modules/games/audiocall/audiocall-page';
 import { SprintPage } from './modules/games/sprint/sprint-page';
 import { MainPage } from './modules/main/main-page';
 import { StatisticsPage } from './modules/statistics/statistics-page';
 import { TextbookPage } from './modules/textbook/textbook-page';
+import { appState } from './store';
+
+appState.setPage();
 
 function App(): JSX.Element {
   return (

@@ -1,4 +1,3 @@
-// import style from './style.module.scss';
 import React from 'react';
 import { baseUrl } from '../../../../api/consts';
 import { IWordData } from '../../../../utils/interfaces';

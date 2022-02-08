@@ -35,7 +35,8 @@ export const textbookState = observable({
       if (
         el.wordGroup === textbookState.wordGroup &&
         el.wordPage === textbookState.wordPage
-      ) textbookState.currentWords = el.wordData;
+      )
+        textbookState.currentWords = el.wordData;
     });
   }),
 });
