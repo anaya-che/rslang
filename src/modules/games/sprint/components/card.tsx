@@ -1,19 +1,31 @@
 import { observer } from "mobx-react-lite";
-import React from "react"
+import React, { useEffect } from "react"
 import { sprintState } from "../../../../store/sprint-state"
 import style from './sprint.module.scss'; 
 
 
 export const Card = observer(() => {
+  useEffect(() => {
+
+  }, []);
+
   return (
     <div className={style.sprintCard}>
       <div>Score: {sprintState.score}</div>
+      <ul className={style.pointsIndicationGroup}>
+      {sprintState.countTrueAnswers.map((el, i) => <li key={i} className={style.pointsIndicationDot}></li>)}
+      </ul>
       <button onClick={sprintState.playWordAudio}>🔈</button>
-      <div>{sprintState.currentWord.word}</div>
-      <div>{sprintState.answer}</div>
-      <button onClick={() => sprintState.checkAnswer(false)}>Не верю</button>
-      <button onClick={() => sprintState.checkAnswer(true)}>Верю</button>
-      <button onClick={() => sprintState.setStateForRound()}>Next</button>
+      <div>{sprintState.currentWord && sprintState.currentWord.word}</div>
+      <div>{sprintState.translate}</div>
+      <button onClick={() => {
+        sprintState.checkAnswer(false);
+        sprintState.setStateForRound();
+        }}>Не верю</button>
+      <button onClick={() => {
+        sprintState.checkAnswer(true);
+        sprintState.setStateForRound();
+        }}>Верю</button>
       <div id='result'></div>
     </div>
   )
