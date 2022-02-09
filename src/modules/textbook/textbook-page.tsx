@@ -1,11 +1,21 @@
 import { appState, textbookState } from '../../store';
-import { Link } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
-import React from 'react';
+import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
+import { getNextPage, getPrevPage } from '../../utils/textbook-handlers/navigation';
+import { ILinkProps } from '../../utils/interfaces';
 
-export const TextbookPage: React.FC = observer(() => {
+export const TextbookPage = observer(() => {
+  let linkProps: ILinkProps = useParams();
+  let { group, page } = linkProps;
+  textbookState.setPage(group, page);
+
+  useEffect(() => {
+    textbookState.getCurrentWords();
+  }, [group, page]);
+
   return (
     <div>
       <div onClick={() => appState.setPage()}>
@@ -15,24 +25,42 @@ export const TextbookPage: React.FC = observer(() => {
       <CardContainer wordsCollection={toJS(textbookState.currentWords)} />
       <div id="group-num">Group: {textbookState.wordGroup + 1}</div>
       <div id="page-num">Page: {textbookState.wordPage + 1}</div>
-  
+
       <div>
-        <button onClick={() => textbookState.setPrevWordPage()}>prev</button>
-        <button onClick={() => textbookState.setNextWordPage()}>next</button>
-        <button>Audiocall</button>
-        <button>Sprint</button>
+        <Link to={`/textbook/${textbookState.wordGroup + 1}/${getPrevPage()}`}>
+          <button>prev</button>
+        </Link>
+        <Link to={`/textbook/${textbookState.wordGroup + 1}/${getNextPage()}`}>
+          <button>next</button>
+        </Link>
+        <Link to="/games/audiocall">
+          <button>Audiocall</button>
+        </Link>
+        <Link to="/games/sprint">
+          <button>Sprint</button>
+        </Link>
       </div>
 
       <div>
-        <button onClick={() => textbookState.setWordGroup(0)}>1</button>
-        <button onClick={() => textbookState.setWordGroup(1)}>2</button>
-        <button onClick={() => textbookState.setWordGroup(2)}>3</button>
-        <button onClick={() => textbookState.setWordGroup(3)}>4</button>
-        <button onClick={() => textbookState.setWordGroup(4)}>5</button>
-        <button onClick={() => textbookState.setWordGroup(5)}>6</button>
+        <Link to="/textbook/1/1">
+          <button>1</button>
+        </Link>
+        <Link to="/textbook/2/1">
+          <button>2</button>
+        </Link>
+        <Link to="/textbook/3/1">
+          <button>3</button>
+        </Link>
+        <Link to="/textbook/4/1">
+          <button>4</button>
+        </Link>
+        <Link to="/textbook/5/1">
+          <button>5</button>
+        </Link>
+        <Link to="/textbook/6/1">
+          <button>6</button>
+        </Link>
       </div>
     </div>
   );
 });
-
-

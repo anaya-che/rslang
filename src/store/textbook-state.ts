@@ -1,42 +1,36 @@
-import { getWords, wordsStore } from '.';
 import { observable, action } from 'mobx';
 import { IWordData } from '../utils/interfaces';
+import { getWords, wordsStore } from '.';
 
 export const textbookState = observable({
   wordGroup: 0,
   wordPage: 0,
   currentWords: [] as IWordData[],
 
-  setPrevWordPage: action(async () => {
-    if (textbookState.wordPage !== 0) {
-      textbookState.wordPage -= 1;
-      await getWords(textbookState.wordGroup, textbookState.wordPage);
-      textbookState.getCurrentWords();
-    }
+  setPage: action((group: string, page: string) => {
+    const currentGroup = Number(group) - 1;
+    textbookState.wordGroup = currentGroup;
+    const currentPage = Number(page) - 1;
+    textbookState.wordPage = currentPage;
   }),
 
-  setNextWordPage: action(async () => {
-    if (textbookState.wordPage !== 29) {
-      textbookState.wordPage += 1;
-      await getWords(textbookState.wordGroup, textbookState.wordPage);
-      textbookState.getCurrentWords();
-    }
-  }),
-
-  setWordGroup: action(async (group: number) => {
+  setWordGroup: action((group: number) => {
     textbookState.wordGroup = group;
     textbookState.wordPage = 0;
-    await getWords(textbookState.wordGroup, textbookState.wordPage);
-    textbookState.getCurrentWords();
   }),
 
-  getCurrentWords: action(() => {
+  getCurrentWords: action(async () => {
+    await getWords(textbookState.wordGroup, textbookState.wordPage);
     wordsStore.forEach((el) => {
       if (
         el.wordGroup === textbookState.wordGroup &&
         el.wordPage === textbookState.wordPage
       )
-        textbookState.currentWords = el.wordData;
+        textbookState.setCurrentWords(el.wordData);
     });
+  }),
+
+  setCurrentWords: action((data: IWordData[]) => {
+    textbookState.currentWords = data;
   }),
 });

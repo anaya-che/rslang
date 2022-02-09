@@ -19,7 +19,7 @@ export const MainPage = observer(() => {
         <Link to="/games/audiocall">Audiocall</Link>
       </div>
       <div onClick={() => appState.setPage()}>
-        <Link to="/textbook">Textbook</Link>
+        <Link to="/textbook/1/1">Textbook</Link>
       </div>
       <div onClick={() => appState.setPage()}>
         <Link to="/statistics">Statistics</Link>
