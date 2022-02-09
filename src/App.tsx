@@ -6,9 +6,6 @@ import { SprintPage } from './modules/games/sprint/sprint-page';
 import { MainPage } from './modules/main/main-page';
 import { StatisticsPage } from './modules/statistics/statistics-page';
 import { TextbookPage } from './modules/textbook/textbook-page';
-import { appState } from './store';
-
-appState.setPage();
 
 function App(): JSX.Element {
   return (
@@ -21,7 +18,7 @@ function App(): JSX.Element {
           <Route path="/games/audiocall">
             <AudiocallPage />
           </Route>
-          <Route path="/textbook">
+          <Route path="/textbook/:group/:page">
             <TextbookPage />
           </Route>
           <Route path="/statistics">
