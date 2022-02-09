@@ -3,3 +3,22 @@
   width: 20em;
   height: 20em;
 }
+.trueAnsw {
+  box-shadow: 0px 0px 10px 0px #1cf109;
+}
+.falseAnsw {
+  box-shadow: 0px 0px 10px 0px #f70404;
+}
+.pointsIndicationGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+.pointsIndicationDot {
+  list-style: none;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid;
+  background-color: #1cf109;
+}
