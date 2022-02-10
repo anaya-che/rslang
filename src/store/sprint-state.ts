@@ -4,9 +4,6 @@ import { IWordData } from '../utils/interfaces';
 import { baseUrl } from '../api/consts';
 import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
 
-
-//to do create interface
-
 interface ISprintState {
   setCategory(category: number): void,
   setCurrentWord(): void,
@@ -20,6 +17,7 @@ interface ISprintState {
   setStateForRound(): Promise<void>,
   setPoints(): void,
   startGame(isGame: boolean): void,
+  setTimer(): void,
   category: number,
   page: number,
   currentWordIdx: number,
@@ -32,6 +30,7 @@ interface ISprintState {
   countTrueAnswers: boolean[],
   isRightAnswer: boolean,
   isGame: boolean,
+  secondsInRound: number,
 }
 
 export const sprintState: ISprintState = observable({
@@ -47,9 +46,14 @@ export const sprintState: ISprintState = observable({
   countTrueAnswers: [],
   isRightAnswer: true,
   isGame: false,
+  secondsInRound: 60,
+
+  setTimer: action((): void => {
+    sprintState.secondsInRound -= 1;
+  }),
 
   startGame: action((isGame: boolean): void => {
-    sprintState.isGame = true;
+    sprintState.isGame = isGame;
   }),
   
   setPoints: action((): void => {

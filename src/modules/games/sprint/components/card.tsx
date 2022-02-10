@@ -4,14 +4,21 @@ import { sprintState } from "../../../../store/sprint-state"
 import style from './sprint.module.scss'; 
 
 
-export const Card = observer(() => {
-  useEffect(() => {
+export const Card = observer(() => {  
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (sprintState.secondsInRound > 0) {
+        sprintState.setTimer();
+      } else clearInterval(interval);
+    }, 1000);
   }, []);
 
+ 
   return (
     <div className={style.sprintCard}>
       <div>Score: {sprintState.score}</div>
+      <div>Timer: {sprintState.secondsInRound}</div>
       <ul className={style.pointsIndicationGroup}>
       {sprintState.countTrueAnswers.map((el, i) => <li key={i} className={style.pointsIndicationDot}></li>)}
       </ul>

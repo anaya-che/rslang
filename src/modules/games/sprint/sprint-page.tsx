@@ -10,7 +10,7 @@ export const SprintPage= observer(()=> {
     <>
       <div>Sprint Page</div>
       <div className={style.sprintPage}>
-        { sprintState.isGame ? (
+        { sprintState.isGame && sprintState.currentWord ? (
           <Game />
           ) : (
           <Categories />
