@@ -1,7 +1,23 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+.sprintPage {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 .sprintCard {
   border: 1px solid #000;
   width: 20em;
   height: 20em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
 }
 .trueAnsw {
   box-shadow: 0px 0px 10px 0px #1cf109;
@@ -21,4 +37,13 @@
   border-radius: 50%;
   border: 1px solid;
   background-color: #1cf109;
+}
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+.audioBtn {
+  width: 2em;
+  height: 2em;
 }
