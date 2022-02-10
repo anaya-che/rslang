@@ -3,6 +3,7 @@ import { observable, action, toJS } from 'mobx';
 import { IWordData } from '../utils/interfaces';
 import { baseUrl } from '../api/consts';
 import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
+import style from '../modules/games/sprint/components/sprint.module.scss'
 
 interface ISprintState {
   setCategory(category: number): void,
@@ -119,7 +120,6 @@ export const sprintState: ISprintState = observable({
 
   checkAnswer: action ((bool: boolean): void =>  {
     const resEl = document.querySelector('#result') as HTMLElement;
-    const card = document.querySelector('.sprintCard') as HTMLElement;
     if (bool === sprintState.isRightPair) {
       resEl.innerHTML = 'Вы угадали';
       sprintState.isRightAnswer = true;
@@ -152,3 +152,4 @@ export const sprintState: ISprintState = observable({
     audio.play();
   })
 });
+

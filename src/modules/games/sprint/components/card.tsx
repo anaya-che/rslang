@@ -14,6 +14,15 @@ export const Card = observer(() => {
     }, 1000);
   }, []);
 
+  // const checkAnswer = () => {
+  //   const card = document.querySelector(style.sprintCard) as HTMLElement;
+  //   if (sprintState.isRightAnswer) {
+  //     card.classList.add(style.trueAnsw);
+  //     setTimeout(() => card.classList.remove(style.trueAnsw), 1000)
+  //   } else card.classList.add(style.falseAnsw);
+  //   setTimeout(() => card.classList.remove(style.falseAnsw), 1000)
+  // }
+
  
   return (
     <div className={style.sprintCard}>
