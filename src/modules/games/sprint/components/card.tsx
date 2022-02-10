@@ -15,17 +15,20 @@ export const Card = observer(() => {
       <ul className={style.pointsIndicationGroup}>
       {sprintState.countTrueAnswers.map((el, i) => <li key={i} className={style.pointsIndicationDot}></li>)}
       </ul>
-      <button onClick={sprintState.playWordAudio}>🔈</button>
+      <button className={style.audioBtn} onClick={sprintState.playWordAudio}>🔈</button>
       <div>{sprintState.currentWord && sprintState.currentWord.word}</div>
       <div>{sprintState.translate}</div>
-      <button onClick={() => {
-        sprintState.checkAnswer(false);
-        sprintState.setStateForRound();
-        }}>Не верю</button>
-      <button onClick={() => {
-        sprintState.checkAnswer(true);
-        sprintState.setStateForRound();
-        }}>Верю</button>
+      <div className={style.buttonGroup}>
+        <button onClick={() => {
+          sprintState.checkAnswer(false);
+          sprintState.setStateForRound();
+          }}>Не верю</button>
+        <button onClick={() => {
+          sprintState.checkAnswer(true);
+          sprintState.setStateForRound();
+          }}>Верю</button>
+      </div>
+      
       <div id='result'></div>
     </div>
   )

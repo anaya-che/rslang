@@ -19,6 +19,7 @@ interface ISprintState {
   checkAnswer(bool: boolean): void,
   setStateForRound(): Promise<void>,
   setPoints(): void,
+  startGame(isGame: boolean): void,
   category: number,
   page: number,
   currentWordIdx: number,
@@ -30,6 +31,7 @@ interface ISprintState {
   points: number,
   countTrueAnswers: boolean[],
   isRightAnswer: boolean,
+  isGame: boolean,
 }
 
 export const sprintState: ISprintState = observable({
@@ -44,6 +46,11 @@ export const sprintState: ISprintState = observable({
   points: 10,
   countTrueAnswers: [],
   isRightAnswer: true,
+  isGame: false,
+
+  startGame: action((isGame: boolean): void => {
+    sprintState.isGame = true;
+  }),
   
   setPoints: action((): void => {
     if (sprintState.isRightAnswer  
