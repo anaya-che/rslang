@@ -20,3 +20,44 @@ export interface IWordStore {
   wordPage: number;
   wordData: IWordData[];
 }
+
+export interface IwordResult {
+  word: string;
+  transcription: string;
+  wordTranslate: string;
+  audio: string;
+}
+
+export interface IaudiocallStat {
+  first: string,
+  second: string,
+  third: string,
+  fourth: string,
+  fifth: string,
+  words: Array<IWordData>,
+  counter: number,
+  randomAnsw: number,
+  answersArr: number[],
+  answered: Array<IWordData>,
+  isAnswered: boolean | null,
+  image: string,
+  originalWord: string,
+  transcription: string,
+  translate: string,
+  isStarted: boolean | null,
+  savedAudioUrl: string,
+  nextCallQuestion: Function,
+  playAudio: any,
+  chooseCorrectAnswer: any,
+  getNextWords: Function,
+  setStart: any,
+  getWordAudio: any,
+  randomArrayShuffle: Function,
+  category: number,
+  page: number,
+  setStateForRound: any,
+  setCurrentWord: Function,
+  setCategory: Function,
+  correctAnswers: Array<IwordResult>,
+  incorrectAnswers: Array<IwordResult>
+}

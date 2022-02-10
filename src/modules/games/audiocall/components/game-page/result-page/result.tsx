@@ -12,9 +12,9 @@ export const AudioResult = observer(()=> {
             <p>Слова с ошибками: {10 - audiocallState.correctAnswers.length}</p>
             {audiocallState.incorrectAnswers.map((answer, index) =>
               (<ul key={index} className="audio-answer">
-                <li><button key={answer.audio} onClick={ () => {setTimeout(() => {
-                  audiocallState.getWordAudio(answer.audio)}, 300)
-                  }}>Sound</button></li>
+                <li><button key={answer.audio} onClick={ async () => {
+                  await audiocallState.getWordAudio(answer.audio)}
+                  }>Sound</button></li>
                 <li key={answer.word}>{answer.word}</li>
                 <li key={answer.transcription}>{answer.transcription}</li>
                 <li key={answer.wordTranslate}>{answer.wordTranslate}</li>
@@ -26,9 +26,9 @@ export const AudioResult = observer(()=> {
             <p>Количество изученных слов: {audiocallState.correctAnswers.length}</p>
             {audiocallState.correctAnswers.map((answer, index) =>
               (<ul key={index} className="audio-answer">
-                <li><button key={answer.audio} onClick={ () => {setTimeout(() => {
-                  audiocallState.getWordAudio(answer.audio)}, 300)
-                  }}>Sound</button></li>
+                <li><button key={answer.audio} onClick={async () => {
+                  await audiocallState.getWordAudio(answer.audio)}
+                  }>Sound</button></li>
                 <li key={answer.word}>{answer.word}</li>
                 <li key={answer.transcription}>{answer.transcription}</li>
                 <li key={answer.wordTranslate}>{answer.wordTranslate}</li>

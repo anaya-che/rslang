@@ -7,11 +7,9 @@ export const  AudiocallPage = observer(()=> {
   return <div id='audio-game'>Audiocall Page
       {!audiocallState.isStarted ?
 
-      <><button onClick={audiocallState.words.length > 0 ? audiocallState.setStart : () => {
-        audiocallState.setCategory(0)
-        setTimeout(() => {
-          audiocallState.setStart()
-        }, 400)
+      <><button onClick={audiocallState.words.length > 0 ? audiocallState.setStart : async () => {
+        await audiocallState.setCategory(0)
+        await audiocallState.setStart()
       }}>Start</button><div>
         <p>Категории слов</p>
         <button onClick={() => audiocallState.setCategory(0)}>0</button>
