@@ -3,7 +3,7 @@ import { observable, action } from 'mobx';
 import ReactDOM from 'react-dom';
 import { CreateAudioCallGame } from '../modules/games/audiocall/components/game-page/page'
 import { getWords, wordsStore } from './words-store';
-import { IaudiocallStat } from './../utils/interfaces'
+import { IaudiocallStat, IWordData } from './../utils/interfaces'
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -98,8 +98,8 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   getNextWords: action(() => {
-    let wordsArr: any = audiocallState.randomArrayShuffle(audiocallState.words)
-    let questionAnswers: any = audiocallState.randomArrayShuffle(Array.from(Array(20).keys())).slice(0,5)
+    let wordsArr: Array<IWordData> = audiocallState.randomArrayShuffle(audiocallState.words)
+    let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(Array.from(Array(20).keys())).slice(0,5)
     audiocallState.words = wordsArr
     audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
     audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate

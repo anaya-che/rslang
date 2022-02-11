@@ -1,3 +1,5 @@
+import { MouseEventHandler } from "react";
+
 export interface IWordData {
   id: string;
   group: number;
@@ -46,16 +48,16 @@ export interface IaudiocallStat {
   translate: string,
   isStarted: boolean | null,
   savedAudioUrl: string,
-  nextCallQuestion: Function,
-  playAudio: any,
-  chooseCorrectAnswer: any,
+  nextCallQuestion: MouseEventHandler<HTMLButtonElement>,
+  playAudio: Function,
+  chooseCorrectAnswer: MouseEventHandler<HTMLButtonElement>,
   getNextWords: Function,
-  setStart: any,
-  getWordAudio: any,
+  setStart: Function,
+  getWordAudio: Function,
   randomArrayShuffle: Function,
   category: number,
   page: number,
-  setStateForRound: any,
+  setStateForRound: Function,
   setCurrentWord: Function,
   setCategory: Function,
   correctAnswers: Array<IwordResult>,

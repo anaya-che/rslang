@@ -7,6 +7,19 @@ import { observer } from 'mobx-react-lite';
 
 export const  CreateAudioCallGame = observer(() => {
 
+  const nextBtn = React.useRef<HTMLButtonElement>(null)
+
+  function handlePress(event: KeyboardEvent) {
+    if (event.key === 'Enter') {
+      if (null !== nextBtn.current) {
+        nextBtn.current.click()
+      }
+    }
+    document.removeEventListener('keydown', handlePress)
+  }
+
+  document.addEventListener('keydown', handlePress)
+
     return (
       <div>
         <div>
@@ -17,7 +30,7 @@ export const  CreateAudioCallGame = observer(() => {
         </div>
         {audiocallState.counter < 11 ?
         <div>
-          <button className='next-call' onClick={!audiocallState.isAnswered ? audiocallState.chooseCorrectAnswer : audiocallState.nextCallQuestion}>{!audiocallState.isAnswered ? 'I don`t know' : 'Next'}</button>
+          <button className='next-call' ref={nextBtn} onClick={!audiocallState.isAnswered ? audiocallState.chooseCorrectAnswer : audiocallState.nextCallQuestion}>{!audiocallState.isAnswered ? 'I don`t know' : 'Next'}</button>
         </div>: null}
       </div>
     )
