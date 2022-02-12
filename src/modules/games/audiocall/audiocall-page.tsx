@@ -1,6 +1,7 @@
 import React from 'react';
 import { audiocallState} from "./../../../store/audiocall-state";
 import { observer } from 'mobx-react-lite';
+import { CreateAudioCallGame } from './components/game-page/page';
 
 export const  AudiocallPage = observer(()=> {
 
@@ -21,6 +22,7 @@ export const  AudiocallPage = observer(()=> {
         </div></>
       : null}
       <div id='audio-call'>
+        {audiocallState.isStarted ? <CreateAudioCallGame /> : null}
       </div>
     </div>
 

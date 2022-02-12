@@ -9,8 +9,8 @@ export const Answer = observer(()=> {
           <img src={`${audiocallState.image}`} alt="" />
         </div>
         <div>
-          <button onClick={async () => {
-              await audiocallState.getWordAudio(audiocallState.savedAudioUrl)
+          <button onClick={() => {
+              audiocallState.getWordAudio(audiocallState.savedAudioUrl)
             }}>sound button</button>
           <div>
             <p>{audiocallState.originalWord}</p>

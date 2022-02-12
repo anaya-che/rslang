@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CreateAudioCallQuestion } from "./question/question";
 import { Answer } from "./right-answer/answer"
 import { AudioResult } from "./result-page/result"
@@ -9,16 +9,16 @@ export const  CreateAudioCallGame = observer(() => {
 
   const nextBtn = React.useRef<HTMLButtonElement>(null)
 
-  function handlePress(event: KeyboardEvent) {
-    if (event.key === 'Enter') {
-      if (null !== nextBtn.current) {
-        nextBtn.current.click()
+  useEffect(()=>{
+    function handlePress(event: KeyboardEvent) {
+      if (event.key === 'Enter') {
+        if (null !== nextBtn.current) {
+          nextBtn.current.click()
+        }
       }
     }
-    document.removeEventListener('keydown', handlePress)
-  }
-
-  document.addEventListener('keydown', handlePress)
+    document.addEventListener('keydown', handlePress)
+  }, [])
 
     return (
       <div>

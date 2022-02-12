@@ -1,7 +1,5 @@
 // import { wordsStore, getWords } from './words-store';
 import { observable, action } from 'mobx';
-import ReactDOM from 'react-dom';
-import { CreateAudioCallGame } from '../modules/games/audiocall/components/game-page/page'
 import { getWords, wordsStore } from './words-store';
 import { IaudiocallStat, IWordData } from './../utils/interfaces'
 
@@ -48,7 +46,7 @@ export const audiocallState: IaudiocallStat = observable({
     })
   }),
 
-  nextCallQuestion: action( async () => {
+  nextCallQuestion: action( () => {
     let answersArr: number[] = audiocallState.randomArrayShuffle(Array.from(Array(audiocallState.words.length).keys())).slice(0,5)
     audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
     audiocallState.counter = audiocallState.counter + 1
@@ -60,12 +58,12 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.answersArr = answersArr
     audiocallState.isAnswered = false
     if ( audiocallState.counter < 10) {
-      await audiocallState.playAudio()
+      audiocallState.playAudio()
     }
   }),
 
-  playAudio: action( async () => {
-    await audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
+  playAudio: action( () => {
+    audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
   }),
 
   chooseCorrectAnswer: action((e: React.MouseEvent): void => {
@@ -111,14 +109,10 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = true
   }),
 
-  setStart: action( async () => {
-    ReactDOM.render(
-      <CreateAudioCallGame />,
-      document.getElementById('audio-call')
-    );
+  setStart: action( () => {
     audiocallState.isStarted = true
     audiocallState.getNextWords()
-    await audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
+    audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
   }),
 
   getWordAudio: action( (url: string) => {
