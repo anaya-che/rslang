@@ -63,6 +63,7 @@ export interface IaudiocallStat {
   correctAnswers: Array<IwordResult>,
   incorrectAnswers: Array<IwordResult>
 }
+
 export interface ILinkProps {
   group: string;
   page: string;

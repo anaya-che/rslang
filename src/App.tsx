@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { UserPage } from './modules/user/user-page';
 import { AudiocallPage } from './modules/games/audiocall/audiocall-page';
 import { SprintPage } from './modules/games/sprint/sprint-page';
@@ -23,7 +18,7 @@ function App(): JSX.Element {
           <Route path="/games/audiocall">
             <AudiocallPage />
           </Route>
-          <Route path="/textbook">
+          <Route path="/textbook/:group/:page">
             <TextbookPage />
           </Route>
           <Route path="/statistics">
