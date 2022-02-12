@@ -57,7 +57,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.fifth = audiocallState.words[answersArr[4]].wordTranslate
     audiocallState.answersArr = answersArr
     audiocallState.isAnswered = false
-    if ( audiocallState.counter < 10) {
+    if ( audiocallState.counter < 11) {
       audiocallState.playAudio()
     }
   }),
