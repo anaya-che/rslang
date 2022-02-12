@@ -11,7 +11,7 @@ export const SprintPage= observer(()=> {
     <>
       <div>Sprint Page</div>
       <header>
-        <button onClick={() => sprintState.setDefault()}>
+        <button onClick={sprintState.setDefault}>
           <Link to="/">Main</Link>
         </button>  
       </header>

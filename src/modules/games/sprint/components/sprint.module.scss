@@ -52,3 +52,12 @@ button {
   width: 2em;
   height: 2em;
 }
+.answer {
+  display: flex;
+  gap: 1em;
+  justify-content: space-between;
+}
+.title {
+  font-weight: bold;
+  text-align: center;
+}

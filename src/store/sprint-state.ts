@@ -1,8 +1,10 @@
 import { wordsStore, getWords } from './words-store';
 import { observable, action, toJS } from 'mobx';
-import { IWordData } from '../utils/interfaces';
+import { ISprintAnswer, IWordData } from '../utils/interfaces';
 import { baseUrl } from '../api/consts';
 import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
+
+
 
 interface ISprintState {
   setCategory(category: number): void,
@@ -34,6 +36,7 @@ interface ISprintState {
   isGame: boolean,
   secondsInRound: number,
   interval: NodeJS.Timer,
+  answers: ISprintAnswer[],
 }
 
 export const sprintState: ISprintState = observable({
@@ -51,6 +54,7 @@ export const sprintState: ISprintState = observable({
   isGame: false,
   secondsInRound: 60,
   interval: setInterval(() => {}),
+  answers: [],
   
   timerHandler: action (() => {
     sprintState.interval = setInterval(action(() => {
@@ -76,6 +80,7 @@ export const sprintState: ISprintState = observable({
     sprintState.isGame = false;
     sprintState.secondsInRound = 60;
     clearInterval(sprintState.interval);
+    sprintState.answers = [];
   }),
 
   setTimer: action((): void => {
@@ -155,8 +160,13 @@ export const sprintState: ISprintState = observable({
       sprintState.isRightAnswer = false;
       sprintState.playAnswerAudio(`../../mistake.mp3`);
     } 
+    sprintState.answers.push({
+      word: sprintState.currentWord, 
+      isRightAnswer: sprintState.isRightAnswer 
+    });
     sprintState.setPoints();
     console.log(toJS(sprintState.countTrueAnswers), sprintState.points);
+    console.log(toJS(sprintState.answers));
   }),
 
   compareId: action ( (): number => {

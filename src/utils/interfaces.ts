@@ -20,3 +20,8 @@ export interface IWordStore {
   wordPage: number;
   wordData: IWordData[];
 }
+
+export interface ISprintAnswer {
+  word: IWordData | null, 
+  isRightAnswer: boolean 
+}

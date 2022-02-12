@@ -1,19 +1,10 @@
 import { observer } from "mobx-react-lite";
-import React, { useEffect } from "react"
+import React from "react"
 import { sprintState } from "../../../../store/sprint-state"
 import style from './sprint.module.scss'; 
 
 
 export const Card = observer(() => {  
-
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     if (sprintState.secondsInRound > 0) {
-  //       sprintState.setTimer();
-  //     } else clearInterval(interval);
-  //   }, 1000);
-  // }, []);
-
  
   return (
     <div className={style.sprintCard}>
@@ -35,8 +26,6 @@ export const Card = observer(() => {
           sprintState.setStateForRound();
           }}>Верю</button>
       </div>
-      
-      <div id='result'></div>
     </div>
   )
 })
