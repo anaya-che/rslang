@@ -6,22 +6,13 @@ import style from './sprint.module.scss';
 
 export const Card = observer(() => {  
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      if (sprintState.secondsInRound > 0) {
-        sprintState.setTimer();
-      } else clearInterval(interval);
-    }, 1000);
-  }, []);
-
-  // const checkAnswer = () => {
-  //   const card = document.querySelector(style.sprintCard) as HTMLElement;
-  //   if (sprintState.isRightAnswer) {
-  //     card.classList.add(style.trueAnsw);
-  //     setTimeout(() => card.classList.remove(style.trueAnsw), 1000)
-  //   } else card.classList.add(style.falseAnsw);
-  //   setTimeout(() => card.classList.remove(style.falseAnsw), 1000)
-  // }
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     if (sprintState.secondsInRound > 0) {
+  //       sprintState.setTimer();
+  //     } else clearInterval(interval);
+  //   }, 1000);
+  // }, []);
 
  
   return (

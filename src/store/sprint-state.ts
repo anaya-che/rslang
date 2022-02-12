@@ -3,7 +3,6 @@ import { observable, action, toJS } from 'mobx';
 import { IWordData } from '../utils/interfaces';
 import { baseUrl } from '../api/consts';
 import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
-import style from '../modules/games/sprint/components/sprint.module.scss'
 
 interface ISprintState {
   setCategory(category: number): void,
@@ -19,6 +18,8 @@ interface ISprintState {
   setPoints(): void,
   startGame(isGame: boolean): void,
   setTimer(): void,
+  setDefault(): void,
+  timerHandler(): void,
   category: number,
   page: number,
   currentWordIdx: number,
@@ -32,6 +33,7 @@ interface ISprintState {
   isRightAnswer: boolean,
   isGame: boolean,
   secondsInRound: number,
+  interval: NodeJS.Timer,
 }
 
 export const sprintState: ISprintState = observable({
@@ -48,6 +50,33 @@ export const sprintState: ISprintState = observable({
   isRightAnswer: true,
   isGame: false,
   secondsInRound: 60,
+  interval: setInterval(() => {}),
+  
+  timerHandler: action (() => {
+    sprintState.interval = setInterval(action(() => {
+      if (sprintState.secondsInRound > 0) {
+        sprintState.setTimer();
+      } else clearInterval(sprintState.interval);
+    }), 1000);
+  }),
+  
+
+  setDefault: action (() => {
+    sprintState.category = 0;
+    sprintState.page = 0;
+    sprintState.currentWordIdx = 0;
+    sprintState.currentWord = null;
+    sprintState.isRightPair = true;
+    sprintState.translate = '';
+    sprintState.falseAnswerIdx = 0;
+    sprintState.score = 0;
+    sprintState.points = 10;
+    sprintState.countTrueAnswers = [];
+    sprintState.isRightAnswer = true;
+    sprintState.isGame = false;
+    sprintState.secondsInRound = 60;
+    clearInterval(sprintState.interval);
+  }),
 
   setTimer: action((): void => {
     sprintState.secondsInRound -= 1;
@@ -119,13 +148,10 @@ export const sprintState: ISprintState = observable({
   }),
 
   checkAnswer: action ((bool: boolean): void =>  {
-    const resEl = document.querySelector('#result') as HTMLElement;
     if (bool === sprintState.isRightPair) {
-      resEl.innerHTML = 'Вы угадали';
       sprintState.isRightAnswer = true;
       sprintState.playAnswerAudio(`../../right.mp3`);
     } else {
-      resEl.innerHTML = 'Вы не угадали :(';
       sprintState.isRightAnswer = false;
       sprintState.playAnswerAudio(`../../mistake.mp3`);
     } 

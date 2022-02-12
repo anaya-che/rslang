@@ -3,6 +3,10 @@
   margin: 0;
   box-sizing: border-box;
 }
+button {
+  min-height: 20px;
+  min-width: 20px;
+}
 .sprintPage {
   display: flex;
   flex-direction: column;

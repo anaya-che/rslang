@@ -7,6 +7,7 @@ export const Categories= observer(()=> {
     sprintState.setCategory(category);
     sprintState.setStateForRound();
     sprintState.startGame(true);
+    sprintState.timerHandler();
   }
   return (
     <div>
