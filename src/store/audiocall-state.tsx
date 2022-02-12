@@ -2,6 +2,7 @@
 import { observable, action } from 'mobx';
 import { getWords, wordsStore } from './words-store';
 import { IaudiocallStat, IWordData } from './../utils/interfaces'
+import { baseUrl } from './../api/consts'
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -117,7 +118,7 @@ export const audiocallState: IaudiocallStat = observable({
 
   getWordAudio: action( (url: string) => {
     const audioPlayer = new Audio() as HTMLAudioElement;
-    const URL = `https://vismmax-rslang.herokuapp.com/${url}`;
+    const URL = baseUrl + url;
     audioPlayer.src = URL
     audioPlayer.play()
   }),
