@@ -1,17 +1,17 @@
 import React from 'react';
 import { observer } from 'mobx-react-lite';
 import { audiocallState } from "../../../../../../store/audiocall-state";
-import "./result.scss"
+import style from "./result.module.scss"
 
 export const AudioResult = observer(()=> {
 
     return(
       <div>
         <ul>
-          <div className="audio-correct">
+          <div className={style.audioCorrect}>
             <p>Слова с ошибками: {10 - audiocallState.correctAnswers.length}</p>
             {audiocallState.incorrectAnswers.map((answer, index) =>
-              (<ul key={index} className="audio-answer">
+              (<ul key={index} className={style.audioAnswer}>
                 <li><button key={answer.audio} onClick={() => {
                   audiocallState.getWordAudio(answer.audio)}
                   }>Sound</button></li>
@@ -22,10 +22,10 @@ export const AudioResult = observer(()=> {
           </div>
         </ul>
         <ul>
-          <div className="audio-correct">
+          <div className={style.audioCorrect}>
             <p>Количество изученных слов: {audiocallState.correctAnswers.length}</p>
             {audiocallState.correctAnswers.map((answer, index) =>
-              (<ul key={index} className="audio-answer">
+              (<ul key={index} className={style.audioAnswer}>
                 <li><button key={answer.audio} onClick={() => {
                   audiocallState.getWordAudio(answer.audio)}
                   }>Sound</button></li>

@@ -1,9 +1,11 @@
-.audio-answer {
+.audioAnswer {
   display: inline-flex;
   width: 40%;
+  list-style: none;
+  gap: 20px;
 }
 
-.audio-correct {
+.audioCorrect {
   display: flex;
   flex-direction: column;
 }

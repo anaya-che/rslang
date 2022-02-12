@@ -20,17 +20,20 @@ export const  CreateAudioCallGame = observer(() => {
     document.addEventListener('keydown', handlePress)
   }, [])
 
+  function handleNext(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
+    return !audiocallState.isAnswered ? audiocallState.chooseCorrectAnswer(e) : audiocallState.nextCallQuestion(e)
+  }
+
     return (
       <div>
         <div>
           {audiocallState.isAnswered === true ? <Answer/> : null}
-          {audiocallState.counter < 11 ?
-           <CreateAudioCallQuestion/> : null }
+          {audiocallState.counter < 11 ? <CreateAudioCallQuestion/> : null }
           {audiocallState.counter > 10 ? <AudioResult/> : null}
         </div>
         {audiocallState.counter < 11 ?
         <div>
-          <button className='next-call' ref={nextBtn} onClick={!audiocallState.isAnswered ? audiocallState.chooseCorrectAnswer : audiocallState.nextCallQuestion}>{!audiocallState.isAnswered ? 'I don`t know' : 'Next'}</button>
+          <button className='next-call' ref={nextBtn} onClick={handleNext}>{!audiocallState.isAnswered ? 'I don`t know' : 'Next'}</button>
         </div>: null}
       </div>
     )

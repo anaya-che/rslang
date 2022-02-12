@@ -1,7 +1,8 @@
-import './question.scss'
 import { audiocallState } from "../../../../../../store/audiocall-state";
 import { observer } from 'mobx-react-lite';
 import React from 'react';
+import { handleAnswersKeyPress } from '../../../../../../utils/audiocall-helpers';
+import style from './question.module.scss';
 
 export const CreateAudioCallQuestion = observer(()=> {
 
@@ -15,32 +16,7 @@ export const CreateAudioCallQuestion = observer(()=> {
   const fourthBtn = React.useRef<HTMLButtonElement>(null)
   const fifthBtn = React.useRef<HTMLButtonElement>(null)
 
-  function handlePress(event: KeyboardEvent) {
-    if (event.key === '1') {
-      if (null !== firstBtn.current) {
-        firstBtn.current.click()
-      }
-    } else if (event.key === '2') {
-      if (null !== secBtn.current) {
-        secBtn.current.click()
-      }
-    } else if (event.key === '3') {
-      if (null !== thirdBtn.current) {
-        thirdBtn.current.click()
-      }
-    } else if (event.key === '4') {
-      if (null !== fourthBtn.current) {
-        fourthBtn.current.click()
-      }
-    } else if (event.key === '5') {
-      if (null !== fifthBtn.current) {
-        fifthBtn.current.click()
-      }
-    }
-    document.removeEventListener('keydown', handlePress)
-  }
-
-  document.addEventListener('keydown', handlePress)
+  document.addEventListener('keydown', (event) => handleAnswersKeyPress(event, firstBtn, secBtn, thirdBtn, fourthBtn, fifthBtn, handleAnswersKeyPress))
 
     return (
     <div>
@@ -48,7 +24,7 @@ export const CreateAudioCallQuestion = observer(()=> {
         { !audiocallState.isAnswered ? <button onClick={() => {audiocallState.playAudio()}}>Sound</button> : null}
       </div>
       <div>
-        <ul className='audio-answer'>
+        <ul className={style.audioAnswer}>
           <button ref={firstBtn} onClick={(e) => handleAnswerButton(e)}>{audiocallState.first}</button>
           <button ref={secBtn} onClick={(e) => handleAnswerButton(e)}>{audiocallState.second}</button>
           <button ref={thirdBtn} onClick={(e) => handleAnswerButton(e)}>{audiocallState.third}</button>

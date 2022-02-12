@@ -5,13 +5,15 @@ import { CreateAudioCallGame } from './components/game-page/page';
 
 export const  AudiocallPage = observer(()=> {
 
+  async function handleStart () {
+    await audiocallState.setCategory(0)
+    audiocallState.setStart()
+  }
+
   return <div id='audio-game'>Audiocall Page
       {!audiocallState.isStarted ?
 
-      <><button onClick={audiocallState.words.length > 0 ? () => {audiocallState.setStart()} : async () => {
-        await audiocallState.setCategory(0)
-        audiocallState.setStart()
-      }}>Start</button><div>
+      <><button onClick={audiocallState.words.length > 0 ? () => {audiocallState.setStart()} : handleStart}>Start</button><div>
         <p>Категории слов</p>
         <button onClick={() => audiocallState.setCategory(0)}>0</button>
         <button onClick={() => audiocallState.setCategory(1)}>1</button>
