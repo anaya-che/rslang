@@ -1,15 +1,13 @@
-import { getWords } from './words-store';
-import { observable, action, toJS } from 'mobx';
-import { textbookState } from '.';
+import { observable, action } from 'mobx';
 
 export const appState = observable({
   appPage: 'main',
 
-  setPage: action(async (page: string) => {
+  setPage: action(async () => {
+    const pathname = window.location.pathname;
+    let page = pathname.split('/').reverse()[0];
+    if (pathname.includes('textbook')) page = 'textbook';
+    if (page === '') page = 'main';
     appState.appPage = page;
-    if (page === 'textbook') {
-      await getWords(textbookState.wordGroup, textbookState.wordPage);
-      textbookState.getCurrentWords();
-    }
   }),
 });
