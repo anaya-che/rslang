@@ -1,7 +1,7 @@
 import React from 'react';
 import { baseUrl } from '../../../../api/consts';
 import { IWordData } from '../../../../utils/interfaces';
-import { playAudio } from '../../../../utils/textbook-handlers/audio';
+import { playAudio } from '../../../../utils/textbook-helpers/audio';
 import style from './card.module.scss';
 
 export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }: any) => {
