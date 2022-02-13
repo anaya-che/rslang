@@ -9,6 +9,6 @@ export function getTrueOrFalse() {
 export const countPercentage = (total: number, part: number) => {
   if (total !== 0) {
     return Math.floor(100 * part /total)
-  } return 0
-  
+  } return 0 
 }
+

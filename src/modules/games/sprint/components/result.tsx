@@ -3,13 +3,15 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../../../api/consts';
 import { sprintState } from '../../../../store/sprint-state';
-import { ISprintAnswer } from '../../../../utils/interfaces';
 import { countPercentage } from '../../../../utils/sprint-helpers';
+import { ISprintAnswer } from '../../../../utils/sprint-interfaces';
 import style from './sprint.module.scss'; 
 
 export const Result: React.FC = observer(()=> {
-  const rightAnswers: ISprintAnswer[] = sprintState.answers.filter((answer: ISprintAnswer): boolean => answer.isRightAnswer === true);
-  const mistakeAnswers: ISprintAnswer[] = sprintState.answers.filter((answer: ISprintAnswer): boolean => answer.isRightAnswer === false);
+  const rightAnswers: ISprintAnswer[] = sprintState.answers.filter(
+    (answer: ISprintAnswer): boolean => answer.isRightAnswer === true);
+  const mistakeAnswers: ISprintAnswer[] = sprintState.answers.filter(
+    (answer: ISprintAnswer): boolean => answer.isRightAnswer === false);
 
   const rightAnswersPercentage = countPercentage(sprintState.answers.length, rightAnswers.length);
   const mistakeAnswersPercentage = countPercentage(sprintState.answers.length, mistakeAnswers.length);
@@ -29,8 +31,7 @@ export const Result: React.FC = observer(()=> {
 
   useEffect(() => {
     sprintState.playAnswerAudio(`../../../../../winner.mp3`);
-  }, [])
-    
+  }, [])  
 
   return (
     <div>

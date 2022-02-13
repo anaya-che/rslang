@@ -15,8 +15,6 @@ export const Card: React.FC = observer(() => {
 
   useEffect((): void => {
     const handleKeyCode = (event: KeyboardEvent): void => {
-      console.log(event);
-      
       if ((event.key === 'ArrowLeft') && noBtn.current) {
         noBtn.current.click();
       } else if ((event.key === 'ArrowRight') && yesBtn.current) {

@@ -7,11 +7,9 @@ import { Result } from "./result"
 export const Game: React.FC = observer(()=> {
   return (
     <>
-    {sprintState.secondsInRound === 0 ? (
-      <Result />
-    ) : (
-      <Card />
-    )
+    {sprintState.secondsInRound === 0 
+    ? ( <Result /> ) 
+    : ( <Card /> )
     }
     </>
   )
