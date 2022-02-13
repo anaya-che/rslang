@@ -1,5 +1,5 @@
 import { getWordsFromGroup } from '../api/words';
-import { IWordStore } from '../utils/interfaces/word-interfaces';
+import { IWordStore } from '../utils/interfaces';
 
 export const wordsStore: IWordStore[] = [];
 
