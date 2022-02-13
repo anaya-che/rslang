@@ -25,4 +25,5 @@ export const getWords = async (group: number, page: number) => {
       });
     }
   }
+  
 };
