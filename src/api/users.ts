@@ -4,7 +4,7 @@ import { IUser } from '../utils/interfaces/user';
 import { getTokenFromStorage } from '../utils/user-helpers/local-storage';
 import { baseUrl, HttpStatus } from '.';
 
-const token = getTokenFromStorage();
+export const token = getTokenFromStorage();
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export const createUser = async (
