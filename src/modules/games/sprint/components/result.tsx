@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import { baseUrl } from '../../../../api/consts';
 import { sprintState } from '../../../../store/sprint-state';
 import { countPercentage, playAnswerAudio } from '../../../../utils/sprint-helpers';
-import { ISprintAnswer } from '../../../../utils/interfaces/sprint-interfaces';
+import { ISprintAnswer } from '../../../../utils/sprint-interfaces';
 import style from './sprint.module.scss'; 
 
 export const Result: React.FC = observer(()=> {
