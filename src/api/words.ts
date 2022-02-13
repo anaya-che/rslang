@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { IWordData } from '../utils/interfaces/word-interfaces';
+import { IWordData } from '../utils/interfaces';
 import { baseUrl } from './consts';
 
 export const getWordsFromGroup = async (
