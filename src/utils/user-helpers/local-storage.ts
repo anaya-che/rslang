@@ -16,3 +16,8 @@ export const getLocalStorage = (): string | void => {
 export const clearLocalStorage = (): void => {
   localStorage.clear();
 };
+
+export const getTokenFromStorage = () => {
+  const res: string | void = getLocalStorage();
+  if (res) return JSON.parse(res).token;
+};
