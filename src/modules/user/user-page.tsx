@@ -1,23 +1,27 @@
+import { observer } from 'mobx-react-lite';
+import { Link } from 'react-router-dom';
+import { appState } from '../../store';
 import { userState } from '../../store/user-state';
-import style from './user.module.scss';
+import { LogOut } from './components/log-out';
+import { Registration } from './components/registration';
+import { SignIn } from './components/sign-in';
 
-export function UserPage() {
+export const UserPage: React.FC = observer(() => {
   return (
-    <>
-      <div>User Page</div>
-      <div className={style.signInContainer}>
-        <label htmlFor="userName">Имя: </label>
-        <input type="text" name="name" id="userName" />
-        <label htmlFor="userEmail">Почта: </label>
-        <input type="email" name="email" id="userEmail" />
-        <label htmlFor="userPassword">Пароль: </label>
-        <input type="password" name="password" id="userPassword" />
+    <div>
+      <div onClick={() => appState.setPage()}>
+        <Link to="/">Main</Link>
       </div>
-      <div>
-        <button onClick={() => userState.signIn()}>Войти</button>
-        <button onClick={() => userState.registration()}>Регистрация</button>
-      </div>
+      <div>Authorization</div>
+      {userState.userPageView === 'signIn' && !userState.isAuthorized ? (
+        <SignIn />
+      ) : userState.userPageView === 'registration' &&
+        !userState.isAuthorized ? (
+        <Registration />
+      ) : (
+        <LogOut />
+      )}
       <div id="message"></div>
-    </>
+    </div>
   );
-}
+});
