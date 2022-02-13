@@ -20,8 +20,3 @@ export interface IWordStore {
   wordPage: number;
   wordData: IWordData[];
 }
-
-export interface ILinkProps {
-  group: string;
-  page: string;
-}
