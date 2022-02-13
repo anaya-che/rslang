@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
-import { getNextPage, getPrevPage } from '../../utils/textbook-handlers/navigation';
+import { getNextPage, getPrevPage } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
 
 export const TextbookPage = observer(() => {
