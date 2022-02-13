@@ -5,7 +5,7 @@ import { Categories } from "./components/categories";
 import { Game } from './components/game';
 import style from './components/sprint.module.scss'; 
 
-export const SprintPage= observer(()=> {
+export const SprintPage: React.FC = observer(()=> {
 
   return (
     <>
@@ -16,11 +16,11 @@ export const SprintPage= observer(()=> {
         </button>  
       </header>
       <div className={style.sprintPage}>
-        { sprintState.isGame && sprintState.currentWord ? (
-          <Game />
-          ) : (
-          <Categories />
-          ) 
+        { sprintState.isGame && (sprintState.currentWord !== null) 
+        ? 
+        ( <Game /> ) 
+        :
+        ( <Categories /> ) 
         }
       </div>     
     </>

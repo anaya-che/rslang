@@ -4,7 +4,7 @@ import { sprintState } from "../../../../store/sprint-state"
 import { Card } from './card'
 import { Result } from "./result"
 
-export const Game = observer(()=> {
+export const Game: React.FC = observer(()=> {
   return (
     <>
     {sprintState.secondsInRound === 0 ? (
@@ -15,18 +15,4 @@ export const Game = observer(()=> {
     }
     </>
   )
-  // return (
-  //   <>
-  //     <div>Sprint Page</div>
-  //     <div className={style.sprintPage}>
-  //       { sprintState.isGame && sprintState.currentWord ? (
-  //         <Game />
-  //         ) : (
-  //         <Categories />
-  //         ) 
-  //       }
-  //     </div>     
-  //   </>
-  
-  // )
 })

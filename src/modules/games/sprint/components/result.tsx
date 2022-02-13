@@ -6,25 +6,25 @@ import { ISprintAnswer } from '../../../../utils/interfaces';
 import { countPercentage } from '../../../../utils/sprint-helpers';
 import style from './sprint.module.scss'; 
 
-export const Result= observer(()=> {
-  const rightAnswers: ISprintAnswer[] = sprintState.answers.filter(answer => answer.isRightAnswer === true);
-  const mistakeAnswers: ISprintAnswer[] = sprintState.answers.filter(answer => answer.isRightAnswer === false);
+export const Result: React.FC = observer(()=> {
+  const rightAnswers: ISprintAnswer[] = sprintState.answers.filter((answer: ISprintAnswer): boolean => answer.isRightAnswer === true);
+  const mistakeAnswers: ISprintAnswer[] = sprintState.answers.filter((answer: ISprintAnswer): boolean => answer.isRightAnswer === false);
 
   const rightAnswersPercentage = countPercentage(sprintState.answers.length, rightAnswers.length);
   const mistakeAnswersPercentage = countPercentage(sprintState.answers.length, mistakeAnswers.length);
 
-  const renderAnswers = (answer: ISprintAnswer) => {
+  const renderAnswers = (answer: ISprintAnswer): JSX.Element | null => {
     if(answer.word) {
       return (
         <li className={style.answer} key={answer.word.id}>
           <div>{answer.word.word} - {answer.word.wordTranslate}</div>
           <div></div>
-          <button className={style.audioBtn} onClick={() =>
+          <button className={style.audioBtn} onClick={(): void | null =>
              answer.word && sprintState.playAnswerAudio(`${baseUrl}${answer.word.audio}`)
              }>🔈</button>
         </li>
       ) 
-    } else return '';
+    } else return null;
   }
 
   return (
