@@ -1,10 +1,8 @@
 import { wordsStore, getWords } from './words-store';
-import { observable, action, toJS } from 'mobx';
+import { observable, action } from 'mobx';
 import { ISprintAnswer, IWordData } from '../utils/interfaces';
 import { baseUrl } from '../api/consts';
 import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
-
-
 
 interface ISprintState {
   setCategory(category: number): void,
@@ -64,7 +62,6 @@ export const sprintState: ISprintState = observable({
     }), 1000);
   }),
   
-
   setDefault: action (() => {
     sprintState.category = 0;
     sprintState.page = 0;
@@ -74,11 +71,11 @@ export const sprintState: ISprintState = observable({
     sprintState.translate = '';
     sprintState.falseAnswerIdx = 0;
     sprintState.score = 0;
-    sprintState.points = 10;
+    sprintState.points = 5;
     sprintState.countTrueAnswers = [];
     sprintState.isRightAnswer = true;
     sprintState.isGame = false;
-    sprintState.secondsInRound = 60;
+    sprintState.secondsInRound = 5;
     clearInterval(sprintState.interval);
     sprintState.answers = [];
   }),
@@ -121,8 +118,6 @@ export const sprintState: ISprintState = observable({
       sprintState.falseAnswerIdx = sprintState.compareId();
       sprintState.setFalseAnswer();
     } else if (sprintState.currentWord) sprintState.setAnswer(sprintState.currentWord.wordTranslate);
-    
-    console.log(sprintState.page, sprintState.currentWordIdx, sprintState.isRightPair, sprintState.translate);
   }),
 
   setAnswer: action((answer: string): void => {
@@ -137,8 +132,7 @@ export const sprintState: ISprintState = observable({
     wordsStore.forEach((el) => {
       if (el.wordGroup === sprintState.category
            && el.wordPage === sprintState.page) {
-            sprintState.currentWord = el.wordData[sprintState.currentWordIdx];
-            console.log(toJS(sprintState.currentWord));   
+            sprintState.currentWord = el.wordData[sprintState.currentWordIdx];   
       }
     })
   }),
@@ -165,8 +159,6 @@ export const sprintState: ISprintState = observable({
       isRightAnswer: sprintState.isRightAnswer 
     });
     sprintState.setPoints();
-    console.log(toJS(sprintState.countTrueAnswers), sprintState.points);
-    console.log(toJS(sprintState.answers));
   }),
 
   compareId: action ( (): number => {
