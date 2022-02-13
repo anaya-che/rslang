@@ -8,12 +8,9 @@ export interface ISprintAnswer {
 export interface ISprintState {
   setCategory(category: number): void,
   setCurrentWord(): void,
-  compareId(): number,
   setFalseAnswer(): void,
   setAnswer(wordTranslate: string): void,
   setScore(score: number): void,
-  playAnswerAudio(src: string): void,
-  playWordAudio(): void,
   checkAnswer(bool: boolean): void,
   setStateForRound(): Promise<void>,
   setPoints(): void,

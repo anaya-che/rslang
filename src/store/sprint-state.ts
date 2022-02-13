@@ -1,7 +1,6 @@
 import { wordsStore, getWords } from './words-store';
 import { observable, action } from 'mobx';
-import { baseUrl } from '../api/consts';
-import { getRandomInt, getTrueOrFalse } from '../utils/sprint-handlers/sprint-helpers';
+import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces';
 
 export const sprintState: ISprintState = observable({
@@ -43,13 +42,6 @@ export const sprintState: ISprintState = observable({
     sprintState.category = category;
   }),
 
-  compareId: action ( (): number => {
-    const falseAnswerId: number = getRandomInt(0, 19);
-    if (falseAnswerId === sprintState.currentWordIdx) {
-      sprintState.compareId();
-    } return falseAnswerId;
-  }),
-
   setCurrentWord: action((): void => {
     wordsStore.forEach((el) => {
       if (el.wordGroup === sprintState.category
@@ -79,7 +71,7 @@ export const sprintState: ISprintState = observable({
     await getWords(sprintState.category, sprintState.page);
     sprintState.setCurrentWord();
     if (!sprintState.isRightPair) {
-      sprintState.falseAnswerIdx = sprintState.compareId();
+      sprintState.falseAnswerIdx = compareId();
       sprintState.setFalseAnswer();
     } else if (sprintState.currentWord) sprintState.setAnswer(sprintState.currentWord.wordTranslate);
   }),
@@ -103,10 +95,10 @@ export const sprintState: ISprintState = observable({
   checkAnswer: action ((bool: boolean): void =>  {
     if (bool === sprintState.isRightPair) {
       sprintState.isRightAnswer = true;
-      sprintState.playAnswerAudio(`../../right.mp3`);
+      playAnswerAudio(`../../right.mp3`);
     } else {
       sprintState.isRightAnswer = false;
-      sprintState.playAnswerAudio(`../../mistake.mp3`);
+      playAnswerAudio(`../../mistake.mp3`);
     } 
     sprintState.answers.push({
       word: sprintState.currentWord, 
@@ -134,16 +126,5 @@ export const sprintState: ISprintState = observable({
     }
   }),
 
-  playWordAudio: action ( (): void => {
-    const audio = new Audio();
-    if (sprintState.currentWord) audio.src = `${baseUrl}${sprintState.currentWord.audio}`;
-    audio.play();
-  }),
-
-  playAnswerAudio: action ( (src: string): void => {
-    const audio = new Audio(src);
-    audio.load();  
-    audio.play();
-  })
 });
 

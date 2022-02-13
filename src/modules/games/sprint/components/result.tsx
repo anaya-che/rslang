@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../../../api/consts';
 import { sprintState } from '../../../../store/sprint-state';
-import { countPercentage } from '../../../../utils/sprint-handlers/sprint-helpers';
+import { countPercentage, playAnswerAudio } from '../../../../utils/sprint-helpers';
 import { ISprintAnswer } from '../../../../utils/interfaces/sprint-interfaces';
 import style from './sprint.module.scss'; 
 
@@ -22,7 +22,7 @@ export const Result: React.FC = observer(()=> {
         <li className={style.answer} key={answer.word.id}>
           <div>{answer.word.word} - {answer.word.wordTranslate}</div>
           <button className={style.audioBtn} onClick={(): void | null =>
-             answer.word && sprintState.playAnswerAudio(`${baseUrl}${answer.word.audio}`)
+             answer.word && playAnswerAudio(`${baseUrl}${answer.word.audio}`)
              }>🔈</button>
         </li>
       ) 
@@ -30,7 +30,7 @@ export const Result: React.FC = observer(()=> {
   }
 
   useEffect(() => {
-    sprintState.playAnswerAudio(`../../../../../winner.mp3`);
+    playAnswerAudio(`../../../../../winner.mp3`);
   }, [])  
 
   return (

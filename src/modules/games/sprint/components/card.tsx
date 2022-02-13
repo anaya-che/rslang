@@ -1,6 +1,7 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react"
 import { sprintState } from "../../../../store/sprint-state"
+import { playWordAudio } from "../../../../utils/sprint-helpers";
 import style from './sprint.module.scss'; 
 
 
@@ -31,7 +32,7 @@ export const Card: React.FC = observer(() => {
       <ul className={style.pointsIndicationGroup}>
         {sprintState.countTrueAnswers.map((el: boolean, i: number) => <li key={i} className={style.pointsIndicationDot}></li>)}
       </ul>
-      <button className={style.audioBtn} onClick={sprintState.playWordAudio}>🔈</button>
+      <button className={style.audioBtn} onClick={playWordAudio}>🔈</button>
       <div>{sprintState.currentWord && sprintState.currentWord.word}</div>
       <div>{sprintState.translate}</div>
       <div className={style.buttonGroup}>
