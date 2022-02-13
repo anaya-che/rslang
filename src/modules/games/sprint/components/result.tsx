@@ -1,4 +1,5 @@
 import { observer } from 'mobx-react-lite';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../../../api/consts';
 import { sprintState } from '../../../../store/sprint-state';
@@ -18,7 +19,6 @@ export const Result: React.FC = observer(()=> {
       return (
         <li className={style.answer} key={answer.word.id}>
           <div>{answer.word.word} - {answer.word.wordTranslate}</div>
-          <div></div>
           <button className={style.audioBtn} onClick={(): void | null =>
              answer.word && sprintState.playAnswerAudio(`${baseUrl}${answer.word.audio}`)
              }>🔈</button>
@@ -26,6 +26,11 @@ export const Result: React.FC = observer(()=> {
       ) 
     } else return null;
   }
+
+  useEffect(() => {
+    sprintState.playAnswerAudio(`../../../../../winner.mp3`);
+  }, [])
+    
 
   return (
     <div>
