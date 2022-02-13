@@ -15,6 +15,16 @@ interface IToken {
   name: string;
 }
 
+enum HttpStatus {
+  DELETED = 204,
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  INCORRECT = 403,
+  NOT_FOUND = 404,
+  USER_EXISTS = 417,
+  NOT_VALID = 422,
+}
+
 axios.defaults.headers.common['Authorization'] = AuthToken;
 
 export const createUser = async (
@@ -30,7 +40,7 @@ export const createUser = async (
     })
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
-      if (error.response.status === 422) {
+      if (error.response.status === HttpStatus.NOT_VALID) {
         const errorMessages = error.response.data.error.errors;
         errorMessages.forEach((el: any) => {
           if (el.path.includes('email'))
@@ -41,7 +51,7 @@ export const createUser = async (
             );
         });
       }
-      if (error.response.status === 417)
+      if (error.response.status === HttpStatus.USER_EXISTS)
         console.log('User with this e-mail already exists.');
       else {
         throw new Error(error);
@@ -54,8 +64,8 @@ export const getUser = async (userId: string): Promise<void | IUser> => {
     .get(`${baseUrl}users/${userId}`)
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
-      if (error.response.status === 401) console.log('User is unauthorized.');
-      if (error.response.status === 404) console.log('User not found');
+      if (error.response.status === HttpStatus.UNAUTHORIZED) console.log('User is unauthorized.');
+      if (error.response.status === HttpStatus.NOT_FOUND) console.log('User not found');
       else {
         throw new Error(error);
       }
@@ -74,8 +84,8 @@ export const updateUser = async (
     })
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
-      if (error.response.status === 401) console.log('User is unauthorized.');
-      if (error.response.status === 400) console.log('Bad request.');
+      if (error.response.status === HttpStatus.UNAUTHORIZED) console.log('User is unauthorized.');
+      if (error.response.status === HttpStatus.BAD_REQUEST) console.log('Bad request.');
       else {
         throw new Error(error);
       }
@@ -89,7 +99,7 @@ export const deleteUser = async (userId: string): Promise<void> => {
       if (res.status === 204) console.log('The user has been deleted.');
     })
     .catch((error) => {
-      if (error.response.status === 401) console.log('User is unauthorized.');
+      if (error.response.status === HttpStatus.UNAUTHORIZED) console.log('User is unauthorized.');
       else {
         console.log(error);
 
@@ -103,8 +113,8 @@ export const getNewToken = async (userId: string): Promise<void | IToken> => {
     .get(`${baseUrl}users/${userId}/tokens`)
     .then((res): Promise<IToken> => res.data)
     .catch((error) => {
-      if (error.response.status === 401) console.log('User is unauthorized.');
-      if (error.response.status === 403)
+      if (error.response.status === HttpStatus.UNAUTHORIZED) console.log('User is unauthorized.');
+      if (error.response.status === HttpStatus.INCORRECT)
         console.log('Access token is missing, expired or invalid.');
       else {
         throw new Error(error);
@@ -123,7 +133,7 @@ export const signIn = async (
     })
     .then((res): Promise<IToken> => res.data)
     .catch((error) => {
-      if (error.response.status === 403)
+      if (error.response.status === HttpStatus.INCORRECT)
         console.log('Incorrect e-mail or password.');
       else {
         throw new Error(error);
