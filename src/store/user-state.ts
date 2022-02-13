@@ -1,7 +1,8 @@
 import { observable, action } from 'mobx';
 import { createUser, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
-import { clearLocalStorage, getLocalStorage, isIToken, isIUser, setLocalStorage } from '../utils/user-helpers';
+import { isIToken, isIUser } from '../utils/user-helpers/check-types';
+import { clearLocalStorage, getLocalStorage, setLocalStorage } from '../utils/user-helpers/local-storage';
 
 export const userState = observable({
   userPageView: 'signIn',
