@@ -1,4 +1,4 @@
-import { IWordData } from "./interfaces";
+import { IWordData } from "./word-interfaces";
 
 export interface ISprintAnswer {
   word: IWordData | null, 

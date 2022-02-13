@@ -1,8 +1,8 @@
 import { wordsStore, getWords } from './words-store';
 import { observable, action } from 'mobx';
 import { baseUrl } from '../api/consts';
-import { getRandomInt, getTrueOrFalse } from '../utils/sprint-helpers';
-import { ISprintState } from '../utils/sprint-interfaces';
+import { getRandomInt, getTrueOrFalse } from '../utils/sprint-handlers/sprint-helpers';
+import { ISprintState } from '../utils/interfaces/sprint-interfaces';
 
 export const sprintState: ISprintState = observable({
   category: 0,
