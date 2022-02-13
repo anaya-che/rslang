@@ -7,7 +7,7 @@ import { MainPage } from './modules/main/main-page';
 import { StatisticsPage } from './modules/statistics/statistics-page';
 import { TextbookPage } from './modules/textbook/textbook-page';
 
-function App(): JSX.Element {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Router>

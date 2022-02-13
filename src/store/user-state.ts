@@ -1,14 +1,7 @@
-import { observable, action, toJS } from 'mobx';
-import { signIn } from '../api/sign-in';
-import { createUser, getUser } from '../api/users';
-import { IToken } from '../utils/interfaces';
-import { IUser } from '../utils/interfaces';
-import { isIToken, isIUser } from '../utils/user-helpers/check-types';
-import {
-  clearLocalStorage,
-  getLocalStorage,
-  setLocalStorage,
-} from '../utils/user-helpers/local-storage';
+import { observable, action } from 'mobx';
+import { createUser, getUser, signIn } from '../api';
+import { IToken, IUser } from '../utils/interfaces';
+import { clearLocalStorage, getLocalStorage, isIToken, isIUser, setLocalStorage } from '../utils/user-helpers';
 
 export const userState = observable({
   userPageView: 'signIn',
@@ -19,11 +12,10 @@ export const userState = observable({
   checkAuth: action(async () => {
     if (!userState.isAuthorized) {
       const userInfoObj = getLocalStorage();
-      console.log(userInfoObj);
       if (userInfoObj) {
         userState.getTokenFromStorage(userInfoObj);
         await userState.getUserInfoFromId();
-        await userState.signIn();
+        userState.changeAuthState(true);
       }
     }
   }),
@@ -85,7 +77,6 @@ export const userState = observable({
 
   getTokenFromStorage: action((userInfoObj: string): void => {
     userState.tokenInfo = JSON.parse(userInfoObj);
-    console.log(toJS(userState.tokenInfo));
   }),
 
   toPage: action((page: string): void => {
