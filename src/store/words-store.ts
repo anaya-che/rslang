@@ -1,4 +1,4 @@
-import { getWordsFromGroup } from '../api/words';
+import { getWordsFromGroup } from '../api';
 import { IWordStore } from '../utils/interfaces';
 
 export const wordsStore: IWordStore[] = [];
@@ -25,4 +25,5 @@ export const getWords = async (group: number, page: number) => {
       });
     }
   }
+  
 };
