@@ -66,7 +66,6 @@ export interface IaudiocallStat {
   handleAudiocallStart: MouseEventHandler<HTMLButtonElement>
 }
 
-
 export interface ILinkProps {
   group: string;
   page: string;
