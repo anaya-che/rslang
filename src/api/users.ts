@@ -1,10 +1,9 @@
 import axios from 'axios';
 import { IToken } from '../utils/interfaces/token';
 import { IUser } from '../utils/interfaces/user';
-import { getTokenFromStorage } from '../utils/user-helpers/local-storage';
 import { baseUrl, HttpStatus } from '.';
+import { token } from '../store/user-state';
 
-export const token = getTokenFromStorage();
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
 export const createUser = async (
