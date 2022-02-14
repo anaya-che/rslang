@@ -2,7 +2,7 @@ import { observable, action } from 'mobx';
 import { getWords, wordsStore } from './words-store';
 import { IWordData } from '../utils/interfaces'
 import { baseUrl } from '../api/consts'
-import { IaudiocallStat } from '../utils/interfaces/audiocall';
+import { IaudiocallStat } from '../utils/interfaces';
 import { textbookState } from '../store';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 
