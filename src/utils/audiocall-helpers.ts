@@ -24,3 +24,9 @@ export function handleAnswersKeyPress(event: KeyboardEvent, first: MutableRefObj
   }
   document.removeEventListener('keydown', handleAnswerButton.bind(event,first,second, third, fourth, fifth))
 }
+
+export const playAnswerAudio = (src: string): void => {
+  const audio = new Audio(src);
+  audio.load();
+  audio.play();
+}

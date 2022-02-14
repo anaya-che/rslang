@@ -1,7 +1,11 @@
 import { observable, action } from 'mobx';
 import { getWords, wordsStore } from './words-store';
-import { IaudiocallStat, IWordData } from '../utils/interfaces'
+import { IWordData } from '../utils/interfaces'
 import { baseUrl } from '../api/consts'
+import { IaudiocallStat } from '../utils/interfaces/audiocall';
+import { textbookState } from '../store';
+import { playAnswerAudio } from '../utils/audiocall-helpers';
+
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -75,6 +79,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
 
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
+      playAnswerAudio(`../../right.mp3`);
       audiocallState.correctAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
@@ -82,6 +87,7 @@ export const audiocallState: IaudiocallStat = observable({
         audio: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio
       })
     } else {
+      playAnswerAudio(`../../mistake.mp3`);
       audiocallState.incorrectAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
@@ -132,6 +138,25 @@ export const audiocallState: IaudiocallStat = observable({
       array[randomIndex] = temporaryValue;
     }
     return array;
+  }),
+
+  setDefault: action (() => {
+    audiocallState.answersArr = []
+    audiocallState.counter =  1
+    audiocallState.words = []
+    audiocallState.answered = []
+    audiocallState.correctAnswers = []
+    audiocallState.incorrectAnswers = []
+    audiocallState.isStarted = null
+    audiocallState.isAnswered = null
+  }),
+
+  handleAudiocallStart: action( async () => {
+    audiocallState.category = textbookState.wordGroup
+    audiocallState.page = textbookState.wordPage
+    await getWords(audiocallState.category, audiocallState.page);
+    audiocallState.setCurrentWord()
+    audiocallState.setStart()
   })
 });
 
