@@ -8,6 +8,9 @@ export interface IUserWord {
 export interface IOptions {
   group: number;
   page: number;
-  success: number;
+  isNew: boolean;
+  winsInARow: number;
+  mistakesInARow: number;
+  wins: number;
   mistakes: number;
 }

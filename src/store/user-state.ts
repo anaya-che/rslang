@@ -1,8 +1,16 @@
 import { observable, action } from 'mobx';
+import { userWordsStore } from '.';
 import { createUser, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
 import { isIToken, isIUser } from '../utils/user-helpers/check-types';
-import { clearLocalStorage, getLocalStorage, setLocalStorage } from '../utils/user-helpers/local-storage';
+import {
+  clearLocalStorage,
+  getLocalStorage,
+  getTokenFromStorage,
+  setLocalStorage,
+} from '../utils/user-helpers/local-storage';
+
+export let token = getTokenFromStorage();
 
 export const userState = observable({
   userPageView: 'signIn',
@@ -14,9 +22,11 @@ export const userState = observable({
     if (!userState.isAuthorized) {
       const userInfoObj = getLocalStorage();
       if (userInfoObj) {
+        token = await getTokenFromStorage();
         userState.getTokenFromStorage(userInfoObj);
         await userState.getUserInfoFromId();
         userState.changeAuthState(true);
+        userWordsStore.getUserWords();
       }
     }
   }),
@@ -69,6 +79,8 @@ export const userState = observable({
       userState.tokenInfo = res;
       userState.changeAuthState(true);
       setLocalStorage();
+      token = await getTokenFromStorage();
+      await userWordsStore.getUserWords();
     }
   }),
 
