@@ -1,9 +1,9 @@
 import { observable, action } from 'mobx';
 import { getWords, wordsStore } from './words-store';
-import { IWordData } from '../utils/interfaces'
+import { IWordData } from '../utils/interfaces/words'
 import { baseUrl } from '../api/consts'
-import { IaudiocallStat } from '../utils/interfaces';
-import { textbookState } from '../store';
+import { IaudiocallStat } from '../utils/interfaces/audiocall';
+import { textbookState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 
 

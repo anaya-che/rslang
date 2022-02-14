@@ -40,4 +40,6 @@ export interface IaudiocallStat {
   setCategory: Function;
   correctAnswers: Array<IwordResult>;
   incorrectAnswers: Array<IwordResult>;
+  setDefault: Function;
+  handleAudiocallStart: MouseEventHandler<HTMLButtonElement>
 }
