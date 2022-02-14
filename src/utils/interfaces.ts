@@ -23,6 +23,13 @@ export interface IWordStore {
   wordData: IWordData[];
 }
 
+export interface IwordResult {
+  word: string;
+  transcription: string;
+  wordTranslate: string;
+  audio: string;
+}
+
 export interface IaudiocallStat {
   first: string,
   second: string,
@@ -59,12 +66,6 @@ export interface IaudiocallStat {
   handleAudiocallStart: MouseEventHandler<HTMLButtonElement>
 }
 
-export interface IwordResult {
-  word: string;
-  transcription: string;
-  wordTranslate: string;
-  audio: string;
-}
 
 export interface ILinkProps {
   group: string;
