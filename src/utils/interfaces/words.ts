@@ -1,5 +1,8 @@
+import { IUserWord } from '.';
+
 export interface IWordData {
-  id: string;
+  id?: string;
+  _id?: string;
   group: number;
   page: number;
   word: string;
@@ -13,6 +16,7 @@ export interface IWordData {
   wordTranslate: string;
   textMeaningTranslate: string;
   textExampleTranslate: string;
+  userWord?: IUserWord;
 }
 
 export interface IWordStore {
