@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { IWordData } from '../utils/interfaces';
 import { getWords, userState, userWordsStore, wordsStore } from '.';
 import { getUserAggregatedWords } from '../api';
@@ -8,6 +8,7 @@ export const textbookState = observable({
   wordPage: 0,
   currentWords: [] as IWordData[],
   isAuthorized: false,
+  difficultWords: [] as IWordData[],
 
   setPage: action((group: string, page: string) => {
     const currentGroup = Number(group) - 1;
@@ -35,10 +36,12 @@ export const textbookState = observable({
       });
     } else {
       textbookState.isAuthorized = true;
-      await textbookState.getAggregatedWords(
-        textbookState.wordGroup,
-        textbookState.wordPage
-      );
+      if (textbookState.wordGroup !== 6) {
+        await textbookState.getAggregatedWords(
+          textbookState.wordGroup,
+          textbookState.wordPage
+        );
+      } else await textbookState.getDifficultWords();
     }
   }),
 
@@ -60,6 +63,22 @@ export const textbookState = observable({
       filter
     );
     textbookState.setCurrentWords(data);
+  }),
+
+  getDifficultWords: action(async () => {
+    const filter = '{"userWord.difficulty":"difficult"}';
+    const wordsPerPage = '1600';
+    const data: IWordData[] = await getUserAggregatedWords(
+      userState.tokenInfo.userId,
+      wordsPerPage,
+      filter
+    );
+    textbookState.setDifficultWords(data);
+  }),
+
+  setDifficultWords: action((data: IWordData[]) => {
+    textbookState.difficultWords = data;
+    console.log(toJS(textbookState.difficultWords));
   }),
 
   addNewDifficulty: action(async (wordId: string, difficulty: string) => {
