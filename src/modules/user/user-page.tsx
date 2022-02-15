@@ -1,7 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
-import { appState } from '../../store';
-import { userState } from '../../store/user-state';
+import { appState, userState } from '../../store';
 import { LogOut } from './components/log-out';
 import { Registration } from './components/registration';
 import { SignIn } from './components/sign-in';

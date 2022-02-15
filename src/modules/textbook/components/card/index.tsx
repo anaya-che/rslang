@@ -1,14 +1,34 @@
 import React from 'react';
 import { baseUrl } from '../../../../api/consts';
+import { textbookState } from '../../../../store';
 import { IWordData } from '../../../../utils/interfaces';
 import { playAudio } from '../../../../utils/textbook-helpers/audio';
 import style from './card.module.scss';
 
-export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }: any) => {
+export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }) => {
   const textMeaning = { __html: `${wordInfo.textMeaning}` };
   const textExample = { __html: `${wordInfo.textExample}` };
   return (
     <div className={style.card}>
+      {textbookState.isAuthorized && (
+        <div className={style.wordContainer}>
+          <button
+            onClick={() => {
+              textbookState.changeDifficulty(wordInfo._id!, 'difficult');
+            }}
+          >
+            difficult
+          </button>
+          <button
+            onClick={() => {
+              textbookState.changeDifficulty(wordInfo._id!, 'easy');
+            }}
+          >
+            learned
+          </button>
+          <div>{wordInfo.userWord?.difficulty}</div>
+        </div>
+      )}
       <div className={style.wordContainer}>
         <img
           className={style.wordImg}
