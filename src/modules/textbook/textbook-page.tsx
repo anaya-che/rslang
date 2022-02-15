@@ -1,3 +1,4 @@
+import { audiocallState } from "../../store/audiocall-state";
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -34,7 +35,7 @@ export const TextbookPage = observer(() => {
           <button>next</button>
         </Link>
         <Link to="/games/audiocall">
-          <button>Audiocall</button>
+          <button onClick={audiocallState.handleAudiocallStart}>Audiocall</button>
         </Link>
         <Link to="/games/sprint">
           <button>Sprint</button>
