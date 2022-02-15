@@ -1,12 +1,12 @@
-import { action, observable, toJS } from 'mobx';
-import { getWordsFromGroup } from '../api';
+import { action, observable } from 'mobx';
+import { IUserWord, IWordStore } from '../utils/interfaces';
 import {
   createUserWord,
   getAllUserWords,
+  getWordsFromGroup,
   updateUserWordById,
-} from '../api/user-words';
-import { IUserWord, IWordStore } from '../utils/interfaces';
-import { userState } from './user-state';
+} from '../api';
+import { userState } from '.';
 
 export const wordsStore: IWordStore[] = [];
 
@@ -44,101 +44,108 @@ export const userWordsStore = observable({
         userState.tokenInfo.userId
       );
       if (res) userWordsStore.userWords = res;
-      console.log(toJS(userWordsStore.userWords));
     }
   }),
 
-  createUserWordFromGame: action(
-    async (
-      wordId: string,
-      isWin: boolean,
-      wordGroup: number,
-      wordPage: number
-    ) => {
-      const options = {
-        group: wordGroup,
-        page: wordPage,
-        isNew: true,
-        winsInARow: 0,
-        mistakesInARow: 0,
-        wins: 0,
-        mistakes: 0,
-      };
+  createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    const optional = {
+      winsInARow: 0,
+      mistakesInARow: 0,
+      wins: 0,
+      mistakes: 0,
+    };
 
-      if (isWin) {
-        options.winsInARow = 1;
-        options.wins = 1;
-      }
-      else {
-        options.mistakes = 1;
-        options.mistakesInARow = 1;
-      }
-
-      await createUserWord(
-        userState.tokenInfo.userId,
-        wordId,
-        'normal',
-        options
-      );
+    if (isWin) {
+      optional.winsInARow = 1;
+      optional.wins = 1;
+    } else {
+      optional.mistakes = 1;
+      optional.mistakesInARow = 1;
     }
-  ),
+
+    await createUserWord(
+      userState.tokenInfo.userId,
+      wordId,
+      'normal',
+      optional
+    );
+  }),
 
   updateUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
     const wordInfo = userWordsStore.userWords.find(
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
-    const options = {
-      group: wordInfo.optional.group,
-      page: wordInfo.optional.page,
-      isNew: false,
-      winsInARow: wordInfo.optional.winsInARow,
-      mistakesInARow: wordInfo.optional.mistakesInARow,
-      wins: wordInfo.optional.wins,
-      mistakes: wordInfo.optional.mistakes,
-    };
+    const { optional } = wordInfo;
     let difficulty = wordInfo.difficulty;
     if (isWin) {
-      options.wins += 1;
-      options.winsInARow += 1;
-      options.mistakesInARow = 0;
-      if (difficulty === 'normal' && options.winsInARow >= 3) difficulty = 'easy';
-      if (difficulty === 'difficult' && options.winsInARow >= 5)
+      optional.wins += 1;
+      optional.winsInARow += 1;
+      optional.mistakesInARow = 0;
+      if (difficulty === 'normal' && optional.winsInARow >= 3)
+        difficulty = 'easy';
+      if (difficulty === 'difficult' && optional.winsInARow >= 5)
         difficulty = 'easy';
     } else {
-      options.mistakes += 1;
-      options.mistakesInARow += 1;
-      options.winsInARow = 0;
+      optional.mistakes += 1;
+      optional.mistakesInARow += 1;
+      optional.winsInARow = 0;
       if (difficulty === 'easy') difficulty = 'normal';
     }
     await updateUserWordById(
       userState.tokenInfo.userId,
       wordId,
       difficulty,
-      options
+      optional
     );
   }),
 
-  changeUserWordFromGame: action(
-    async (
-      wordId: string,
-      isWin: boolean,
-      wordGroup: number,
-      wordPage: number
-    ) => {
-      const areWordsInStore = userWordsStore.userWords.some(
-        (el: IUserWord) => el.wordId === wordId
-      );
+  changeUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    const areWordsInStore = userWordsStore.userWords.some(
+      (el: IUserWord) => el.wordId === wordId
+    );
 
-      if (areWordsInStore) {
-        await userWordsStore.updateUserWordFromGame(wordId, isWin);
-      } else
-        await userWordsStore.createUserWordFromGame(
-          wordId,
-          isWin,
-          wordGroup,
-          wordPage
-        );
-      await userWordsStore.getUserWords();
-    }
-  ),
+    if (areWordsInStore) {
+      await userWordsStore.updateUserWordFromGame(wordId, isWin);
+    } else await userWordsStore.createUserWordFromGame(wordId, isWin);
+    await userWordsStore.getUserWords();
+  }),
+
+  changeDifficulty: action(async (wordId: string, difficulty: string) => {
+    const isWordInStore = userWordsStore.userWords.some(
+      (el: IUserWord) => el.wordId === wordId
+    );
+    if (isWordInStore) {
+      await userWordsStore.updateDifficulty(wordId, difficulty);
+    } else userWordsStore.createDifficulty(wordId, difficulty);
+
+    await userWordsStore.getUserWords();
+  }),
+
+  updateDifficulty: action(async (wordId: string, difficulty: string) => {
+    const wordInfo = userWordsStore.userWords.find(
+      (el: IUserWord) => el.wordId === wordId
+    ) as IUserWord;
+    const { optional } = wordInfo;
+    await updateUserWordById(
+      userState.tokenInfo.userId,
+      wordId,
+      difficulty,
+      optional
+    );
+  }),
+
+  createDifficulty: action(async (wordId: string, difficulty: string) => {
+    const optional = {
+      winsInARow: 0,
+      mistakesInARow: 0,
+      wins: 0,
+      mistakes: 0,
+    };
+    await createUserWord(
+      userState.tokenInfo.userId,
+      wordId,
+      difficulty,
+      optional
+    );
+  }),
 });

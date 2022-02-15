@@ -1,4 +1,3 @@
-import { appState, textbookState } from '../../store';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -6,6 +5,7 @@ import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
 import { getNextPage, getPrevPage } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
+import { appState, textbookState } from '../../store';
 
 export const TextbookPage = observer(() => {
   let linkProps: ILinkProps = useParams();
