@@ -3,8 +3,8 @@ import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { baseUrl } from '../../../../api/consts';
 import { sprintState } from '../../../../store/sprint-state';
-import { countPercentage, playAnswerAudio } from '../../../../utils/sprint-helpers';
-import { ISprintAnswer } from '../../../../utils/sprint-interfaces';
+import { countPercentage, handlePlayAgain, playAnswerAudio } from '../../../../utils/sprint-helpers';
+import { ISprintAnswer } from '../../../../utils/interfaces/sprint';
 import style from './sprint.module.scss'; 
 
 export const Result: React.FC = observer(()=> {
@@ -16,10 +16,10 @@ export const Result: React.FC = observer(()=> {
   const rightAnswersPercentage = countPercentage(sprintState.answers.length, rightAnswers.length);
   const mistakeAnswersPercentage = countPercentage(sprintState.answers.length, mistakeAnswers.length);
 
-  const renderAnswers = (answer: ISprintAnswer): JSX.Element | null => {
+  const renderAnswers = (answer: ISprintAnswer, i: number): JSX.Element | null => {
     if(answer.word) {
       return (
-        <li className={style.answer} key={answer.word.id}>
+        <li className={style.answer} key={i}>
           <div>{answer.word.word} - {answer.word.wordTranslate}</div>
           <button className={style.audioBtn} onClick={(): void | null =>
              answer.word && playAnswerAudio(`${baseUrl}${answer.word.audio}`)
@@ -36,7 +36,7 @@ export const Result: React.FC = observer(()=> {
   return (
     <div>
       <div className={style.title}>Result</div>  
-      <button onClick={sprintState.setDefault}>
+      <button onClick={handlePlayAgain}>
         <Link to="/games/sprint">Play again</Link>
       </button>
       <div>Right: {rightAnswersPercentage} % </div>
@@ -44,9 +44,9 @@ export const Result: React.FC = observer(()=> {
       <div className={style.title}>Score: {sprintState.score}</div>
       <div className={style.title}>Words were repeated: {sprintState.answers.length}</div>
       <div className={style.title}>Right answers: {rightAnswers.length}</div>
-      <ul>{rightAnswers.map(renderAnswers)}</ul>
+      <ul>{rightAnswers.map((answer, i) => renderAnswers(answer, i))}</ul>
       <div className={style.title}>Mistake answers: {mistakeAnswers.length}</div>
-      <ul>{mistakeAnswers.map(renderAnswers)}</ul>
+      <ul>{mistakeAnswers.map((answer, i) => renderAnswers(answer, i))}</ul>
     </div>
   )
 })

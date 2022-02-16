@@ -1,5 +1,7 @@
 import { baseUrl } from "../../api/consts";
+import { textbookState } from "../../store";
 import { sprintState } from "../../store/sprint-state";
+import { IWordData } from "../interfaces";
 
 export function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min)) + min;
@@ -32,5 +34,27 @@ export const playAnswerAudio = (src: string): void => {
   const audio = new Audio(src);
   audio.load();  
   audio.play();
+}
+
+export const checkRightPair = (isRight: boolean): void => {
+  sprintState.checkAnswer(isRight);
+  if (sprintState.startGamePage === 'main'){
+    sprintState.setStateForRound();
+  } else if (sprintState.startGamePage === 'textbook') {
+    sprintState.setStateFromTextbook(sprintState.category, sprintState.page);
+  }
+}
+
+export const handlePlayAgain = (): void => {
+  sprintState.setDefault();
+  if(sprintState.startGamePage === 'textbook') { 
+    sprintState.startFromTextbook(textbookState.wordGroup, textbookState.wordPage)}
+}
+
+export const shuffle = (array: IWordData[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 }
 

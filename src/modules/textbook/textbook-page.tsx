@@ -1,4 +1,5 @@
-import { audiocallState } from '../../store/audiocall-state';
+import { appState, textbookState, userState } from '../../store';
+import { audiocallState } from "../../store/audiocall-state";
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -9,7 +10,7 @@ import {
   getPrevPage,
 } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
-import { appState, textbookState, userState } from '../../store';
+import { sprintState } from '../../store/sprint-state';
 
 export const TextbookPage = observer(() => {
   let linkProps: ILinkProps = useParams();
@@ -50,7 +51,9 @@ export const TextbookPage = observer(() => {
           </button>
         </Link>
         <Link to="/games/sprint">
-          <button>Спринт</button>
+          <button onClick={() => sprintState.startFromTextbook(textbookState.wordGroup, textbookState.wordPage)}>
+            Спринт
+          </button>
         </Link>
       </div>
 
