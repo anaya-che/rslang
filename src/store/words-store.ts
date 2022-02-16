@@ -111,6 +111,7 @@ export const userWordsStore = observable({
   }),
 
   changeDifficulty: action(async (wordId: string, difficulty: string) => {
+    await userWordsStore.getUserWords();
     const isWordInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
