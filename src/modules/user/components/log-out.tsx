@@ -1,5 +1,5 @@
 import React from 'react';
-import { userState } from '../../../store/user-state';
+import { userState } from '../../../store';
 
 export const LogOut: React.FC = () => {
   return (

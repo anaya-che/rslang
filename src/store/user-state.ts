@@ -26,7 +26,7 @@ export const userState = observable({
         userState.getTokenFromStorage(userInfoObj);
         await userState.getUserInfoFromId();
         userState.changeAuthState(true);
-        userWordsStore.getUserWords();
+        // userWordsStore.getUserWords();
       }
     }
   }),

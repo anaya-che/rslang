@@ -1,14 +1,11 @@
 export interface IUserWord {
   difficulty: string;
-  id: string;
+  id?: string;
   optional: IOptions;
-  wordId: string;
+  wordId?: string;
 }
 
 export interface IOptions {
-  group: number;
-  page: number;
-  isNew: boolean;
   winsInARow: number;
   mistakesInARow: number;
   wins: number;

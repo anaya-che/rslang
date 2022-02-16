@@ -1,11 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import { userWordsStore } from './store';
-import { userState } from './store/user-state';
+import { userState } from './store';
 
 userState.checkAuth();
-userWordsStore.getUserWords();
 
 ReactDOM.render(
   <React.StrictMode>

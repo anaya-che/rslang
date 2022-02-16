@@ -1,5 +1,5 @@
 import { toJS } from 'mobx';
-import { userState } from '../../store/user-state';
+import { userState } from '../../store';
 
 export const setLocalStorage = (): void => {
   const userInfoObj = JSON.stringify(toJS(userState.tokenInfo));

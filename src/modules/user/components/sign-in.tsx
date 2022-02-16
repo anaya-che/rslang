@@ -1,5 +1,5 @@
 import React from 'react';
-import { userState } from '../../../store/user-state';
+import { userState } from '../../../store';
 import style from '../user.module.scss';
 
 export const SignIn: React.FC = () => {

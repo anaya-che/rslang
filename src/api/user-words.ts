@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { baseUrl, HttpStatus } from '.';
-import { token } from '../store/user-state';
 import { IOptions, IUserWord } from '../utils/interfaces';
+import { token } from '../store/user-state';
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
