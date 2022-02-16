@@ -47,7 +47,7 @@ export const userWordsStore = observable({
     }
   }),
 
-  createUserWordFromGame: action(async (wordId: string | undefined, isWin: boolean) => {
+  createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
     const optional = {
       winsInARow: 0,
       mistakesInARow: 0,

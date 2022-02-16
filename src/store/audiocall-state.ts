@@ -95,7 +95,8 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
       playAnswerAudio(`../../right.mp3`);
-      await userWordsStore.changeUserWordFromGame(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id, true)
+      const wordId = <string>audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id;
+      await userWordsStore.changeUserWordFromGame(wordId, true)
       audiocallState.correctAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
@@ -105,7 +106,8 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.seriesCounter.push(1)
     } else {
       playAnswerAudio(`../../mistake.mp3`);
-      await userWordsStore.changeUserWordFromGame(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id, false)
+      const wordId = <string>audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id;
+      await userWordsStore.changeUserWordFromGame(wordId, false)
       audiocallState.incorrectAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
