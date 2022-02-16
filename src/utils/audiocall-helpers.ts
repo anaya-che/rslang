@@ -28,5 +28,6 @@ export function handleAnswersKeyPress(event: KeyboardEvent, first: MutableRefObj
 export const playAnswerAudio = (src: string): void => {
   const audio = new Audio(src);
   audio.load();
+  audio.volume = 0.2
   audio.play();
 }

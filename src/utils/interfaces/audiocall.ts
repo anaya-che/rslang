@@ -41,5 +41,15 @@ export interface IaudiocallStat {
   correctAnswers: Array<IwordResult>;
   incorrectAnswers: Array<IwordResult>;
   setDefault: Function;
-  handleAudiocallStart: MouseEventHandler<HTMLButtonElement>
+  handleAudiocallStart: MouseEventHandler<HTMLButtonElement>,
+  optionals: any,
+  setAnswered: Function,
+  todayDate: string,
+  amountOfGames: number,
+  bestSeries: number,
+  wins: number,
+  mistakes: number,
+  learnedWordsId: [],
+  seriesCounter: Array<number>,
+  aggregatedWords: []
 }

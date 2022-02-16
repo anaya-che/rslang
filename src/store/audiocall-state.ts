@@ -1,11 +1,11 @@
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { getWords, wordsStore } from './words-store';
 import { IWordData } from '../utils/interfaces/words'
 import { baseUrl } from '../api/consts'
 import { IaudiocallStat } from '../utils/interfaces/audiocall';
-import { textbookState } from '../store/index';
+import { textbookState, userState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
-
+import { userWordsStore } from './words-store'
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -29,6 +29,17 @@ export const audiocallState: IaudiocallStat = observable({
   page: 0,
   correctAnswers: [],
   incorrectAnswers: [],
+  optionals: {
+    statistics: []
+  },
+  todayDate: new Date().toLocaleDateString("en-US"),
+  amountOfGames: 0,
+  bestSeries: 0,
+  wins: 0,
+  mistakes: 0,
+  learnedWordsId: [],
+  seriesCounter: [],
+  aggregatedWords: [],
 
   setCategory: action(async (category: number) => {
     audiocallState.category = category;
@@ -63,6 +74,11 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isAnswered = false
     if ( audiocallState.counter < 11) {
       audiocallState.playAudio()
+    } else if ( audiocallState.counter === 11) {
+      audiocallState.amountOfGames = audiocallState.amountOfGames +  1
+      audiocallState.bestSeries = Math.max(...Array.from(audiocallState.seriesCounter.join("").matchAll(/(.)\1+/g), m=>m[0].length))
+      audiocallState.mistakes = audiocallState.seriesCounter.filter(x => x === 0).length
+      audiocallState.wins = audiocallState.seriesCounter.filter(x => x === 1).length
     }
   }),
 
@@ -70,31 +86,38 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
   }),
 
-  chooseCorrectAnswer: action((e: React.MouseEvent): void => {
+  chooseCorrectAnswer: action( async (e: React.MouseEvent) => {
     let target = e.target as HTMLButtonElement
     audiocallState.image = `https://vismmax-rslang.herokuapp.com/${audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].image}`
     audiocallState.originalWord = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].word
     audiocallState.transcription = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].transcription
     audiocallState.translate = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
-
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
       playAnswerAudio(`../../right.mp3`);
+      await userWordsStore.changeUserWordFromGame(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id, true)
       audiocallState.correctAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
         wordTranslate: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate,
         audio: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio
       })
+      audiocallState.seriesCounter.push(1)
     } else {
       playAnswerAudio(`../../mistake.mp3`);
+      await userWordsStore.changeUserWordFromGame(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id, false)
       audiocallState.incorrectAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
         transcription: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].transcription,
         wordTranslate: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate,
         audio: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio
       })
+      audiocallState.seriesCounter.push(0)
     }
+    audiocallState.setAnswered()
+  }),
+
+  setAnswered: action (() => {
     let filtered = audiocallState.answered.filter((el) => { return el.word !== audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word; })
     audiocallState.answered = filtered
     audiocallState.words = filtered
@@ -115,10 +138,27 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = true
   }),
 
-  setStart: action( () => {
+  setStart: action( async () => {
     audiocallState.isStarted = true
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
+
+    // await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${audiocallState.page}},{"userWord.difficulty":"easy"}]}`)
+    // console.log(toJS(audiocallState.aggregatedWords))
+
+    // console.log(toJS(audiocallState.words))
+    // if ( audiocallState.optionals.statistics.length === 0 ) {
+    //   let audiocall = [{
+    //     amountOfGames: 0,
+    //     bestSeries: 0,
+    //     wins: 0,
+    //     mistakes: 0,
+    //     learnedWordsId: []
+    //   }]
+    //   let obj = {'audiocall': audiocall};
+    //   let optional = {[audiocallState.todayDate]: obj};
+    //   audiocallState.optionals.statistics.push(optional)
+    // }
   }),
 
   getWordAudio: action( (url: string) => {
@@ -157,7 +197,8 @@ export const audiocallState: IaudiocallStat = observable({
     await getWords(audiocallState.category, audiocallState.page);
     audiocallState.setCurrentWord()
     audiocallState.setStart()
-  })
+  }),
+
 });
 
 export function getRandomInt(min: number, max: number) {

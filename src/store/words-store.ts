@@ -47,7 +47,7 @@ export const userWordsStore = observable({
     }
   }),
 
-  createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+  createUserWordFromGame: action(async (wordId: string | undefined, isWin: boolean) => {
     const optional = {
       winsInARow: 0,
       mistakesInARow: 0,
@@ -71,7 +71,7 @@ export const userWordsStore = observable({
     );
   }),
 
-  updateUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+  updateUserWordFromGame: action(async (wordId: string | undefined, isWin: boolean) => {
     const wordInfo = userWordsStore.userWords.find(
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
@@ -106,7 +106,9 @@ export const userWordsStore = observable({
 
     if (areWordsInStore) {
       await userWordsStore.updateUserWordFromGame(wordId, isWin);
-    } else await userWordsStore.createUserWordFromGame(wordId, isWin);
+    } else {
+      await userWordsStore.createUserWordFromGame(wordId, isWin);
+    }
     await userWordsStore.getUserWords();
   }),
 
