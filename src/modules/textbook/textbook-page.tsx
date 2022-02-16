@@ -7,7 +7,6 @@ import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
 import { getNextPage, getPrevPage } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
-// import { startFromTextbook } from '../../utils/sprint-helpers';
 import { sprintState } from '../../store/sprint-state';
 
 export const TextbookPage = observer(() => {
