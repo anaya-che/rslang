@@ -100,6 +100,7 @@ export const userWordsStore = observable({
   }),
 
   changeUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    await userWordsStore.getUserWords();
     const areWordsInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
