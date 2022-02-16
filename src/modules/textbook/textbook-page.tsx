@@ -7,6 +7,8 @@ import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
 import { getNextPage, getPrevPage } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
+// import { startFromTextbook } from '../../utils/sprint-helpers';
+import { sprintState } from '../../store/sprint-state';
 
 export const TextbookPage = observer(() => {
   let linkProps: ILinkProps = useParams();
@@ -38,7 +40,7 @@ export const TextbookPage = observer(() => {
           <button onClick={audiocallState.handleAudiocallStart}>Audiocall</button>
         </Link>
         <Link to="/games/sprint">
-          <button>Sprint</button>
+          <button onClick={() => sprintState.startFromTextbook(textbookState.wordGroup, textbookState.wordPage)}>Sprint</button>
         </Link>
       </div>
 
