@@ -1,12 +1,15 @@
-import { audiocallState } from "../../store/audiocall-state";
+import { audiocallState } from '../../store/audiocall-state';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
 import { useEffect } from 'react';
 import { CardContainer } from './components/card-container';
-import { getNextPage, getPrevPage } from '../../utils/textbook-helpers/navigation';
+import {
+  getNextPage,
+  getPrevPage,
+} from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
-import { appState, textbookState } from '../../store';
+import { appState, textbookState, userState } from '../../store';
 
 export const TextbookPage = observer(() => {
   let linkProps: ILinkProps = useParams();
@@ -20,12 +23,19 @@ export const TextbookPage = observer(() => {
   return (
     <div>
       <div onClick={() => appState.setPage()}>
-        <Link to="/">Main</Link>
+        <Link to="/">Главная страница</Link>
       </div>
-      <h1>Textbook Page</h1>
-      <CardContainer wordsCollection={toJS(textbookState.currentWords)} />
-      <div id="group-num">Group: {textbookState.wordGroup + 1}</div>
-      <div id="page-num">Page: {textbookState.wordPage + 1}</div>
+      <h1>Учебник</h1>
+      {textbookState.wordGroup !== 6 && (
+        <CardContainer wordsCollection={toJS(textbookState.currentWords)} />
+      )}
+
+      {textbookState.wordGroup === 6 && (
+        <CardContainer wordsCollection={toJS(textbookState.difficultWords)} />
+      )}
+
+      <div id="group-num">Группа: {textbookState.wordGroup + 1}</div>
+      <div id="page-num">Страница: {textbookState.wordPage + 1}</div>
 
       <div>
         <Link to={`/textbook/${textbookState.wordGroup + 1}/${getPrevPage()}`}>
@@ -35,10 +45,12 @@ export const TextbookPage = observer(() => {
           <button>next</button>
         </Link>
         <Link to="/games/audiocall">
-          <button onClick={audiocallState.handleAudiocallStart}>Audiocall</button>
+          <button onClick={audiocallState.handleAudiocallStart}>
+            Аудиовызов
+          </button>
         </Link>
         <Link to="/games/sprint">
-          <button>Sprint</button>
+          <button>Спринт</button>
         </Link>
       </div>
 
@@ -61,6 +73,11 @@ export const TextbookPage = observer(() => {
         <Link to="/textbook/6/1">
           <button>6</button>
         </Link>
+        {userState.isAuthorized && (
+          <Link to="/textbook/7/1">
+            <button>Сложные слова</button>
+          </Link>
+        )}
       </div>
     </div>
   );
