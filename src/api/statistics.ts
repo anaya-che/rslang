@@ -5,10 +5,12 @@ import { IStatistic, IStatisticOptional } from '../utils/interfaces';
 
 axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
 
-export const getStatistics = async (userId: string) => {
+export const getStatistics = async (
+  userId: string
+): Promise<IStatistic | void> => {
   return axios
     .get(`${baseUrl}users/${userId}/statistics`)
-    .then((res) => console.log(res.data))
+    .then((res): Promise<IStatistic> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
         console.log('Access token is missing or invalid.');
