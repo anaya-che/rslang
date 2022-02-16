@@ -1,4 +1,4 @@
-import { IWordData } from "./interfaces";
+import { IWordData } from ".";
 
 export interface ISprintAnswer {
   word: IWordData | null, 
@@ -18,6 +18,14 @@ export interface ISprintState {
   setTimer(): void,
   setDefault(): void,
   timerHandler(): void,
+  setStateFromTextbook(category: number, page: number): Promise<void>,
+  setWordsFromTextbook(): void,
+  setCurrentWordFromTextbook(): void,
+  setTranslate(): void,
+  setFalseAnswerFromTextbook(): void,
+  startRound(category: number): void,
+  startFromTextbook(category: number, page: number): void,
+
   category: number,
   page: number,
   currentWordIdx: number,
@@ -33,4 +41,6 @@ export interface ISprintState {
   secondsInRound: number,
   interval: NodeJS.Timer,
   answers: ISprintAnswer[],
+  startGamePage: string,
+  wordsFromTextbook: IWordData[],
 }
