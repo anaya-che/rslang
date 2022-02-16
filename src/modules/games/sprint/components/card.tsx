@@ -1,15 +1,11 @@
 import { observer } from "mobx-react-lite";
 import React, { useEffect } from "react"
 import { sprintState } from "../../../../store/sprint-state"
-import { playWordAudio } from "../../../../utils/sprint-helpers";
+import { checkRightPair, playWordAudio } from "../../../../utils/sprint-helpers";
 import style from './sprint.module.scss'; 
 
 
 export const Card: React.FC = observer(() => {  
-  const checkRightPair = (isRight: boolean): void => {
-    sprintState.checkAnswer(isRight);
-    sprintState.setStateForRound();
-  }
 
   const noBtn: React.RefObject<HTMLButtonElement> = React.useRef<HTMLButtonElement>(null);
   const yesBtn: React.RefObject<HTMLButtonElement> = React.useRef<HTMLButtonElement>(null);
