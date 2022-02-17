@@ -1,7 +1,8 @@
 import { wordsStore, getWords } from './words-store';
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
+import { textbookState } from '.';
 
 
 export const sprintState: ISprintState = observable({
@@ -55,13 +56,18 @@ export const sprintState: ISprintState = observable({
   }),
 
   setWordsFromTextbook: action((): void => {
-    wordsStore.forEach((el) => {
-      if (el.wordGroup === sprintState.category
-           && el.wordPage === sprintState.page) {
-            sprintState.wordsFromTextbook = [...el.wordData];
-            shuffle(sprintState.wordsFromTextbook);
-      }
-    })
+    if (sprintState.category === 6) {
+      sprintState.wordsFromTextbook = [...textbookState.difficultWords];
+      shuffle(sprintState.wordsFromTextbook);
+    } else {
+      wordsStore.forEach((el) => {
+        if (el.wordGroup === sprintState.category
+             && el.wordPage === sprintState.page) {
+              sprintState.wordsFromTextbook = [...el.wordData];
+              shuffle(sprintState.wordsFromTextbook);
+        }
+      })
+    }
   }),
 
   setCurrentWordFromTextbook: action((): void => {
@@ -144,6 +150,12 @@ export const sprintState: ISprintState = observable({
       sprintState.setTranslate();
       sprintState.currentWordIdx +=1;
     }
+    // else if ((sprintState.category === 6) && 
+    //           (sprintState.currentWordIdx !== 19) &&
+    //           (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1)) {
+    //   sprintState.secondsInRound = 0;
+    // }
+
   }),
   
   startRound: action ((category: number): void => {
@@ -154,12 +166,15 @@ export const sprintState: ISprintState = observable({
     sprintState.timerHandler();
   }),
 
-  startFromTextbook: action ((category: number, page: number): void => {
+  startFromTextbook: action (async(category: number, page: number): Promise<void> => {
     sprintState.startGamePage = 'textbook';
+    await getWords(category, page);
     sprintState.setStateFromTextbook(category, page);
     sprintState.setWordsFromTextbook();
     sprintState.startGame(true);
     sprintState.timerHandler();
+    console.log('start: ', category, page);
+    
   }),
 
   timerHandler: action (() => {

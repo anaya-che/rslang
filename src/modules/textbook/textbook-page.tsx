@@ -51,7 +51,9 @@ export const TextbookPage = observer(() => {
           </button>
         </Link>
         <Link to="/games/sprint">
-          <button onClick={() => sprintState.startFromTextbook(textbookState.wordGroup, textbookState.wordPage)}>
+          <button onClick={() => {
+            sprintState.startFromTextbook(+group-1, +page-1)            
+            }}>
             Спринт
           </button>
         </Link>
