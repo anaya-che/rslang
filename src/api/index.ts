@@ -5,3 +5,4 @@ export * from './enums';
 export * from './consts';
 export * from './user-words';
 export * from './aggregated-words';
+export * from './statistics';
