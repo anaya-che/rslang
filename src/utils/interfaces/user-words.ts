@@ -1,8 +1,8 @@
 export interface IUserWord {
   difficulty: string;
-  id?: string;
+  id: string;
   optional: IOptions;
-  wordId?: string;
+  wordId: string;
 }
 
 export interface IOptions {

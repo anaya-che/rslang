@@ -2,6 +2,7 @@ import { observable, action, toJS } from 'mobx';
 import { userState } from '.';
 import { getStatistics, updateStatistics } from '../api';
 import { IGameStatistic, IStatisticOptional } from '../utils/interfaces';
+import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
 import { uniqueValues } from '../utils/statistics-helpers/unique-values';
 
 export const statisticsState = observable({
@@ -22,23 +23,25 @@ export const statisticsState = observable({
       const learnedWords = 0;
       const statObj = { ...toJS(statisticsState.statistics) };
       const oldGameInfo: IGameStatistic = statObj[date][game];
-      const wordIdArr = oldGameInfo.learnedWordsId.concat(
-        gameInfo.learnedWordsId
-      );
-      const uniqueWordId = uniqueValues(wordIdArr);
+      if (oldGameInfo) {
+        const wordIdArr = oldGameInfo.learnedWordsId.concat(
+          gameInfo.learnedWordsId
+        );
+        const uniqueWordId = uniqueValues(wordIdArr);
+        const learnedWordId = await getLearnedWords(uniqueWordId);
+        const newGameInfo = {
+          gamesCount: oldGameInfo.gamesCount + gameInfo.gamesCount,
+          bestSeries:
+            oldGameInfo.bestSeries > gameInfo.bestSeries
+              ? oldGameInfo.bestSeries
+              : gameInfo.bestSeries,
+          totalWins: oldGameInfo.totalWins + gameInfo.totalWins,
+          totalMistakes: oldGameInfo.totalMistakes + gameInfo.totalMistakes,
+          learnedWordsId: learnedWordId,
+        };
+        statObj[date][game] = newGameInfo;
+      } else statObj[date][game] = gameInfo;
 
-      const newGameInfo = {
-        gamesCount: oldGameInfo.gamesCount + gameInfo.gamesCount,
-        bestSeries:
-          oldGameInfo.bestSeries > gameInfo.bestSeries
-            ? oldGameInfo.bestSeries
-            : gameInfo.bestSeries,
-        totalWins: oldGameInfo.totalWins + gameInfo.totalWins,
-        totalMistakes: oldGameInfo.totalMistakes + gameInfo.totalMistakes,
-        learnedWordsId: uniqueWordId,
-      };
-
-      statObj[date][game] = newGameInfo;
       await updateStatistics(userState.tokenInfo.userId, learnedWords, statObj);
       await statisticsState.getCurrentStatistics();
     }
