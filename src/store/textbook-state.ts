@@ -1,4 +1,4 @@
-import { observable, action, toJS } from 'mobx';
+import { observable, action } from 'mobx';
 import { IWordData } from '../utils/interfaces';
 import { getWords, userState, userWordsStore, wordsStore } from '.';
 import { getUserAggregatedWords } from '../api';
@@ -78,7 +78,6 @@ export const textbookState = observable({
 
   setDifficultWords: action((data: IWordData[]) => {
     textbookState.difficultWords = data;
-    console.log(toJS(textbookState.difficultWords));
   }),
 
   addNewDifficulty: action(async (wordId: string, difficulty: string) => {
