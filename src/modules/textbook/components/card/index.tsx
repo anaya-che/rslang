@@ -14,14 +14,14 @@ export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }) => {
         <div className={style.wordContainer}>
           <button
             onClick={() => {
-              textbookState.changeDifficulty(wordInfo._id!, 'difficult');
+              textbookState.changeDifficulty(wordInfo.id, 'difficult');
             }}
           >
             сложные
           </button>
           <button
             onClick={() => {
-              textbookState.changeDifficulty(wordInfo._id!, 'easy');
+              textbookState.changeDifficulty(wordInfo.id, 'easy');
             }}
           >
             выучено
