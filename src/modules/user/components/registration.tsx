@@ -13,8 +13,14 @@ export const Registration: React.FC = () => {
         <label htmlFor="userPassword">Пароль: </label>
         <input type="password" name="password" id="userPassword" />
       </div>
+
       <button onClick={() => userState.registration()}>Регистрация</button>
-      <button onClick={() => userState.toPage('signIn')}>
+      <button
+        onClick={() => {
+          userState.toPage('signIn');
+          userState.getWarningMessage('');
+        }}
+      >
         Вернуться на страницу авторизации?
       </button>
     </>
