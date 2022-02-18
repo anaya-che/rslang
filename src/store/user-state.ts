@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import { userWordsStore } from '.';
 import { createUser, getNewToken, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
 import {
@@ -6,6 +7,7 @@ import {
   getLocalStorage,
   setLocalStorage,
 } from '../utils/user-helpers/local-storage';
+import { statisticsState } from './statistics-state';
 
 export const userState = observable({
   userPageView: 'signIn',
@@ -22,6 +24,8 @@ export const userState = observable({
         await userState.getUserInfoFromId();
         userState.changeAuthState(true);
         userState.getWarningMessage('');
+
+        await statisticsState.getCurrentStatistics();
       }
     }
   }),
@@ -70,7 +74,7 @@ export const userState = observable({
       );
       if (res !== undefined) {
         userState.userInfo = res;
-        userState.signIn();
+        await userState.signIn();
       }
     }
   }),

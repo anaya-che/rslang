@@ -17,3 +17,9 @@ export interface IGameStatistic {
   totalMistakes: number;
   learnedWordsId: string[];
 }
+
+export interface IPageStatistic {
+  newWords: number;
+  learnedWords: number;
+  percentOfAnswers: number;
+}
