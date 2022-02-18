@@ -32,6 +32,7 @@ export const statisticsState = observable({
           const learnedWordId = await getLearnedWords(uniqueWordId);
           const newGameInfo = {
             gamesCount: oldGameInfo.gamesCount + gameInfo.gamesCount,
+            newWords: oldGameInfo.newWords + gameInfo.newWords,
             bestSeries:
               oldGameInfo.bestSeries > gameInfo.bestSeries
                 ? oldGameInfo.bestSeries

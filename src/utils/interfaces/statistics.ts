@@ -11,6 +11,7 @@ export interface IStatisticOptional {
 
 export interface IGameStatistic {
   gamesCount: number;
+  newWords: number;
   bestSeries: number;
   totalWins: number;
   totalMistakes: number;
