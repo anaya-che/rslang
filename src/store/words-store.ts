@@ -101,6 +101,7 @@ export const userWordsStore = observable({
   }),
 
   changeUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    await userWordsStore.getUserWords();
     const areWordsInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
@@ -128,10 +129,12 @@ export const userWordsStore = observable({
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
     const { optional } = wordInfo;
+    let newDifficulty = difficulty;
+    if (difficulty === wordInfo.difficulty) newDifficulty = 'normal';
     await updateUserWordById(
       userState.tokenInfo.userId,
       wordId,
-      difficulty,
+      newDifficulty,
       optional
     );
   }),
