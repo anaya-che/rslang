@@ -18,10 +18,15 @@ export const countPercentage = (total: number, part: number) => {
 }
 
 export const compareId = (): number => {
-  const falseAnswerId: number = getRandomInt(0, 19);
+  let falseAnswerId: number = 0;
+  if(sprintState.startGamePage === 'textbook') {
+    falseAnswerId = getRandomInt(0, sprintState.wordsFromTextbook.length-1);
+  } else falseAnswerId = getRandomInt(0, 19);
+ 
   if (falseAnswerId === sprintState.currentWordIdx) {
     compareId();
-  } return falseAnswerId;
+  } 
+  return falseAnswerId;
 }
 
 export const playWordAudio = (): void => {

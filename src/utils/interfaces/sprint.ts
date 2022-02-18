@@ -19,10 +19,10 @@ export interface ISprintState {
   setDefault(): void,
   timerHandler(): void,
   setStateFromTextbook(category: number, page: number): Promise<void>,
-  setWordsFromTextbook(): void,
+  setWordsFromTextbook(): Promise<void>,
   setCurrentWordFromTextbook(): void,
-  setTranslate(): void,
-  setFalseAnswerFromTextbook(): void,
+  setTranslate(): Promise<void>,
+  setFalseAnswerFromTextbook(): Promise<void>,
   startRound(category: number): void,
   startFromTextbook(category: number, page: number): void,
 
