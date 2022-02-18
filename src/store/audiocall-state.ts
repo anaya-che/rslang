@@ -9,6 +9,7 @@ import { userWordsStore } from './words-store'
 import { getUserAggregatedWords } from '../api';
 import { statisticsState } from './statistics-state';
 import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
+import { isNewWord } from '../utils/statistics-helpers/new-words';
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -44,6 +45,7 @@ export const audiocallState: IaudiocallStat = observable({
   isStartedFromTextBook: false,
   counterConditionValue: 0,
   amountOfRemainingWords: 0,
+  amountOfNewWords: 0,
 
   setCategory: action(async (category: number) => {
     audiocallState.category = category;
@@ -112,10 +114,12 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.wins = audiocallState.seriesCounter.filter(x => x === 1).length
       let easyWords = await getLearnedWords(audiocallState.statisticsWordsID)
       await statisticsState.updateStatistics(audiocallState.todayDate, "audiocall", {gamesCount: 1,
+        newWords: audiocallState.amountOfNewWords,
         bestSeries: audiocallState.bestSeries,
         totalWins: audiocallState.wins,
         totalMistakes: audiocallState.mistakes,
-        learnedWordsId: easyWords})
+        learnedWordsId: easyWords
+      })
     }
   }),
 
@@ -130,10 +134,12 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.transcription = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].transcription
     audiocallState.translate = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
-
+    if (isNewWord(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]])) {
+      audiocallState.amountOfNewWords = audiocallState.amountOfNewWords + 1
+    }
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
       playAnswerAudio(`../../right.mp3`);
-      const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
+      const wordId = audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       audiocallState.statisticsWordsID.push(wordId)
       await userWordsStore.changeUserWordFromGame(wordId, true)
       audiocallState.correctAnswers.push({
@@ -145,7 +151,7 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.seriesCounter.push(1)
     } else {
       playAnswerAudio(`../../mistake.mp3`);
-      const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
+      const wordId = audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       audiocallState.statisticsWordsID.push(wordId)
       await userWordsStore.changeUserWordFromGame(wordId, false)
       audiocallState.incorrectAnswers.push({

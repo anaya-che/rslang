@@ -56,5 +56,6 @@ export interface IaudiocallStat {
   isStartedFromTextBook: boolean,
   counterConditionValue: number,
   amountOfRemainingWords: number,
-  statisticsWordsID: string[]
+  statisticsWordsID: string[],
+  amountOfNewWords: number
 }
