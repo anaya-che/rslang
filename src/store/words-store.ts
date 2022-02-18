@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { IUserWord, IWordStore } from '../utils/interfaces';
 import {
   createUserWord,
@@ -45,6 +45,7 @@ export const userWordsStore = observable({
       );
       if (res) userWordsStore.userWords = res;
     }
+    console.log('userWords', toJS(userWordsStore.userWords));
   }),
 
   createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
@@ -100,6 +101,7 @@ export const userWordsStore = observable({
   }),
 
   changeUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    await userWordsStore.getUserWords();
     const areWordsInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
@@ -113,6 +115,7 @@ export const userWordsStore = observable({
   }),
 
   changeDifficulty: action(async (wordId: string, difficulty: string) => {
+    await userWordsStore.getUserWords();
     const isWordInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
@@ -128,10 +131,12 @@ export const userWordsStore = observable({
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
     const { optional } = wordInfo;
+    let newDifficulty = difficulty;
+    if (difficulty === wordInfo.difficulty) newDifficulty = 'normal';
     await updateUserWordById(
       userState.tokenInfo.userId,
       wordId,
-      difficulty,
+      newDifficulty,
       optional
     );
   }),
