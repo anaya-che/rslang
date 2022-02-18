@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { IUserWord, IWordStore } from '../utils/interfaces';
 import {
   createUserWord,
@@ -45,6 +45,7 @@ export const userWordsStore = observable({
       );
       if (res) userWordsStore.userWords = res;
     }
+    console.log('userWords', toJS(userWordsStore.userWords));
   }),
 
   createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
