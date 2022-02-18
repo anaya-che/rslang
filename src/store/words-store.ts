@@ -72,7 +72,7 @@ export const userWordsStore = observable({
     );
   }),
 
-  updateUserWordFromGame: action(async (wordId: string | undefined, isWin: boolean) => {
+  updateUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
     const wordInfo = userWordsStore.userWords.find(
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;

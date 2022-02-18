@@ -28,11 +28,10 @@ export const getAllUserWords = async (
 
 export const createUserWord = async (
   userId: string,
-  wordId: string | undefined,
+  wordId: string,
   wordDifficulty: string,
   wordOptions: IOptions
 ): Promise<IUserWord | void> => {
-  console.log('user smrh')
   return axios
     .post(
       `${baseUrl}users/${userId}/words/${wordId}`,
@@ -62,7 +61,7 @@ export const createUserWord = async (
 
 export const getUserWordById = async (
   userId: string,
-  wordId: string | undefined
+  wordId: string
 ): Promise<IUserWord | void> => {
   return axios
     .get(`${baseUrl}users/${userId}/words/${wordId}`, {
@@ -88,7 +87,7 @@ export const getUserWordById = async (
 
 export const updateUserWordById = async (
   userId: string,
-  wordId: string | undefined,
+  wordId: string,
   wordDifficulty: string,
   wordOptions: IOptions
 ): Promise<IUserWord | void> => {
