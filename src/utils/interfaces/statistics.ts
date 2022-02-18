@@ -5,8 +5,7 @@ export interface IStatistic {
 
 export interface IStatisticOptional {
   [index: string]: {
-    audiocall: IGameStatistic;
-    sprint: IGameStatistic;
+    [game: string]: IGameStatistic;
   };
 }
 

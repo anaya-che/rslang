@@ -45,7 +45,6 @@ export const userWordsStore = observable({
       );
       if (res) userWordsStore.userWords = res;
     }
-    console.log('userWords', toJS(userWordsStore.userWords));
   }),
 
   createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
@@ -108,7 +107,9 @@ export const userWordsStore = observable({
 
     if (areWordsInStore) {
       await userWordsStore.updateUserWordFromGame(wordId, isWin);
-    } else await userWordsStore.createUserWordFromGame(wordId, isWin);
+    } else {
+      await userWordsStore.createUserWordFromGame(wordId, isWin);
+    }
     await userWordsStore.getUserWords();
   }),
 
