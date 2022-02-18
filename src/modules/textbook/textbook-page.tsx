@@ -1,5 +1,5 @@
 import { appState, textbookState, userState } from '../../store';
-import { audiocallState } from "../../store/audiocall-state";
+import { audiocallState } from '../../store/audiocall-state';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { toJS } from 'mobx';
@@ -51,7 +51,14 @@ export const TextbookPage = observer(() => {
           </button>
         </Link>
         <Link to="/games/sprint">
-          <button onClick={() => sprintState.startFromTextbook(textbookState.wordGroup, textbookState.wordPage)}>
+          <button
+            onClick={() =>
+              sprintState.startFromTextbook(
+                textbookState.wordGroup,
+                textbookState.wordPage
+              )
+            }
+          >
             Спринт
           </button>
         </Link>

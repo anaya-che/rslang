@@ -14,13 +14,13 @@ export const CardContainer: React.FC<{
     <div className={style.cardContainer}>
       {userState.isAuthorized && textbookState.wordGroup !== 6
         ? wordsCollection.map((el: IWordData) => (
-            <Card wordInfo={el} key={el._id}></Card>
+            <Card wordInfo={el} key={el.id}></Card>
           ))
         : userState.isAuthorized && textbookState.wordGroup === 6
         ? wordsCollection.map(
             (el: IWordData, index: number) =>
               index >= pageFrom &&
-              index < pageTo && <Card wordInfo={el} key={el._id}></Card>
+              index < pageTo && <Card wordInfo={el} key={el.id}></Card>
           )
         : wordsCollection.map((el: IWordData) => (
             <Card wordInfo={el} key={el.id}></Card>
