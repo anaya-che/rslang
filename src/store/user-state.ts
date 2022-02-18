@@ -21,6 +21,7 @@ export const userState = observable({
         userState.getTokenFromStorage(userInfoObj);
         await userState.getUserInfoFromId();
         userState.changeAuthState(true);
+        userState.getWarningMessage('');
       }
     }
   }),
@@ -38,6 +39,7 @@ export const userState = observable({
       userState.tokenInfo = res;
       userState.changeAuthState(true);
       setLocalStorage();
+      userState.getWarningMessage('');
       await userState.getUserInfoFromId();
     }
   }),
@@ -82,6 +84,7 @@ export const userState = observable({
     if (res !== undefined) {
       userState.tokenInfo = res;
       userState.changeAuthState(true);
+      userState.getWarningMessage('');
       setLocalStorage();
     }
   }),

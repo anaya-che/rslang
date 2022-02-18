@@ -8,7 +8,12 @@ import { SignIn } from './components/sign-in';
 export const UserPage: React.FC = observer(() => {
   return (
     <div>
-      <div onClick={() => appState.setPage()}>
+      <div
+        onClick={() => {
+          appState.setPage();
+          userState.getWarningMessage('');
+        }}
+      >
         <Link to="/">Main</Link>
       </div>
       <div>Authorization</div>
@@ -20,7 +25,7 @@ export const UserPage: React.FC = observer(() => {
       ) : (
         <LogOut />
       )}
-      <div id="message">{ userState.message }</div>
+      <div id="message">{userState.message}</div>
     </div>
   );
 });

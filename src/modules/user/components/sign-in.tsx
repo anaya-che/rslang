@@ -11,8 +11,14 @@ export const SignIn: React.FC = () => {
         <label htmlFor="userPassword">Пароль: </label>
         <input type="password" name="password" id="userPassword" />
       </div>
+
       <button onClick={() => userState.signIn()}>Войти</button>
-      <button onClick={() => userState.toPage('registration')}>
+      <button
+        onClick={() => {
+          userState.toPage('registration');
+          userState.getWarningMessage('');
+        }}
+      >
         Хотите зарегистрироваться?
       </button>
     </>
