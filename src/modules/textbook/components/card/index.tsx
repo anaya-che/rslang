@@ -26,7 +26,9 @@ export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }) => {
           >
             выучено
           </button>
-          <div>{wordInfo.userWord?.difficulty}</div>
+          {wordInfo.userWord?.difficulty !== 'normal' && (
+            <div>{wordInfo.userWord?.difficulty}</div>
+          )}
         </div>
       )}
       {userState.isAuthorized &&

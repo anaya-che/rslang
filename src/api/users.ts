@@ -2,9 +2,11 @@ import axios from 'axios';
 import { IToken } from '../utils/interfaces/token';
 import { IUser } from '../utils/interfaces/user';
 import { baseUrl, HttpStatus } from '.';
-import { token } from '../store/user-state';
-
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+import {
+  getRefreshToken,
+  getTokenFromStorage,
+} from '../utils/user-helpers/local-storage';
+import { userState } from '../store';
 
 export const createUser = async (
   userName: string,
@@ -12,26 +14,30 @@ export const createUser = async (
   userPassword: string
 ): Promise<void | IUser> => {
   return axios
-    .post(`${baseUrl}users`, {
-      name: userName,
-      email: userEmail,
-      password: userPassword,
-    })
+    .post(
+      `${baseUrl}users`,
+      {
+        name: userName,
+        email: userEmail,
+        password: userPassword,
+      },
+      { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
+    )
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.NOT_VALID) {
         const errorMessages = error.response.data.error.errors;
         errorMessages.forEach((el: any) => {
           if (el.path.includes('email'))
-            console.log('Please, enter a valid email.');
+            userState.getWarningMessage('Please, enter a valid email.');
           if (el.path.includes('password'))
-            console.log(
+            userState.getWarningMessage(
               'Please, enter a valid password. Length must be at least 8 characters.'
             );
         });
       }
       if (error.response.status === HttpStatus.USER_EXISTS)
-        console.log('User with this e-mail already exists.');
+        userState.getWarningMessage('User with this e-mail already exists.');
       else {
         throw new Error(error);
       }
@@ -40,13 +46,21 @@ export const createUser = async (
 
 export const getUser = async (userId: string): Promise<void | IUser> => {
   return axios
-    .get(`${baseUrl}users/${userId}`)
+    .get(`${baseUrl}users/${userId}`, {
+      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
+    })
     .then((res): Promise<IUser> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('User is unauthorized.');
+    .catch(async (error) => {
+      if (error.response.status === HttpStatus.NEED_TOKEN) {
+        await userState.refreshTokenInfo();
+        await getUser(userId);
+      }
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {
+        await userState.refreshTokenInfo();
+        await getUser(userId);
+      }
       if (error.response.status === HttpStatus.NOT_FOUND)
-        console.log('User not found');
+        userState.getWarningMessage('User not found');
       else {
         throw new Error(error);
       }
@@ -59,10 +73,14 @@ export const updateUser = async (
   userPassword: string
 ): Promise<void | IUser> => {
   return axios
-    .put(`${baseUrl}users/${userId}`, {
-      email: userEmail,
-      password: userPassword,
-    })
+    .put(
+      `${baseUrl}users/${userId}`,
+      {
+        email: userEmail,
+        password: userPassword,
+      },
+      { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
+    )
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
@@ -77,7 +95,9 @@ export const updateUser = async (
 
 export const deleteUser = async (userId: string): Promise<void> => {
   return axios
-    .delete(`${baseUrl}users/${userId}`)
+    .delete(`${baseUrl}users/${userId}`, {
+      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
+    })
     .then((res) => {
       if (res.status === 204) console.log('The user has been deleted.');
     })
@@ -85,8 +105,6 @@ export const deleteUser = async (userId: string): Promise<void> => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
         console.log('User is unauthorized.');
       else {
-        console.log(error);
-
         throw new Error(error);
       }
     });
@@ -94,7 +112,9 @@ export const deleteUser = async (userId: string): Promise<void> => {
 
 export const getNewToken = async (userId: string): Promise<void | IToken> => {
   return axios
-    .get(`${baseUrl}users/${userId}/tokens`)
+    .get(`${baseUrl}users/${userId}/tokens`, {
+      headers: { Authorization: `Bearer ${getRefreshToken()}` },
+    })
     .then((res): Promise<IToken> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)

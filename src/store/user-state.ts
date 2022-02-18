@@ -1,40 +1,46 @@
 import { observable, action } from 'mobx';
-import { userWordsStore } from '.';
-import { createUser, getUser, signIn } from '../api';
+import { createUser, getNewToken, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
-import { isIToken, isIUser } from '../utils/user-helpers/check-types';
 import {
   clearLocalStorage,
   getLocalStorage,
-  getTokenFromStorage,
   setLocalStorage,
 } from '../utils/user-helpers/local-storage';
-
-export let token = getTokenFromStorage();
 
 export const userState = observable({
   userPageView: 'signIn',
   isAuthorized: false,
   userInfo: {} as IUser,
   tokenInfo: {} as IToken,
+  message: '',
 
   checkAuth: action(async () => {
     if (!userState.isAuthorized) {
       const userInfoObj = getLocalStorage();
-      if (userInfoObj) {
-        token = await getTokenFromStorage();
+      if (userInfoObj !== undefined) {
         userState.getTokenFromStorage(userInfoObj);
         await userState.getUserInfoFromId();
         userState.changeAuthState(true);
-        // userWordsStore.getUserWords();
+        userState.getWarningMessage('');
       }
     }
   }),
 
   getUserInfoFromId: action(async () => {
     const res = await getUser(userState.tokenInfo.userId);
-    if (isIUser(res)) {
+    if (res !== undefined) {
       userState.userInfo = res;
+    }
+  }),
+
+  refreshTokenInfo: action(async () => {
+    const res = await getNewToken(userState.tokenInfo.userId);
+    if (res !== undefined) {
+      userState.tokenInfo = res;
+      userState.changeAuthState(true);
+      setLocalStorage();
+      userState.getWarningMessage('');
+      await userState.getUserInfoFromId();
     }
   }),
 
@@ -62,7 +68,7 @@ export const userState = observable({
         userState.userInfo.email,
         userState.userInfo.password
       );
-      if (isIUser(res)) {
+      if (res !== undefined) {
         userState.userInfo = res;
         userState.signIn();
       }
@@ -75,12 +81,11 @@ export const userState = observable({
       userState.userInfo.email,
       userState.userInfo.password
     );
-    if (isIToken(res)) {
+    if (res !== undefined) {
       userState.tokenInfo = res;
       userState.changeAuthState(true);
+      userState.getWarningMessage('');
       setLocalStorage();
-      token = await getTokenFromStorage();
-      await userWordsStore.getUserWords();
     }
   }),
 
@@ -100,5 +105,9 @@ export const userState = observable({
     userState.userPageView = 'signIn';
     userState.isAuthorized = false;
     clearLocalStorage();
+  }),
+
+  getWarningMessage: action((message: string) => {
+    userState.message = message;
   }),
 });

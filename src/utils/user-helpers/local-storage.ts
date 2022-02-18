@@ -21,3 +21,8 @@ export const getTokenFromStorage = () => {
   const res: string | void = getLocalStorage();
   if (res) return JSON.parse(res).token;
 };
+
+export const getRefreshToken = () => {
+  const res: string | void = getLocalStorage();
+  if (res) return JSON.parse(res).refreshToken;
+};
