@@ -42,7 +42,6 @@ export interface IaudiocallStat {
   incorrectAnswers: Array<IwordResult>;
   setDefault: Function;
   handleAudiocallStart: MouseEventHandler<HTMLButtonElement>,
-  optionals: any,
   setAnswered: Function,
   todayDate: string,
   amountOfGames: number,
@@ -57,4 +56,5 @@ export interface IaudiocallStat {
   isStartedFromTextBook: boolean,
   counterConditionValue: number,
   amountOfRemainingWords: number,
+  statisticsWordsID: string[]
 }

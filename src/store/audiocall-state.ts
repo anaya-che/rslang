@@ -7,6 +7,8 @@ import { textbookState, userState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 import { userWordsStore } from './words-store'
 import { getUserAggregatedWords } from '../api';
+import { statisticsState } from './statistics-state';
+import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -30,10 +32,8 @@ export const audiocallState: IaudiocallStat = observable({
   page: 0,
   correctAnswers: [],
   incorrectAnswers: [],
-  optionals: {
-    statistics: []
-  },
-  todayDate: new Date().toLocaleDateString("en-US"),
+  statisticsWordsID: [],
+  todayDate: new Date().toLocaleString('en-GB', { dateStyle: 'short'}),
   amountOfGames: 0,
   bestSeries: 0,
   wins: 0,
@@ -65,7 +65,7 @@ export const audiocallState: IaudiocallStat = observable({
     })
   }),
 
-  nextCallQuestion: action( () => {
+  nextCallQuestion: action( async () => {
     if (!audiocallState.amountOfRemainingWords) {
       let answersArr: number[] = audiocallState.randomArrayShuffle(Array.from(Array(audiocallState.words.length).keys())).slice(0,5)
       audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
@@ -110,6 +110,17 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.bestSeries = Math.max(...Array.from(audiocallState.seriesCounter.join("").matchAll(/(.)\1+/g), m=>m[0].length))
       audiocallState.mistakes = audiocallState.seriesCounter.filter(x => x === 0).length
       audiocallState.wins = audiocallState.seriesCounter.filter(x => x === 1).length
+      let easyWords = await getLearnedWords(audiocallState.statisticsWordsID)
+      console.log(audiocallState.todayDate, audiocallState.wins,
+        audiocallState.bestSeries,
+        audiocallState.wins,
+        audiocallState.mistakes,
+        easyWords)
+      await statisticsState.updateStatistics(audiocallState.todayDate, "audiocall", {gamesCount: 1,
+        bestSeries: audiocallState.bestSeries,
+        totalWins: audiocallState.wins,
+        totalMistakes: audiocallState.mistakes,
+        learnedWordsId: easyWords})
     }
   }),
 
@@ -124,9 +135,11 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.transcription = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].transcription
     audiocallState.translate = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
+
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
       playAnswerAudio(`../../right.mp3`);
       const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
+      audiocallState.statisticsWordsID.push(wordId)
       await userWordsStore.changeUserWordFromGame(wordId, true)
       audiocallState.correctAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
@@ -138,6 +151,7 @@ export const audiocallState: IaudiocallStat = observable({
     } else {
       playAnswerAudio(`../../mistake.mp3`);
       const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
+      audiocallState.statisticsWordsID.push(wordId)
       await userWordsStore.changeUserWordFromGame(wordId, false)
       audiocallState.incorrectAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
@@ -244,7 +258,6 @@ export const audiocallState: IaudiocallStat = observable({
   handleAudiocallStart: action( async () => {
     audiocallState.category = textbookState.wordGroup
     audiocallState.page = textbookState.wordPage
-
     audiocallState.isStartedFromTextBook = true
     if (audiocallState.category !== 6) {
       await getWords(audiocallState.category, audiocallState.page);
