@@ -1,15 +1,15 @@
 import axios from 'axios';
 import { baseUrl, HttpStatus } from '.';
-import { token } from '../store/user-state';
-import { IStatistic, IStatisticOptional } from '../utils/interfaces';
-
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+import { IStatistic, IStatisticOptional } from '../utils/interfaces/statistics';
+import { getTokenFromStorage } from '../utils/user-helpers/local-storage';
 
 export const getStatistics = async (
   userId: string
 ): Promise<IStatistic | void> => {
   return axios
-    .get(`${baseUrl}users/${userId}/statistics`)
+    .get(`${baseUrl}users/${userId}/statistics`, {
+      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
+    })
     .then((res): Promise<IStatistic> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
@@ -28,10 +28,14 @@ export const updateStatistics = async (
   optionalInfo: IStatisticOptional
 ): Promise<IStatistic | void> => {
   return axios
-    .put(`${baseUrl}users/${userId}/statistics`, {
-      learnedWords: learned,
-      optional: optionalInfo,
-    })
+    .put(
+      `${baseUrl}users/${userId}/statistics`,
+      {
+        learnedWords: learned,
+        optional: optionalInfo,
+      },
+      { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
+    )
     .then((res): Promise<IStatistic> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)

@@ -20,7 +20,7 @@ export const UserPage: React.FC = observer(() => {
       ) : (
         <LogOut />
       )}
-      <div id="message"></div>
+      <div id="message">{ userState.message }</div>
     </div>
   );
 });
