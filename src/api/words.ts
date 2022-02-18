@@ -22,3 +22,15 @@ export const getWordById = async (id: string): Promise<IWordData> => {
       throw new Error(error);
     });
 };
+
+
+export const deleteWord = async (id: string, wordId: string): Promise<void> => {
+  return axios
+    .delete(`${baseUrl}users/${id}/words/${wordId}`)
+    .then((res) => {
+      if (res.status === 204) console.log('The word has been deleted.');
+    })
+    .catch((error) => {
+        throw new Error(error);
+      })
+    };

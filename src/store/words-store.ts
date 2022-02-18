@@ -71,7 +71,7 @@ export const userWordsStore = observable({
     );
   }),
 
-  updateUserWordFromGame: action(async (wordId: string | undefined, isWin: boolean) => {
+  updateUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
     const wordInfo = userWordsStore.userWords.find(
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
@@ -100,6 +100,7 @@ export const userWordsStore = observable({
   }),
 
   changeUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
+    await userWordsStore.getUserWords();
     const areWordsInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );
@@ -113,6 +114,7 @@ export const userWordsStore = observable({
   }),
 
   changeDifficulty: action(async (wordId: string, difficulty: string) => {
+    await userWordsStore.getUserWords();
     const isWordInStore = userWordsStore.userWords.some(
       (el: IUserWord) => el.wordId === wordId
     );

@@ -6,6 +6,7 @@ import { IaudiocallStat } from '../utils/interfaces/audiocall';
 import { textbookState, userState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 import { userWordsStore } from './words-store'
+import { getUserAggregatedWords } from '../api';
 
 export const audiocallState: IaudiocallStat = observable({
   randomAnsw: Math.round(Math.random() * (4 - 0) + 0),
@@ -40,6 +41,9 @@ export const audiocallState: IaudiocallStat = observable({
   learnedWordsId: [],
   seriesCounter: [],
   aggregatedWords: [],
+  isStartedFromTextBook: false,
+  counterConditionValue: 0,
+  amountOfRemainingWords: 0,
 
   setCategory: action(async (category: number) => {
     audiocallState.category = category;
@@ -62,19 +66,36 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   nextCallQuestion: action( () => {
-    let answersArr: number[] = audiocallState.randomArrayShuffle(Array.from(Array(audiocallState.words.length).keys())).slice(0,5)
-    audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
-    audiocallState.counter = audiocallState.counter + 1
-    audiocallState.first = audiocallState.words[answersArr[0]].wordTranslate
-    audiocallState.second = audiocallState.words[answersArr[1]].wordTranslate
-    audiocallState.third = audiocallState.words[answersArr[2]].wordTranslate
-    audiocallState.fourth = audiocallState.words[answersArr[3]].wordTranslate
-    audiocallState.fifth = audiocallState.words[answersArr[4]].wordTranslate
-    audiocallState.answersArr = answersArr
-    audiocallState.isAnswered = false
-    if ( audiocallState.counter < 11) {
+    if (!audiocallState.amountOfRemainingWords) {
+      let answersArr: number[] = audiocallState.randomArrayShuffle(Array.from(Array(audiocallState.words.length).keys())).slice(0,5)
+      audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
+      audiocallState.counter = audiocallState.counter + 1
+      audiocallState.first = audiocallState.words[answersArr[0]].wordTranslate
+      audiocallState.second = audiocallState.words[answersArr[1]].wordTranslate
+      audiocallState.third = audiocallState.words[answersArr[2]].wordTranslate
+      audiocallState.fourth = audiocallState.words[answersArr[3]].wordTranslate
+      audiocallState.fifth = audiocallState.words[answersArr[4]].wordTranslate
+      audiocallState.answersArr = answersArr
+      audiocallState.isAnswered = false
+    } else if (audiocallState.amountOfRemainingWords > 0) {
+      let dynamicAnswer = audiocallState.counter - 1
+      let answersArr = [dynamicAnswer, -1, -2, -3, -4]
+      let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(answersArr)
+      questionAnswers.map(el => el >= 0 ? audiocallState.randomAnsw = el : null)
+      audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
+      audiocallState.counter = audiocallState.counter + 1
+      audiocallState.first = audiocallState.words[questionAnswers[0]].wordTranslate
+      audiocallState.second = audiocallState.words[questionAnswers[1]].wordTranslate
+      audiocallState.third = audiocallState.words[questionAnswers[2]].wordTranslate
+      audiocallState.fourth = audiocallState.words[questionAnswers[3]].wordTranslate
+      audiocallState.fifth = audiocallState.words[questionAnswers[4]].wordTranslate
+      audiocallState.answersArr = questionAnswers
+      audiocallState.isAnswered = false
+    }
+    if ( audiocallState.counter < audiocallState.counterConditionValue) {
       audiocallState.playAudio()
-    } else if ( audiocallState.counter === 11) {
+    } else if ( audiocallState.counter === audiocallState.counterConditionValue) {
+      audiocallState.isStartedFromTextBook = false
       audiocallState.amountOfGames = audiocallState.amountOfGames +  1
       audiocallState.bestSeries = Math.max(...Array.from(audiocallState.seriesCounter.join("").matchAll(/(.)\1+/g), m=>m[0].length))
       audiocallState.mistakes = audiocallState.seriesCounter.filter(x => x === 0).length
@@ -95,7 +116,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.savedAudioUrl = audiocallState.answered[audiocallState.answersArr[audiocallState.randomAnsw]].audio
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
       playAnswerAudio(`../../right.mp3`);
-      const wordId = <string>audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id;
+      const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       await userWordsStore.changeUserWordFromGame(wordId, true)
       audiocallState.correctAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
@@ -106,7 +127,7 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.seriesCounter.push(1)
     } else {
       playAnswerAudio(`../../mistake.mp3`);
-      const wordId = <string>audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id;
+      const wordId = audiocallState.isStartedFromTextBook ? audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]]._id as string : audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       await userWordsStore.changeUserWordFromGame(wordId, false)
       audiocallState.incorrectAnswers.push({
         word: audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].word,
@@ -127,40 +148,46 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   getNextWords: action(() => {
-    let wordsArr: Array<IWordData> = audiocallState.randomArrayShuffle(audiocallState.words)
-    let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(Array.from(Array(20).keys())).slice(0,5)
-    audiocallState.words = wordsArr
-    audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
-    audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate
-    audiocallState.third = wordsArr[questionAnswers[2]].wordTranslate
-    audiocallState.fourth = wordsArr[questionAnswers[3]].wordTranslate
-    audiocallState.fifth = wordsArr[questionAnswers[4]].wordTranslate
-    audiocallState.answersArr = questionAnswers
-    audiocallState.answered = wordsArr
+    let wordsArr: Array<IWordData>
+    let questionAnswers: Array<number>
+
+    if (!audiocallState.amountOfRemainingWords) {
+      wordsArr = audiocallState.randomArrayShuffle(audiocallState.words)
+      wordsArr = toJS(wordsArr)
+      questionAnswers = audiocallState.randomArrayShuffle(Array.from(Array(wordsArr.length).keys())).slice(0,5)
+      console.log(questionAnswers)
+      audiocallState.words = wordsArr
+      audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
+      audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate
+      audiocallState.third = wordsArr[questionAnswers[2]].wordTranslate
+      audiocallState.fourth = wordsArr[questionAnswers[3]].wordTranslate
+      audiocallState.fifth = wordsArr[questionAnswers[4]].wordTranslate
+      audiocallState.answersArr = questionAnswers
+      audiocallState.answered = wordsArr
+    } else if (audiocallState.amountOfRemainingWords > 0) {
+      wordsArr = audiocallState.words
+      wordsArr = toJS(wordsArr)
+      let dynamicAnswer = audiocallState.counter - 1
+      let arr = [dynamicAnswer, -1, -2, -3, -4]
+      questionAnswers = audiocallState.randomArrayShuffle(arr)
+      questionAnswers.map(el => el >= 0 ? audiocallState.randomAnsw = el : null)
+      console.log(questionAnswers)
+      audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
+      audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate
+      audiocallState.third = wordsArr[questionAnswers[2]].wordTranslate
+      audiocallState.fourth = wordsArr[questionAnswers[3]].wordTranslate
+      audiocallState.fifth = wordsArr[questionAnswers[4]].wordTranslate
+      audiocallState.answersArr = questionAnswers
+      audiocallState.answered = wordsArr
+      console.log(toJS(audiocallState.words))
+    }
     audiocallState.isStarted = true
   }),
 
-  setStart: action( async () => {
-    audiocallState.isStarted = true
-    audiocallState.getNextWords()
-    audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
-
-    // await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${audiocallState.page}},{"userWord.difficulty":"easy"}]}`)
-    // console.log(toJS(audiocallState.aggregatedWords))
-
-    // console.log(toJS(audiocallState.words))
-    // if ( audiocallState.optionals.statistics.length === 0 ) {
-    //   let audiocall = [{
-    //     amountOfGames: 0,
-    //     bestSeries: 0,
-    //     wins: 0,
-    //     mistakes: 0,
-    //     learnedWordsId: []
-    //   }]
-    //   let obj = {'audiocall': audiocall};
-    //   let optional = {[audiocallState.todayDate]: obj};
-    //   audiocallState.optionals.statistics.push(optional)
-    // }
+  setStart: action(() => {
+   audiocallState.isStarted = true
+   audiocallState.getNextWords()
+   audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
   }),
 
   getWordAudio: action( (url: string) => {
@@ -196,10 +223,92 @@ export const audiocallState: IaudiocallStat = observable({
   handleAudiocallStart: action( async () => {
     audiocallState.category = textbookState.wordGroup
     audiocallState.page = textbookState.wordPage
-    await getWords(audiocallState.category, audiocallState.page);
-    audiocallState.setCurrentWord()
+    console.log(audiocallState.category)
+
+    audiocallState.isStartedFromTextBook = true
+    if (audiocallState.category !== 6) {
+      await getWords(audiocallState.category, audiocallState.page);
+      audiocallState.setCurrentWord()
+      await audiocallState.getFilteredWords()
+    } else if (audiocallState.category === 6) {
+      if (textbookState.difficultWords.length > 4 && textbookState.difficultWords.length < 22) {
+        let copy = textbookState.difficultWords.slice(0,15)
+        if (copy.length > 14) {
+          audiocallState.counterConditionValue = 11
+        } else {
+          audiocallState.counterConditionValue = copy.length - 5 + 1
+        }
+        audiocallState.words = toJS(copy)
+      } else if (textbookState.difficultWords.length > 20) {
+        let start = audiocallState.page * 20
+        let end = 20 + (audiocallState.page * 20)
+        let copy = toJS(textbookState.difficultWords.slice(start,end))
+        if (copy.length < 15) {
+          let delta = 15 - copy.length
+          let reserve = textbookState.difficultWords.slice((audiocallState.page - 1) * 20, 20 + ((audiocallState.page - 1) * 20))
+          reserve = reserve.slice(0, delta)
+          let final = copy.concat(reserve)
+          audiocallState.counterConditionValue = 11
+          audiocallState.words = toJS(final)
+        } else {
+          audiocallState.words = toJS(copy)
+          audiocallState.counterConditionValue = 11
+        }
+      } else if ( textbookState.difficultWords.length < 5) {
+        audiocallState.amountOfRemainingWords = textbookState.difficultWords.length
+        audiocallState.counterConditionValue = textbookState.difficultWords.length + 1
+        let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(0,20)}}]}`)
+        console.log(toJS(somewords))
+        let result = textbookState.difficultWords.concat(somewords)
+        audiocallState.words = toJS(result)
+        console.log(toJS(audiocallState.words))
+      }
+    }
     audiocallState.setStart()
+    console.log(audiocallState.counterConditionValue)
   }),
+
+  getFilteredWords: action( async() => {
+    audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+    let pageCount = audiocallState.page
+    let final: any
+    let sliced
+    let copy
+    let delta
+    let reserve
+    audiocallState.counterConditionValue = 11
+    if (audiocallState.aggregatedWords.length >= 15) {
+      audiocallState.setAggWords(toJS(audiocallState.aggregatedWords))
+    }
+    while (audiocallState.aggregatedWords.length < 15) {
+      pageCount -= 1
+      reserve =  await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${pageCount}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+      delta = 15 - audiocallState.aggregatedWords.length
+      sliced = toJS(reserve.slice(0, delta))
+      copy = toJS(audiocallState.aggregatedWords)
+      final = copy.concat(sliced)
+      if (sliced.length < delta && pageCount > 0) {
+        audiocallState.aggregatedWords = [...audiocallState.aggregatedWords, ...sliced]
+        continue
+        } else if (pageCount === 0 && sliced.length < delta) {
+        audiocallState.setAggWords(final)
+        audiocallState.counterConditionValue = final.length - 5 + 1
+        break
+      } else if (sliced.length === delta && pageCount > 0) {
+        audiocallState.setAggWords(final)
+        audiocallState.counterConditionValue = 11
+        break
+      } else if (sliced.length === delta && pageCount === 0) {
+        audiocallState.setAggWords(final)
+        audiocallState.counterConditionValue = 11
+        break
+      }
+    }
+  }),
+
+  setAggWords: action( (arr: any)=> {
+    audiocallState.words = arr
+  })
 
 });
 

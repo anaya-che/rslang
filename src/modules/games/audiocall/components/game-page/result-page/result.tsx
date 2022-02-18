@@ -9,7 +9,7 @@ export const AudioResult = observer(()=> {
       <div>
         <ul>
           <div className={style.audioCorrect}>
-            <p>Слова с ошибками: {10 - audiocallState.correctAnswers.length}</p>
+            <p>Слова с ошибками: {audiocallState.counterConditionValue - 1 - audiocallState.correctAnswers.length}</p>
             {audiocallState.incorrectAnswers.map((answer, index) =>
               (<ul key={index} className={style.audioAnswer}>
                 <li><button key={answer.audio} onClick={() => {

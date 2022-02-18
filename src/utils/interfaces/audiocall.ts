@@ -51,5 +51,10 @@ export interface IaudiocallStat {
   mistakes: number,
   learnedWordsId: [],
   seriesCounter: Array<number>,
-  aggregatedWords: []
+  aggregatedWords: any,
+  getFilteredWords: Function,
+  setAggWords: Function,
+  isStartedFromTextBook: boolean,
+  counterConditionValue: number,
+  amountOfRemainingWords: number,
 }

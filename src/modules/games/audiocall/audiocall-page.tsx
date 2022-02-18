@@ -10,6 +10,7 @@ export const  AudiocallPage = observer(()=> {
 
   async function handleStart (category: number) {
     await audiocallState.setCategory(category)
+    audiocallState.counterConditionValue = 11
     audiocallState.setStart()
   }
 

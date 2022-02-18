@@ -26,7 +26,6 @@ export const createUserWord = async (
   wordDifficulty: string,
   wordOptions: IOptions
 ): Promise<IUserWord | void> => {
-  console.log('user smrh')
   return axios
     .post(`${baseUrl}users/${userId}/words/${wordId}`, {
       difficulty: wordDifficulty,
