@@ -81,14 +81,24 @@ export const audiocallState: IaudiocallStat = observable({
       let dynamicAnswer = audiocallState.counter - 1
       let answersArr = [dynamicAnswer, -1, -2, -3, -4]
       let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(answersArr)
-      questionAnswers.map(el => el >= 0 ? audiocallState.randomAnsw = el : null)
-      audiocallState.randomAnsw = Math.round(Math.random() * (4 - 0) + 0)
+      questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
+      const proxy = new Proxy(audiocallState.words, {
+        get(target, prop: any) {
+            if (!isNaN(prop)) {
+                prop = parseInt(prop, 10);
+                if (prop < 0) {
+                    prop += target.length;
+                }
+            }
+            return target[prop];
+        }
+      });
       audiocallState.counter = audiocallState.counter + 1
-      audiocallState.first = audiocallState.words[questionAnswers[0]].wordTranslate
-      audiocallState.second = audiocallState.words[questionAnswers[1]].wordTranslate
-      audiocallState.third = audiocallState.words[questionAnswers[2]].wordTranslate
-      audiocallState.fourth = audiocallState.words[questionAnswers[3]].wordTranslate
-      audiocallState.fifth = audiocallState.words[questionAnswers[4]].wordTranslate
+      audiocallState.first = proxy[questionAnswers[0]].wordTranslate
+      audiocallState.second = proxy[questionAnswers[1]].wordTranslate
+      audiocallState.third = proxy[questionAnswers[2]].wordTranslate
+      audiocallState.fourth = proxy[questionAnswers[3]].wordTranslate
+      audiocallState.fifth = proxy[questionAnswers[4]].wordTranslate
       audiocallState.answersArr = questionAnswers
       audiocallState.isAnswered = false
     }
@@ -155,7 +165,6 @@ export const audiocallState: IaudiocallStat = observable({
       wordsArr = audiocallState.randomArrayShuffle(audiocallState.words)
       wordsArr = toJS(wordsArr)
       questionAnswers = audiocallState.randomArrayShuffle(Array.from(Array(wordsArr.length).keys())).slice(0,5)
-      console.log(questionAnswers)
       audiocallState.words = wordsArr
       audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
       audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate
@@ -165,29 +174,41 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.answersArr = questionAnswers
       audiocallState.answered = wordsArr
     } else if (audiocallState.amountOfRemainingWords > 0) {
+
       wordsArr = audiocallState.words
       wordsArr = toJS(wordsArr)
       let dynamicAnswer = audiocallState.counter - 1
       let arr = [dynamicAnswer, -1, -2, -3, -4]
       questionAnswers = audiocallState.randomArrayShuffle(arr)
-      questionAnswers.map(el => el >= 0 ? audiocallState.randomAnsw = el : null)
-      console.log(questionAnswers)
-      audiocallState.first = wordsArr[questionAnswers[0]].wordTranslate
-      audiocallState.second = wordsArr[questionAnswers[1]].wordTranslate
-      audiocallState.third = wordsArr[questionAnswers[2]].wordTranslate
-      audiocallState.fourth = wordsArr[questionAnswers[3]].wordTranslate
-      audiocallState.fifth = wordsArr[questionAnswers[4]].wordTranslate
+      questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
+      const proxy = new Proxy(wordsArr, {
+        get(target, prop: any) {
+            if (!isNaN(prop)) {
+                prop = parseInt(prop, 10);
+                if (prop < 0) {
+                    prop += target.length;
+                }
+            }
+            return target[prop];
+        }
+      });
+      audiocallState.first = proxy[questionAnswers[0]].wordTranslate
+      audiocallState.second = proxy[questionAnswers[1]].wordTranslate
+      audiocallState.third = proxy[questionAnswers[2]].wordTranslate
+      audiocallState.fourth = proxy[questionAnswers[3]].wordTranslate
+      audiocallState.fifth = proxy[questionAnswers[4]].wordTranslate
       audiocallState.answersArr = questionAnswers
       audiocallState.answered = wordsArr
-      console.log(toJS(audiocallState.words))
     }
     audiocallState.isStarted = true
   }),
 
   setStart: action(() => {
    audiocallState.isStarted = true
-   audiocallState.getNextWords()
-   audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
+   if (audiocallState.counterConditionValue > 1) {
+    audiocallState.getNextWords()
+    audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
+  }
   }),
 
   getWordAudio: action( (url: string) => {
@@ -223,7 +244,6 @@ export const audiocallState: IaudiocallStat = observable({
   handleAudiocallStart: action( async () => {
     audiocallState.category = textbookState.wordGroup
     audiocallState.page = textbookState.wordPage
-    console.log(audiocallState.category)
 
     audiocallState.isStartedFromTextBook = true
     if (audiocallState.category !== 6) {
@@ -231,14 +251,14 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.setCurrentWord()
       await audiocallState.getFilteredWords()
     } else if (audiocallState.category === 6) {
-      if (textbookState.difficultWords.length > 4 && textbookState.difficultWords.length < 22) {
+      if (textbookState.difficultWords.length > 4 && textbookState.difficultWords.length < 21) {
         let copy = textbookState.difficultWords.slice(0,15)
         if (copy.length > 14) {
           audiocallState.counterConditionValue = 11
         } else {
           audiocallState.counterConditionValue = copy.length - 5 + 1
         }
-        audiocallState.words = toJS(copy)
+        audiocallState.setAggWords(toJS(copy))
       } else if (textbookState.difficultWords.length > 20) {
         let start = audiocallState.page * 20
         let end = 20 + (audiocallState.page * 20)
@@ -249,23 +269,23 @@ export const audiocallState: IaudiocallStat = observable({
           reserve = reserve.slice(0, delta)
           let final = copy.concat(reserve)
           audiocallState.counterConditionValue = 11
-          audiocallState.words = toJS(final)
+          audiocallState.setAggWords(toJS(final))
         } else {
-          audiocallState.words = toJS(copy)
+          audiocallState.setAggWords(toJS(copy))
           audiocallState.counterConditionValue = 11
         }
-      } else if ( textbookState.difficultWords.length < 5) {
+      } else if ( textbookState.difficultWords.length < 5 && textbookState.difficultWords.length > 0) {
         audiocallState.amountOfRemainingWords = textbookState.difficultWords.length
         audiocallState.counterConditionValue = textbookState.difficultWords.length + 1
         let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(0,20)}}]}`)
-        console.log(toJS(somewords))
         let result = textbookState.difficultWords.concat(somewords)
-        audiocallState.words = toJS(result)
-        console.log(toJS(audiocallState.words))
+        audiocallState.setAggWords(toJS(result))
+      } else if (textbookState.difficultWords.length === 0) {
+        audiocallState.counterConditionValue = 1
+        audiocallState.counter = 1
       }
     }
     audiocallState.setStart()
-    console.log(audiocallState.counterConditionValue)
   }),
 
   getFilteredWords: action( async() => {
@@ -291,8 +311,19 @@ export const audiocallState: IaudiocallStat = observable({
         audiocallState.aggregatedWords = [...audiocallState.aggregatedWords, ...sliced]
         continue
         } else if (pageCount === 0 && sliced.length < delta) {
-        audiocallState.setAggWords(final)
-        audiocallState.counterConditionValue = final.length - 5 + 1
+          if (final.length < 5 && final.length > 0) {
+            audiocallState.amountOfRemainingWords = final.length
+            audiocallState.counterConditionValue = final.length + 1
+            let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(0,20)}}]}`)
+            let result = final.concat(somewords)
+            audiocallState.setAggWords(toJS(result))
+          } else if (final.length === 0) {
+            audiocallState.counterConditionValue = 1
+            audiocallState.counter = 1
+          } else {
+            audiocallState.setAggWords(final)
+            audiocallState.counterConditionValue = final.length - 5 + 1
+          }
         break
       } else if (sliced.length === delta && pageCount > 0) {
         audiocallState.setAggWords(final)

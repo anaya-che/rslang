@@ -9,7 +9,7 @@ export const AudioResult = observer(()=> {
       <div>
         <ul>
           <div className={style.audioCorrect}>
-            <p>Слова с ошибками: {audiocallState.counterConditionValue - 1 - audiocallState.correctAnswers.length}</p>
+            <p>Количество ошибок: {audiocallState.counterConditionValue - 1 - audiocallState.correctAnswers.length}</p>
             {audiocallState.incorrectAnswers.map((answer, index) =>
               (<ul key={index} className={style.audioAnswer}>
                 <li><button key={answer.audio} onClick={() => {
@@ -23,7 +23,7 @@ export const AudioResult = observer(()=> {
         </ul>
         <ul>
           <div className={style.audioCorrect}>
-            <p>Количество изученных слов: {audiocallState.correctAnswers.length}</p>
+            <p>Количество угаданных слов: {audiocallState.correctAnswers.length}</p>
             {audiocallState.correctAnswers.map((answer, index) =>
               (<ul key={index} className={style.audioAnswer}>
                 <li><button key={answer.audio} onClick={() => {
