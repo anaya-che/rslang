@@ -45,7 +45,6 @@ export const userWordsStore = observable({
       );
       if (res) userWordsStore.userWords = res;
     }
-    console.log('userWords', toJS(userWordsStore.userWords));
   }),
 
   createUserWordFromGame: action(async (wordId: string, isWin: boolean) => {
