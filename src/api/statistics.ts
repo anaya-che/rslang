@@ -16,6 +16,8 @@ export const getStatistics = async (
         console.log('Access token is missing or invalid.');
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
+        if (error.response.status === HttpStatus.NOT_FOUND)
+        console.log('User doesn\'t have statistics.');
       else {
         throw new Error(error);
       }

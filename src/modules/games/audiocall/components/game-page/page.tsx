@@ -28,10 +28,10 @@ export const  CreateAudioCallGame = observer(() => {
       <div>
         <div>
           {audiocallState.isAnswered === true ? <Answer/> : null}
-          {audiocallState.counter < 11 ? <CreateAudioCallQuestion/> : null }
-          {audiocallState.counter > 10 ? <AudioResult/> : null}
+          {audiocallState.counter < audiocallState.counterConditionValue ? <CreateAudioCallQuestion/> : null }
+          {audiocallState.counter > (audiocallState.counterConditionValue -1) ? <AudioResult/> : null}
         </div>
-        {audiocallState.counter < 11 ?
+        {audiocallState.counter < audiocallState.counterConditionValue ?
         <div>
           <button className='next-call' ref={nextBtn} onClick={handleNext}>{!audiocallState.isAnswered ? 'I don`t know' : 'Next'}</button>
         </div>: null}
