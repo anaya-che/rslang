@@ -111,11 +111,6 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.mistakes = audiocallState.seriesCounter.filter(x => x === 0).length
       audiocallState.wins = audiocallState.seriesCounter.filter(x => x === 1).length
       let easyWords = await getLearnedWords(audiocallState.statisticsWordsID)
-      console.log(audiocallState.todayDate, audiocallState.wins,
-        audiocallState.bestSeries,
-        audiocallState.wins,
-        audiocallState.mistakes,
-        easyWords)
       await statisticsState.updateStatistics(audiocallState.todayDate, "audiocall", {gamesCount: 1,
         bestSeries: audiocallState.bestSeries,
         totalWins: audiocallState.wins,
@@ -218,6 +213,7 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   setStart: action(() => {
+  audiocallState.seriesCounter = []
    audiocallState.isStarted = true
    if (audiocallState.counterConditionValue > 1) {
     audiocallState.getNextWords()

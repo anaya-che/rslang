@@ -23,7 +23,7 @@ export const  AudiocallPage = observer(()=> {
   <button onClick={goToMainPage}>Main</button>
       {!audiocallState.isStarted ?
 
-      <><button onClick={audiocallState.words.length > 0 ? () => {audiocallState.setStart()} : () => handleStart(0)}>Start</button><div>
+      <><div>
         <p>Категории слов</p>
         <button onClick={() => handleStart(0)}>1</button>
         <button onClick={() => handleStart(1)}>2</button>
