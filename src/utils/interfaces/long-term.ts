@@ -7,7 +7,7 @@ export interface Idataset {
   lineTension: number
 }
 
-export interface asdI {
+export interface IlineChart {
   labels: string[],
   datasets: Idataset[]
 }

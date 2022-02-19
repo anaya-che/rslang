@@ -1,13 +1,13 @@
 
 import { observable, action, toJS } from "mobx";
-import { asdI } from "../utils/interfaces/long-term";
+import { IlineChart } from "../utils/interfaces/long-term";
 import { statisticsState } from "./statistics-state";
 
 
 export const longTermState = observable({
-  lineChartData: [] as unknown as asdI,
+  lineChartData: [] as unknown as IlineChart,
   isTrue: false,
-  compile: [] as unknown as asdI,
+  compile: [] as unknown as IlineChart,
   dates: [] as Array<string>,
   newWords: [] as Array<number>,
   learnedWords: [] as Array<number>,
