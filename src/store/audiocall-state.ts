@@ -6,7 +6,7 @@ import { IaudiocallStat } from '../utils/interfaces/audiocall';
 import { textbookState, userState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 import { userWordsStore } from './words-store'
-import { getUserAggregatedWords } from '../api';
+import { getUserAggregatedWords, updateStatistics } from '../api';
 import { statisticsState } from './statistics-state';
 import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
 import { isNewWord } from '../utils/statistics-helpers/new-words';
@@ -224,13 +224,13 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = true
   }),
 
-  setStart: action(() => {
+  setStart: action(async () => {
   audiocallState.seriesCounter = []
    audiocallState.isStarted = true
    if (audiocallState.counterConditionValue > 1) {
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
-  }
+   }
   }),
 
   getWordAudio: action( (url: string) => {
