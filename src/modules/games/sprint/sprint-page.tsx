@@ -1,5 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
+import { textbookState } from '../../../store';
 import { sprintState } from '../../../store/sprint-state';
 import { Categories } from './components/categories';
 import { Game } from './components/game';
@@ -18,7 +19,7 @@ export const SprintPage: React.FC = observer(() => {
             sprintState.setDefault();
           }}
         >
-          <Link to="/textbook/1/1">Textbook</Link>
+          <Link to={`/textbook/${textbookState.wordGroup + 1}/${textbookState.wordPage + 1}`}>Textbook</Link>
         </button>
       </header>
       <div className={style.sprintPage}>
