@@ -1,4 +1,3 @@
-import { appState } from '../../store';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 
@@ -6,22 +5,22 @@ export const MainPage = observer(() => {
   return (
     <div>
       Main Page
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/">Main</Link>
       </div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/user">Authorization</Link>
       </div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/games/sprint">Sprint</Link>
       </div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/games/audiocall">Audiocall</Link>
       </div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/textbook/1/1">Textbook</Link>
       </div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/statistics">Statistics</Link>
       </div>
     </div>

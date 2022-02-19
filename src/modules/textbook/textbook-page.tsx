@@ -1,4 +1,4 @@
-import { appState, textbookState, userState } from '../../store';
+import { textbookState, userState } from '../../store';
 import { audiocallState } from '../../store/audiocall-state';
 import { Link, useParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
@@ -23,7 +23,7 @@ export const TextbookPage = observer(() => {
 
   return (
     <div>
-      <div onClick={() => appState.setPage()}>
+      <div>
         <Link to="/">Главная страница</Link>
       </div>
       <h1>Учебник</h1>

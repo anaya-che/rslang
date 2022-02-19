@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
-import { appState, userState } from '../../store';
+import { userState } from '../../store';
 import { LogOut } from './components/log-out';
 import { Registration } from './components/registration';
 import { SignIn } from './components/sign-in';
@@ -10,7 +10,6 @@ export const UserPage: React.FC = observer(() => {
     <div>
       <div
         onClick={() => {
-          appState.setPage();
           userState.getWarningMessage('');
         }}
       >
