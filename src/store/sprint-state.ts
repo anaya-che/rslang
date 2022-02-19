@@ -1,4 +1,4 @@
-import { wordsStore, getWords } from './words-store';
+import { wordsStore, getWords, userWordsStore } from './words-store';
 import { observable, action } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
@@ -222,6 +222,9 @@ export const sprintState: ISprintState = observable({
       sprintState.isRightAnswer = false;
       playAnswerAudio(`../../mistake.mp3`);
     } 
+    if (sprintState.currentWord) userWordsStore.changeUserWordFromGame(sprintState.currentWord?.id, sprintState.isRightAnswer);
+    console.log(sprintState.currentWord?.id, sprintState.isRightAnswer);
+    
     sprintState.answers.push({
       word: sprintState.currentWord, 
       isRightAnswer: sprintState.isRightAnswer 
