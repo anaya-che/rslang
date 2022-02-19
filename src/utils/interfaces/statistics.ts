@@ -18,8 +18,14 @@ export interface IGameStatistic {
   learnedWordsId: string[];
 }
 
-export interface IPageStatistic {
+export interface IDailyWordsStatistic {
   newWords: number;
   learnedWords: number;
   percentOfAnswers: number;
+}
+
+export interface IDailyGameStatistic {
+  newWords: number;
+  percentOfAnswers: number;
+  bestSeries: number;
 }

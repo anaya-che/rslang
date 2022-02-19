@@ -1,7 +1,7 @@
 import React from 'react';
-import { IPageStatistic } from '../../../utils/interfaces';
+import { IDailyWordsStatistic } from '../../../utils/interfaces';
 
-export const WordsStat: React.FC<{ data: IPageStatistic }> = (data) => {
+export const WordsStat: React.FC<{ data: IDailyWordsStatistic }> = (data) => {
   return (
     <div>
       <h3>Статистика по словам</h3>

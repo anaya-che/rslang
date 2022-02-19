@@ -3,17 +3,18 @@ import { userState } from '.';
 import { getStatistics, updateStatistics } from '../api';
 import {
   IGameStatistic,
-  IPageStatistic,
+  IDailyWordsStatistic,
   IStatisticOptional,
+  IDailyGameStatistic,
 } from '../utils/interfaces';
 import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
 import { uniqueValues } from '../utils/statistics-helpers/unique-values';
 
 export const statisticsState = observable({
   statistics: {} as IStatisticOptional,
-  todayWordsStatistics: {} as IPageStatistic,
-  todayAudiocallStatistics: {} as IPageStatistic,
-  todaySprintStatistics: {} as IPageStatistic,
+  todayWordsStatistics: {} as IDailyWordsStatistic,
+  todayAudiocallStatistics: {} as IDailyGameStatistic,
+  todaySprintStatistics: {} as IDailyGameStatistic,
 
   getCurrentStatistics: action(async () => {
     const curDate: Date = new Date();
@@ -38,24 +39,31 @@ export const statisticsState = observable({
     });
     const audoicallStats = statisticsState.statistics[textDate]['audiocall'];
     let audiocallPercent = 0;
-    if (audoicallStats.totalMistakes !== 0)
-      audiocallPercent =
-        (audoicallStats.totalWins / audoicallStats.totalMistakes) * 100;
+    if (audoicallStats.totalMistakes + audoicallStats.totalWins !== 0)
+      audiocallPercent = Math.floor(
+        (audoicallStats.totalWins / audoicallStats.totalMistakes +
+          audoicallStats.totalWins) *
+          100
+      );
     statisticsState.todayAudiocallStatistics = {
       newWords: audoicallStats.newWords,
-      learnedWords: audoicallStats.learnedWordsId.length,
       percentOfAnswers: audiocallPercent,
+      bestSeries: audoicallStats.bestSeries,
     };
 
     const sprintStats = statisticsState.statistics[textDate]['sprint'];
     let sprintPercent = 0;
-    if (sprintStats.totalMistakes !== 0) {
-      sprintPercent = (sprintStats.totalWins / sprintStats.totalMistakes) * 100;
+    if (sprintStats.totalMistakes + sprintStats.totalWins !== 0) {
+      sprintPercent = Math.floor(
+        (sprintStats.totalWins / sprintStats.totalMistakes +
+          sprintStats.totalWins) *
+          100
+      );
     }
     statisticsState.todaySprintStatistics = {
       newWords: sprintStats.newWords,
-      learnedWords: sprintStats.learnedWordsId.length,
       percentOfAnswers: sprintPercent,
+      bestSeries: sprintStats.bestSeries,
     };
 
     let totalPercent = 0;
