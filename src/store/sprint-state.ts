@@ -181,14 +181,16 @@ export const sprintState: ISprintState = observable({
         && (sprintState.category === 0) 
         && (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1)) {
       sprintState.secondsInRound = 0;
-      statisticsState.updateStatistics(sprintState.date, 'sprint', {
-        gamesCount: 1,
-        newWords: sprintState.newWordsCount,
-        bestSeries: sprintState.bestSeries,
-        totalWins: sprintState.totalWins,
-        totalMistakes: sprintState.totalMistakes,
-        learnedWordsId: sprintState.learnedWords,
-      })
+      if (userState.isAuthorized) {
+        statisticsState.updateStatistics(sprintState.date, 'sprint', {
+          gamesCount: 1,
+          newWords: sprintState.newWordsCount,
+          bestSeries: sprintState.bestSeries,
+          totalWins: sprintState.totalWins,
+          totalMistakes: sprintState.totalMistakes,
+          learnedWordsId: sprintState.learnedWords,
+        })
+      }
     } 
     else if (sprintState.currentWordIdx < sprintState.wordsFromTextbook.length-1) {
       sprintState.currentWordIdx +=1;
@@ -241,7 +243,8 @@ export const sprintState: ISprintState = observable({
         sprintState.setTimer();
       } else {
         clearInterval(sprintState.interval);
-        statisticsState.updateStatistics(sprintState.date, 'sprint', {
+        if (userState.isAuthorized) {
+          statisticsState.updateStatistics(sprintState.date, 'sprint', {
           gamesCount: 1,
           newWords: sprintState.newWordsCount,
           bestSeries: sprintState.bestSeries,
@@ -249,6 +252,7 @@ export const sprintState: ISprintState = observable({
           totalMistakes: sprintState.totalMistakes,
           learnedWordsId: sprintState.learnedWords,
         })
+      }
       }
     }), 1000);
   }),
@@ -269,10 +273,6 @@ export const sprintState: ISprintState = observable({
       sprintState.setNewWordCounter();
       userWordsStore.changeUserWordFromGame(sprintState.currentWord?.id, sprintState.isRightAnswer);
     }
-    
-    console.log(sprintState.bestSeries,
-      sprintState.totalWins,  sprintState.totalMistakes, sprintState.learnedWords);
-    
     sprintState.answers.push({
       word: sprintState.currentWord, 
       isRightAnswer: sprintState.isRightAnswer 
