@@ -224,13 +224,13 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = true
   }),
 
-  setStart: action(() => {
+  setStart: action(async () => {
   audiocallState.seriesCounter = []
    audiocallState.isStarted = true
    if (audiocallState.counterConditionValue > 1) {
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
-  }
+   }
   }),
 
   getWordAudio: action( (url: string) => {
