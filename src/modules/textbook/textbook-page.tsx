@@ -11,6 +11,7 @@ import {
 } from '../../utils/textbook-helpers/navigation';
 import { ILinkProps } from '../../utils/interfaces';
 import { sprintState } from '../../store/sprint-state';
+import style from './textbook.module.scss';
 
 export const TextbookPage = observer(() => {
   let linkProps: ILinkProps = useParams();
@@ -35,7 +36,12 @@ export const TextbookPage = observer(() => {
         <CardContainer wordsCollection={toJS(textbookState.difficultWords)} />
       )}
 
-      <div id="group-num">Группа: {textbookState.wordGroup + 1}</div>
+      <div id="group-num">
+        Группа:{' '}
+        {textbookState.wordGroup !== 6
+          ? textbookState.wordGroup + 1
+          : 'сложные слова'}
+      </div>
       <div id="page-num">Страница: {textbookState.wordPage + 1}</div>
 
       <div>
@@ -46,12 +52,22 @@ export const TextbookPage = observer(() => {
           <button>next</button>
         </Link>
         <Link to="/games/audiocall">
-          <button onClick={audiocallState.handleAudiocallStart}>
+          <button
+            id="textbook-audiocall"
+            className={style.gameButton}
+            onClick={audiocallState.handleAudiocallStart}
+          >
             Аудиовызов
           </button>
         </Link>
         <Link to="/games/sprint">
-          <button onClick={async() => sprintState.startFromTextbook(+group-1, +page-1)}>
+          <button
+            id="textbook-sprint"
+            className={style.gameButton}
+            onClick={async () =>
+              sprintState.startFromTextbook(+group - 1, +page - 1)
+            }
+          >
             Спринт
           </button>
         </Link>
