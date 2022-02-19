@@ -2,7 +2,6 @@ import { observer } from 'mobx-react-lite';
 import { sprintState } from '../../../../store/sprint-state';
 
 export const Categories: React.FC = observer(()=> {
-
   return (
     <div>
       <button onClick={(): void => sprintState.startRound(0)}>1</button>

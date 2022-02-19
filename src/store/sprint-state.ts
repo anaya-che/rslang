@@ -2,8 +2,11 @@ import { wordsStore, getWords } from './words-store';
 import { observable, action } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
+import { textbookState, userState } from '.';
+import { getUserAggregatedWords } from '../api';
 
-
+// changeUserWordFromGame на каждое слово
+// в конце игры - статистика
 export const sprintState: ISprintState = observable({
   category: 0,
   page: 0,
@@ -54,22 +57,56 @@ export const sprintState: ISprintState = observable({
     sprintState.secondsInRound -= 1;
   }),
 
-  setWordsFromTextbook: action((): void => {
-    wordsStore.forEach((el) => {
-      if (el.wordGroup === sprintState.category
-           && el.wordPage === sprintState.page) {
-            sprintState.wordsFromTextbook = [...el.wordData];
-            shuffle(sprintState.wordsFromTextbook);
+  setWordsFromTextbook: action(async (): Promise<void> => {
+    if (userState.isAuthorized){
+      if (sprintState.category === 6) {
+        sprintState.wordsFromTextbook = [...textbookState.difficultWords];
+        shuffle(sprintState.wordsFromTextbook);
+      } 
+      else {
+        const wordsPerPage = '20';
+        const filter = `{"$and":[{"$or":[{"userWord.difficulty":"difficult"},{"userWord.difficulty":"normal"},{"userWord":null}]},{"group":${sprintState.category}},{"page":${sprintState.page}}]}`;
+        const data = await getUserAggregatedWords(userState.tokenInfo.userId, wordsPerPage, filter);
+        sprintState.wordsFromTextbook = [...data];
+        shuffle(sprintState.wordsFromTextbook);
       }
-    })
+    }
+     else {
+      wordsStore.forEach((el) => {
+        if (el.wordGroup === sprintState.category
+             && el.wordPage === sprintState.page) {
+              sprintState.wordsFromTextbook = [...el.wordData];
+              shuffle(sprintState.wordsFromTextbook);
+        }
+      })
+    }
   }),
 
   setCurrentWordFromTextbook: action((): void => {
     sprintState.currentWord = sprintState.wordsFromTextbook[sprintState.currentWordIdx];   
   }),
 
-  setFalseAnswerFromTextbook: action((): void => {
-    sprintState.translate = sprintState.wordsFromTextbook[sprintState.falseAnswerIdx].wordTranslate;  
+  setFalseAnswerFromTextbook: action(async(): Promise<void> => {
+    let group = sprintState.category;
+    let page = sprintState.page;
+    if (sprintState.category !== 6) {
+      if (page === 0 || page < 29) {
+        page += 1;
+      } 
+      else if (page === 29) page -= 1;
+      let falseAnswerIdx = getRandomInt(0, 19);
+      await getWords(group, page);
+
+      wordsStore.forEach((el) => {
+        if (el.wordGroup === group
+            && el.wordPage === page) {
+              sprintState.setAnswer(el.wordData[falseAnswerIdx].wordTranslate);
+        }
+      })
+    }
+    else {
+      sprintState.setAnswer(sprintState.wordsFromTextbook[sprintState.falseAnswerIdx].wordTranslate);
+    }
   }),
 
   setCurrentWord: action((): void => {
@@ -94,14 +131,15 @@ export const sprintState: ISprintState = observable({
     sprintState.translate = answer;
   }),
 
-  setTranslate: action((): void => {
+  setTranslate: action(async(): Promise<void> => {
     sprintState.isRightPair = getTrueOrFalse();    
     if (!sprintState.isRightPair) {
       sprintState.falseAnswerIdx = compareId();
       if (sprintState.startGamePage === 'main') {
       sprintState.setFalseAnswer();
-      } else if (sprintState.startGamePage === 'textbook') {
-        sprintState.setFalseAnswerFromTextbook();
+      } 
+      else if (sprintState.startGamePage === 'textbook') {
+        await sprintState.setFalseAnswerFromTextbook();
       }
     } 
     else if (sprintState.currentWord) sprintState.setAnswer(sprintState.currentWord.wordTranslate);
@@ -116,20 +154,22 @@ export const sprintState: ISprintState = observable({
   }),
   
   setStateFromTextbook: action(async (category: number, page: number): Promise<void> => {
+    
     if((sprintState.page === 0) 
         && (sprintState.category === 0) 
-        && (sprintState.currentWordIdx === 19)) {
+        && (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1)) {
       sprintState.secondsInRound = 0;
     } 
-    else if (sprintState.currentWordIdx < 19) {
+    else if (sprintState.currentWordIdx < sprintState.wordsFromTextbook.length-1) {
+      sprintState.currentWordIdx +=1;
       sprintState.setCategory(category);
       sprintState.page = page;
       await getWords(sprintState.category, sprintState.page);
       sprintState.setCurrentWordFromTextbook();
       sprintState.setTranslate();
-      sprintState.currentWordIdx +=1;
+      
     } 
-    else if (sprintState.currentWordIdx === 19) {
+    else if (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1) {
       sprintState.wordsFromTextbook.splice(0, sprintState.wordsFromTextbook.length);
       sprintState.currentWordIdx = 0;
       if (sprintState.page === 0) {
@@ -139,7 +179,7 @@ export const sprintState: ISprintState = observable({
         sprintState.page = sprintState.page - 1;
       }
       await getWords(sprintState.category, sprintState.page);
-      sprintState.setWordsFromTextbook();
+      await sprintState.setWordsFromTextbook();
       sprintState.setCurrentWordFromTextbook();      
       sprintState.setTranslate();
       sprintState.currentWordIdx +=1;
@@ -154,10 +194,14 @@ export const sprintState: ISprintState = observable({
     sprintState.timerHandler();
   }),
 
-  startFromTextbook: action ((category: number, page: number): void => {
+  startFromTextbook: action (async(category: number, page: number): Promise<void> => {
     sprintState.startGamePage = 'textbook';
-    sprintState.setStateFromTextbook(category, page);
-    sprintState.setWordsFromTextbook();
+    sprintState.setCategory(category);
+    sprintState.page = page;
+    await getWords(category, page);
+    await sprintState.setWordsFromTextbook();
+    sprintState.setCurrentWordFromTextbook();
+    sprintState.setTranslate();
     sprintState.startGame(true);
     sprintState.timerHandler();
   }),
