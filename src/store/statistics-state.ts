@@ -16,10 +16,16 @@ export const statisticsState = observable({
   todaySprintStatistics: {} as IPageStatistic,
 
   getCurrentStatistics: action(async () => {
+    const curDate: Date = new Date();
+    let textDate: string = curDate.toLocaleString('en-GB', {
+      dateStyle: 'short',
+    });
     const data = await getStatistics(userState.tokenInfo.userId);
     if (data !== undefined) {
       statisticsState.statistics = data.optional;
-      statisticsState.setStatisticForToday();
+      if (statisticsState.statistics[textDate] === undefined)
+        await statisticsState.createStatisticForToday();
+      else statisticsState.setStatisticForToday();
     } else {
       await statisticsState.createStatisticForToday();
     }
@@ -82,12 +88,21 @@ export const statisticsState = observable({
       totalMistakes: 0,
       learnedWordsId: [],
     };
-    const newStatistics = {
-      [textDate]: {
+
+    let newStatistics: any = {};
+    if (statisticsState.statistics[textDate] === undefined) {
+      newStatistics = { ...statisticsState.statistics };
+      newStatistics[textDate] = {
         audiocall: emptyStats,
         sprint: emptyStats,
-      },
-    };
+      };
+    } else
+      newStatistics = {
+        [textDate]: {
+          audiocall: emptyStats,
+          sprint: emptyStats,
+        },
+      };
     const data = await updateStatistics(
       userState.tokenInfo.userId,
       learnedWords,
