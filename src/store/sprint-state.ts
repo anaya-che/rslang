@@ -5,8 +5,6 @@ import { ISprintState } from '../utils/interfaces/sprint';
 import { textbookState, userState } from '.';
 import { getUserAggregatedWords } from '../api';
 
-// changeUserWordFromGame на каждое слово
-// в конце игры - статистика
 export const sprintState: ISprintState = observable({
   category: 0,
   page: 0,
