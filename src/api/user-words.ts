@@ -1,20 +1,26 @@
 import axios from 'axios';
 import { baseUrl, HttpStatus } from '.';
-import { IOptions, IUserWord } from '../utils/interfaces';
-import { token } from '../store/user-state';
-
-axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+import { userState } from '../store';
+import { IOptions, IUserWord } from '../utils/interfaces/user-words';
+import { getTokenFromStorage } from '../utils/user-helpers/local-storage';
 
 export const getAllUserWords = async (
   userId: string
 ): Promise<IUserWord[] | void> => {
   return axios
-    .get(`${baseUrl}users/${userId}/words`)
+    .get(`${baseUrl}users/${userId}/words`, {
+      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
+    })
     .then((res): Promise<IUserWord[]> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.NEED_TOKEN)
-        console.log('Access token is missing or invalid.');
-      else {
+    .catch(async (error) => {
+      if (error.response.status === HttpStatus.NEED_TOKEN) {
+        await userState.refreshTokenInfo();
+        await getAllUserWords(userId);
+      }
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {
+        await userState.refreshTokenInfo();
+        await getAllUserWords(userId);
+      } else {
         throw new Error(error);
       }
     });
@@ -27,14 +33,24 @@ export const createUserWord = async (
   wordOptions: IOptions
 ): Promise<IUserWord | void> => {
   return axios
-    .post(`${baseUrl}users/${userId}/words/${wordId}`, {
-      difficulty: wordDifficulty,
-      optional: wordOptions,
-    })
+    .post(
+      `${baseUrl}users/${userId}/words/${wordId}`,
+      {
+        difficulty: wordDifficulty,
+        optional: wordOptions,
+      },
+      { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
+    )
     .then((res): Promise<IUserWord> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('Access token is missing or invalid.');
+    .catch(async (error) => {
+      if (error.response.status === HttpStatus.NEED_TOKEN) {
+        await userState.refreshTokenInfo();
+        await createUserWord(userId, wordId, wordDifficulty, wordOptions);
+      }
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {
+        await userState.refreshTokenInfo();
+        await createUserWord(userId, wordId, wordDifficulty, wordOptions);
+      }
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
       else {
@@ -48,11 +64,19 @@ export const getUserWordById = async (
   wordId: string
 ): Promise<IUserWord | void> => {
   return axios
-    .get(`${baseUrl}users/${userId}/words/${wordId}`)
+    .get(`${baseUrl}users/${userId}/words/${wordId}`, {
+      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
+    })
     .then((res): Promise<IUserWord> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('Access token is missing or invalid.');
+    .catch(async (error) => {
+      if (error.response.status === HttpStatus.NEED_TOKEN) {
+        await userState.refreshTokenInfo();
+        await getUserWordById(userId, wordId);
+      }
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {
+        await userState.refreshTokenInfo();
+        await getUserWordById(userId, wordId);
+      }
       if (error.response.status === HttpStatus.NOT_FOUND)
         console.log("User's word not found.");
       else {
@@ -68,14 +92,24 @@ export const updateUserWordById = async (
   wordOptions: IOptions
 ): Promise<IUserWord | void> => {
   return axios
-    .put(`${baseUrl}users/${userId}/words/${wordId}`, {
-      difficulty: wordDifficulty,
-      optional: wordOptions,
-    })
+    .put(
+      `${baseUrl}users/${userId}/words/${wordId}`,
+      {
+        difficulty: wordDifficulty,
+        optional: wordOptions,
+      },
+      { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
+    )
     .then((res): Promise<IUserWord> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('Access token is missing or invalid.');
+    .catch(async (error) => {
+      if (error.response.status === HttpStatus.NEED_TOKEN) {
+        await userState.refreshTokenInfo();
+        await updateUserWordById(userId, wordId, wordDifficulty, wordOptions);
+      }
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {
+        await userState.refreshTokenInfo();
+        await updateUserWordById(userId, wordId, wordDifficulty, wordOptions);
+      }
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
       else {

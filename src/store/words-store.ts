@@ -1,4 +1,4 @@
-import { action, observable } from 'mobx';
+import { action, observable, toJS } from 'mobx';
 import { IUserWord, IWordStore } from '../utils/interfaces';
 import {
   createUserWord,
@@ -107,7 +107,9 @@ export const userWordsStore = observable({
 
     if (areWordsInStore) {
       await userWordsStore.updateUserWordFromGame(wordId, isWin);
-    } else await userWordsStore.createUserWordFromGame(wordId, isWin);
+    } else {
+      await userWordsStore.createUserWordFromGame(wordId, isWin);
+    }
     await userWordsStore.getUserWords();
   }),
 
@@ -128,10 +130,12 @@ export const userWordsStore = observable({
       (el: IUserWord) => el.wordId === wordId
     ) as IUserWord;
     const { optional } = wordInfo;
+    let newDifficulty = difficulty;
+    if (difficulty === wordInfo.difficulty) newDifficulty = 'normal';
     await updateUserWordById(
       userState.tokenInfo.userId,
       wordId,
-      difficulty,
+      newDifficulty,
       optional
     );
   }),

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { baseUrl, HttpStatus } from '.';
+import { userState } from '../store';
 import { IToken } from '../utils/interfaces';
 
 export const signIn = async (
@@ -14,7 +15,9 @@ export const signIn = async (
     .then((res): Promise<IToken> => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.INCORRECT)
-        console.log('Incorrect e-mail or password.');
+        userState.getWarningMessage('Incorrect e-mail or password.');
+      if (error.response.status === HttpStatus.NOT_FOUND)
+        userState.getWarningMessage('Incorrect e-mail or password.');
       else {
         throw new Error(error);
       }
