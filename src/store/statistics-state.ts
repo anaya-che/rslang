@@ -16,13 +16,22 @@ export const statisticsState = observable({
   todaySprintStatistics: {} as IPageStatistic,
 
   getCurrentStatistics: action(async () => {
+    const curDate: Date = new Date();
+    let textDate: string = curDate.toLocaleString('en-GB', {
+      dateStyle: 'short',
+    });
     const data = await getStatistics(userState.tokenInfo.userId);
-    if (data !== undefined) statisticsState.statistics = data.optional;
-    else await statisticsState.createStatisticForToday();
-    statisticsState.setStatisticForToday();
+    if (data !== undefined) {
+      statisticsState.statistics = data.optional;
+      if (statisticsState.statistics[textDate] === undefined)
+        await statisticsState.createStatisticForToday();
+      else statisticsState.setStatisticForToday();
+    } else {
+      await statisticsState.createStatisticForToday();
+    }
   }),
 
-  setStatisticForToday: action(async () => {
+  setStatisticForToday: action(() => {
     const curDate: Date = new Date();
     let textDate: string = curDate.toLocaleString('en-GB', {
       dateStyle: 'short',
@@ -79,17 +88,30 @@ export const statisticsState = observable({
       totalMistakes: 0,
       learnedWordsId: [],
     };
-    const newStatistics = {
-      [textDate]: {
+
+    let newStatistics: any = {};
+    if (statisticsState.statistics[textDate] === undefined) {
+      newStatistics = { ...statisticsState.statistics };
+      newStatistics[textDate] = {
         audiocall: emptyStats,
         sprint: emptyStats,
-      },
-    };
-    await updateStatistics(
+      };
+    } else
+      newStatistics = {
+        [textDate]: {
+          audiocall: emptyStats,
+          sprint: emptyStats,
+        },
+      };
+    const data = await updateStatistics(
       userState.tokenInfo.userId,
       learnedWords,
       newStatistics
     );
+    if (data !== undefined) {
+      statisticsState.statistics = data.optional;
+      statisticsState.setStatisticForToday();
+    }
   }),
 
   updateStatistics: action(
