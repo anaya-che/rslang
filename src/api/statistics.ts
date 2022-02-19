@@ -10,14 +10,14 @@ export const getStatistics = async (
     .get(`${baseUrl}users/${userId}/statistics`, {
       headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
     })
-    .then((res): Promise<IStatistic> => res.data)
+    .then((res): IStatistic => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
         console.log('Access token is missing or invalid.');
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
-        if (error.response.status === HttpStatus.NOT_FOUND)
-        console.log('User doesn\'t have statistics.');
+      if (error.response.status === HttpStatus.NOT_FOUND)
+        console.log("User doesn't have statistics.");
       else {
         throw new Error(error);
       }
@@ -38,7 +38,7 @@ export const updateStatistics = async (
       },
       { headers: { Authorization: `Bearer ${getTokenFromStorage()}` } }
     )
-    .then((res): Promise<IStatistic> => res.data)
+    .then((res): IStatistic => res.data)
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
         console.log('Access token is missing or invalid.');
