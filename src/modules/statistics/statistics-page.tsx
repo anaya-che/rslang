@@ -2,7 +2,7 @@ import { observer } from 'mobx-react-lite';
 import { Link } from 'react-router-dom';
 import { statisticsState } from '../../store/statistics-state';
 import { AudiocallStat, SprintStat, WordsStat } from './components';
-import LongTermState from './components/long-term-statistics/long-term-statistics';
+import { Chart } from './components/long-term-statistics/chart';
 import style from './statistics.module.scss';
 
 export const StatisticsPage = observer(() => {
@@ -16,7 +16,7 @@ export const StatisticsPage = observer(() => {
       <WordsStat data={statisticsState.todayWordsStatistics} />
       <AudiocallStat data={statisticsState.todayAudiocallStatistics} />
       <SprintStat data={statisticsState.todaySprintStatistics} />
-      <LongTermState />
+      <Chart />
     </div>
   );
 });
