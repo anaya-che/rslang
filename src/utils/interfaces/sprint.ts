@@ -25,6 +25,8 @@ export interface ISprintState {
   setFalseAnswerFromTextbook(): Promise<void>,
   startRound(category: number): void,
   startFromTextbook(category: number, page: number): void,
+  setNewWordCounter(): void,
+  checkLearnedWords(): Promise<void>,
 
   category: number,
   page: number,
@@ -43,4 +45,11 @@ export interface ISprintState {
   answers: ISprintAnswer[],
   startGamePage: string,
   wordsFromTextbook: IWordData[],
+  
+  newWordsCount: number,
+  learnedWords: string[],
+  totalWins: number,
+  totalMistakes: number,
+  bestSeries: number,
+  date: string,
 }

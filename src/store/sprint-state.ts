@@ -1,9 +1,12 @@
+import { isNewWord } from './../utils/statistics-helpers/new-words';
 import { wordsStore, getWords, userWordsStore } from './words-store';
 import { observable, action } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
 import { textbookState, userState } from '.';
 import { getUserAggregatedWords } from '../api';
+import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
+import { statisticsState } from './statistics-state';
 
 export const sprintState: ISprintState = observable({
   category: 0,
@@ -23,6 +26,14 @@ export const sprintState: ISprintState = observable({
   answers: [],
   startGamePage: '',
   wordsFromTextbook: [],
+
+  newWordsCount: 0,
+  bestSeries: 0,
+  totalWins: 0,
+  totalMistakes: 0,
+  learnedWords: [],
+  date: new Date().toLocaleString('en-GB', { dateStyle: 'short'}),
+  
   
   setDefault: action (() => {
     sprintState.category = 0;
@@ -41,6 +52,19 @@ export const sprintState: ISprintState = observable({
     clearInterval(sprintState.interval);
     sprintState.answers = [];
     sprintState.wordsFromTextbook = [];
+
+    sprintState.newWordsCount = 0;
+    sprintState.bestSeries = 0;
+    sprintState.totalWins = 0;
+    sprintState.totalMistakes = 0;
+    sprintState.learnedWords = [];
+    sprintState.date = new Date().toLocaleString('en-GB', { dateStyle: 'short'});
+  }),
+
+  setNewWordCounter: action (() => {
+    if (sprintState.currentWord && isNewWord(sprintState.currentWord)) {
+      sprintState.newWordsCount +=1;
+    }  
   }),
 
   setCategory: action((category: number): void => {
@@ -157,6 +181,14 @@ export const sprintState: ISprintState = observable({
         && (sprintState.category === 0) 
         && (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1)) {
       sprintState.secondsInRound = 0;
+      statisticsState.updateStatistics(sprintState.date, 'sprint', {
+        gamesCount: 1,
+        newWords: sprintState.newWordsCount,
+        bestSeries: sprintState.bestSeries,
+        totalWins: sprintState.totalWins,
+        totalMistakes: sprintState.totalMistakes,
+        learnedWordsId: sprintState.learnedWords,
+      })
     } 
     else if (sprintState.currentWordIdx < sprintState.wordsFromTextbook.length-1) {
       sprintState.currentWordIdx +=1;
@@ -165,7 +197,6 @@ export const sprintState: ISprintState = observable({
       await getWords(sprintState.category, sprintState.page);
       sprintState.setCurrentWordFromTextbook();
       sprintState.setTranslate();
-      
     } 
     else if (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1) {
       sprintState.wordsFromTextbook.splice(0, sprintState.wordsFromTextbook.length);
@@ -208,7 +239,17 @@ export const sprintState: ISprintState = observable({
     sprintState.interval = setInterval(action(() => {
       if (sprintState.secondsInRound > 0) {
         sprintState.setTimer();
-      } else clearInterval(sprintState.interval);
+      } else {
+        clearInterval(sprintState.interval);
+        statisticsState.updateStatistics(sprintState.date, 'sprint', {
+          gamesCount: 1,
+          newWords: sprintState.newWordsCount,
+          bestSeries: sprintState.bestSeries,
+          totalWins: sprintState.totalWins,
+          totalMistakes: sprintState.totalMistakes,
+          learnedWordsId: sprintState.learnedWords,
+        })
+      }
     }), 1000);
   }),
 
@@ -216,18 +257,35 @@ export const sprintState: ISprintState = observable({
     if (bool === sprintState.isRightPair) {
       sprintState.isRightAnswer = true;
       playAnswerAudio(`../../right.mp3`);
+      sprintState.bestSeries += 1;
+      sprintState.totalWins += 1;
     } else {
       sprintState.isRightAnswer = false;
       playAnswerAudio(`../../mistake.mp3`);
+      sprintState.bestSeries = 0;
+      sprintState.totalMistakes += 1;
     } 
-    if (sprintState.currentWord) userWordsStore.changeUserWordFromGame(sprintState.currentWord?.id, sprintState.isRightAnswer);
-    console.log(sprintState.currentWord?.id, sprintState.isRightAnswer);
+    if (userState.isAuthorized && sprintState.currentWord) {
+      sprintState.setNewWordCounter();
+      userWordsStore.changeUserWordFromGame(sprintState.currentWord?.id, sprintState.isRightAnswer);
+    }
+    
+    console.log(sprintState.bestSeries,
+      sprintState.totalWins,  sprintState.totalMistakes, sprintState.learnedWords);
     
     sprintState.answers.push({
       word: sprintState.currentWord, 
       isRightAnswer: sprintState.isRightAnswer 
     });
     sprintState.setPoints();
+  }),
+
+  checkLearnedWords: action (async() => {
+    const learnnWordsArr: string[] = [];
+    sprintState.answers.forEach((el) => {
+      el.word && learnnWordsArr.push(el.word?.id);
+    });
+    sprintState.learnedWords = await getLearnedWords(learnnWordsArr);
   }),
 
   setScore: action((score: number): void => {
