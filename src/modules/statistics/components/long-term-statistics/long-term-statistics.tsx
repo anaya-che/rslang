@@ -1,7 +1,7 @@
-import React, { Component } from "react";
+import React from "react";
 import { Chart } from "./chart";
 
-export const LongTermState: React.FC = (data) => {
+export const LongTermState: React.FC = () => {
   return (
     <Chart />
   );

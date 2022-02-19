@@ -27,19 +27,21 @@ ChartJS.register(
 export const Chart = observer(() => {
 
   let date_regex = /^\d{2}\/\d{2}\/\d{4}$/ ;
-  let myobj = toJS(statisticsState.statistics)
+  let statistics = toJS(statisticsState.statistics)
   let learnedWords = []
   let newWords = []
   let dates: Array<string> = []
-  var keys = Object.keys(myobj);
-  for (var i = 0; i < keys.length; ++i) {
-    let asd = myobj[keys[i]]['audiocall'].learnedWordsId.length + myobj[keys[i]]['sprint'].learnedWordsId.length
-    let sec = myobj[keys[i]]['audiocall'].newWords + myobj[keys[i]]['sprint'].newWords
-    newWords.push(sec)
-    learnedWords.push(asd)
+  let keys = Object.keys(statistics);
+  let dayLearned
+  let dayNew
+  for (let i = 0; i < keys.length; ++i) {
+    dayLearned = statistics[keys[i]]['audiocall'].learnedWordsId.length + statistics[keys[i]]['sprint'].learnedWordsId.length
+    dayNew = statistics[keys[i]]['audiocall'].newWords + statistics[keys[i]]['sprint'].newWords
+    newWords.push(dayNew)
+    learnedWords.push(dayLearned)
   }
 
-  Object.keys(myobj).forEach(key => {
+  Object.keys(statistics).forEach(key => {
     if (date_regex.test(key)) {
       dates.push(key)
     }

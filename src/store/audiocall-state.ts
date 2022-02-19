@@ -6,7 +6,7 @@ import { IaudiocallStat } from '../utils/interfaces/audiocall';
 import { textbookState, userState } from '../store/index';
 import { playAnswerAudio } from '../utils/audiocall-helpers';
 import { userWordsStore } from './words-store'
-import { getUserAggregatedWords, updateStatistics } from '../api';
+import { getUserAggregatedWords } from '../api';
 import { statisticsState } from './statistics-state';
 import { getLearnedWords } from '../utils/statistics-helpers/learned-words';
 import { isNewWord } from '../utils/statistics-helpers/new-words';
