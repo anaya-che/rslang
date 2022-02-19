@@ -1,5 +1,4 @@
 import { observable, action } from 'mobx';
-import { userWordsStore } from '.';
 import { createUser, getNewToken, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
 import {
@@ -90,6 +89,8 @@ export const userState = observable({
       userState.changeAuthState(true);
       userState.getWarningMessage('');
       setLocalStorage();
+
+      await statisticsState.getCurrentStatistics();
     }
   }),
 

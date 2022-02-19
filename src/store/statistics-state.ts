@@ -17,12 +17,15 @@ export const statisticsState = observable({
 
   getCurrentStatistics: action(async () => {
     const data = await getStatistics(userState.tokenInfo.userId);
-    if (data !== undefined) statisticsState.statistics = data.optional;
-    else await statisticsState.createStatisticForToday();
-    statisticsState.setStatisticForToday();
+    if (data !== undefined) {
+      statisticsState.statistics = data.optional;
+      statisticsState.setStatisticForToday();
+    } else {
+      await statisticsState.createStatisticForToday();
+    }
   }),
 
-  setStatisticForToday: action(async () => {
+  setStatisticForToday: action(() => {
     const curDate: Date = new Date();
     let textDate: string = curDate.toLocaleString('en-GB', {
       dateStyle: 'short',
@@ -85,11 +88,15 @@ export const statisticsState = observable({
         sprint: emptyStats,
       },
     };
-    await updateStatistics(
+    const data = await updateStatistics(
       userState.tokenInfo.userId,
       learnedWords,
       newStatistics
     );
+    if (data !== undefined) {
+      statisticsState.statistics = data.optional;
+      statisticsState.setStatisticForToday();
+    }
   }),
 
   updateStatistics: action(
