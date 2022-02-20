@@ -330,7 +330,7 @@ export const audiocallState: IaudiocallStat = observable({
     }
     while (audiocallState.aggregatedWords.length < 15) {
       isForbidden = pageCount >= 1 ? false : true
-      pageCount = pageCount >= 1 ? -1 : 29
+      pageCount = pageCount >= 1 ? pageCount-1 : 29
       reserve =  await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${pageCount}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
       delta = 15 - audiocallState.aggregatedWords.length
       sliced = isForbidden === true ?  [] : toJS(reserve.slice(0, delta))
