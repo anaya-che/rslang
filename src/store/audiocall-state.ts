@@ -229,7 +229,6 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
    }
-   console.log(audiocallState.counterConditionValue)
   }),
 
   getWordAudio: action( (url: string) => {
