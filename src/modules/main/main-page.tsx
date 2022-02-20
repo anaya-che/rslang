@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Header } from './components/header';
-import { Footer } from './components/footer';
 import { Content } from './components/content';
-// import style from '../../index.scss';
+import { Footer } from '../../components/footer/footer';
+
 
 export const MainPage = observer(() => {
 
