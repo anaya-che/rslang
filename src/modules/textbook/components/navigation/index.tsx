@@ -71,7 +71,7 @@ export const Navigation: React.FC = () => {
           <div className={style.pageInfo}>
             {textbookState.wordGroup !== 6
               ? textbookState.wordGroup + 1
-              : 'сложные слова'}{' '}
+              : 'Сложные'}{' '}
             / {textbookState.wordPage + 1}
           </div>
           <Link
