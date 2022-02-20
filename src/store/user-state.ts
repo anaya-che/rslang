@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import { getWords } from '.';
 import { createUser, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
 import {
@@ -16,6 +17,7 @@ export const userState = observable({
   message: '',
 
   checkAuth: action(async () => {
+    await getWords(0, 0);
     if (!userState.isAuthorized) {
       const userInfoObj = getLocalStorage();
       if (userInfoObj !== undefined) {

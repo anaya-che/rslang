@@ -52,7 +52,7 @@ export const getUser = async (userId: string): Promise<void | IUser> => {
     .then((res): Promise<IUser> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        clearLocalStorage()
+        clearLocalStorage();
         console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {

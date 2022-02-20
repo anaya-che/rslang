@@ -1,26 +1,24 @@
+@import '../../../../consts.scss';
+
 .card {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: flex-start;
-  width: 450px;
-  height: 350px;
-  border: 1px solid;
-  padding: 5px;
+  width: 380px;
+  height: 480px;
+  padding: 15px;
+  border-radius: 10px;
+  background-color:rgba($color-5, 0.5);
+  background-blend-mode: multiply;
+  background-repeat: no-repeat;
+  background-size: contain;
+  color: $font;
+  box-shadow: 0px 0px 10px $font;
 }
 
 .hidden {
   display: none;
-}
-
-.wordContainer {
-  display: flex;
-  width: 100%;
-}
-
-.wordImg {
-  object-fit: contain;
-  object-position: center;
 }
 
 .wordInfo {
@@ -29,7 +27,26 @@
   justify-content: center;
   align-items: center;
   gap: 10px;
+  padding: 10px;
+  min-width: 120px;
+  background-color: rgba($bg-color, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 200px;
+  gap: 15px;
   width: 100%;
+  padding: 10px;
+  background-color: rgba($bg-color, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  align-self: center;
+  font-size: 0.9em;
 }
 
 .meaningInfo,
@@ -40,9 +57,9 @@
 }
 
 .playButton {
-  width: 50px;
-  height: 50px;
-  background-image: url('../../../../assets/svg/play.svg');
+  width: 25px;
+  height: 25px;
+  background-image: url('../../../../../public/icons/sound2.svg');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;

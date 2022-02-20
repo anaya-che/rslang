@@ -1,8 +1,10 @@
+@import '../../../../consts.scss';
+
 .cardContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-content: space-around;
-  gap: 20px;
+  gap: 50px 20px;
 }
