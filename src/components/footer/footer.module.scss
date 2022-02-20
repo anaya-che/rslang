@@ -8,13 +8,13 @@
   align-items: center;
   background: rgb(81,191,166);
   background: linear-gradient(0deg, rgba(81,191,166,1) 0%, rgba(150,217,200,1) 100%);
-  min-height: 4em;
-  padding: 0 1em;
+  height: 4rem;
+  padding: 0 1rem;
   color: $bg-color;
   div {
     display: flex;
     align-items: center;
-    gap: 1em;
+    gap: 1rem;
   }
 }
 
