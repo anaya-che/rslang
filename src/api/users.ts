@@ -3,7 +3,7 @@ import { IToken } from '../utils/interfaces/token';
 import { IUser } from '../utils/interfaces/user';
 import { baseUrl, HttpStatus } from '.';
 import {
-  getRefreshToken,
+  clearLocalStorage,
   getTokenFromStorage,
 } from '../utils/user-helpers/local-storage';
 import { userState } from '../store';
@@ -52,12 +52,12 @@ export const getUser = async (userId: string): Promise<void | IUser> => {
     .then((res): Promise<IUser> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        await userState.refreshTokenInfo();
-        await getUser(userId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        await userState.refreshTokenInfo();
-        await getUser(userId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.NOT_FOUND)
         userState.getWarningMessage('User not found');
@@ -104,23 +104,6 @@ export const deleteUser = async (userId: string): Promise<void> => {
     .catch((error) => {
       if (error.response.status === HttpStatus.UNAUTHORIZED)
         console.log('User is unauthorized.');
-      else {
-        throw new Error(error);
-      }
-    });
-};
-
-export const getNewToken = async (userId: string): Promise<void | IToken> => {
-  return axios
-    .get(`${baseUrl}users/${userId}/tokens`, {
-      headers: { Authorization: `Bearer ${getRefreshToken()}` },
-    })
-    .then((res): Promise<IToken> => res.data)
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('User is unauthorized.');
-      if (error.response.status === HttpStatus.INCORRECT)
-        console.log('Access token is missing, expired or invalid.');
       else {
         throw new Error(error);
       }

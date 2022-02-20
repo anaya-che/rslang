@@ -1,5 +1,5 @@
 import { observable, action } from 'mobx';
-import { createUser, getNewToken, getUser, signIn } from '../api';
+import { createUser, getUser, signIn } from '../api';
 import { IToken, IUser } from '../utils/interfaces';
 import {
   clearLocalStorage,
@@ -33,17 +33,6 @@ export const userState = observable({
     const res = await getUser(userState.tokenInfo.userId);
     if (res !== undefined) {
       userState.userInfo = res;
-    }
-  }),
-
-  refreshTokenInfo: action(async () => {
-    const res = await getNewToken(userState.tokenInfo.userId);
-    if (res !== undefined) {
-      userState.tokenInfo = res;
-      userState.changeAuthState(true);
-      setLocalStorage();
-      userState.getWarningMessage('');
-      await userState.getUserInfoFromId();
     }
   }),
 
