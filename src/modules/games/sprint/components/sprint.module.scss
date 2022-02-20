@@ -6,6 +6,8 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  min-height: calc(100vh - 3em);
+  flex: 1 0 auto;
 }
 .sprintCard {
   border: 1px solid #000;
@@ -51,15 +53,34 @@
   text-align: center;
 }
 
+.categories {
+  h1 {
+    font-size: 3rem;
+    padding-top: 3rem;
+  }
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .categoriesBtnGroup {
   display: flex;
   gap: 1em;
+  padding-top: 13%;
 }
 
 .categoriesBtn {
   border: none;
-  width: 2em;
-  height: 2em;
+  border: none;
+  width: 5rem;
+  height: 5rem;
+  font-size: 24px;
+  color: $bg-color;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px #355366;
+  font-weight: 700;
   &:nth-child(1) { 
     background-color: $color-11;
   }

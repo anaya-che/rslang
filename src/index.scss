@@ -35,6 +35,12 @@ a {
   color: inherit;
 }
 
+a:hover, button:hover {
+  opacity: 0.8;
+  transform: scale(1.01);
+  transition: 0.8s;
+}
+
 .wrapper {
   display: flex;
 	flex-direction: column;
