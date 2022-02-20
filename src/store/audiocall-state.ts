@@ -261,6 +261,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = null
     audiocallState.isAnswered = null
     audiocallState.aggregatedWords = []
+    audiocallState.amountOfRemainingWords = 0
   }),
 
   handleAudiocallStart: action( async () => {
