@@ -1,81 +1,25 @@
 @import '../../../../consts';
 
-
 .sprintPage {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-}
-.sprintCard {
-  border: 1px solid #000;
-  width: 20em;
-  height: 20em;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  gap: 1em;
+  min-height: calc(100vh - 3em);
+  flex: 1 0 auto;
+  gap: 7rem;
+  background-color: #fbe1b346;
+  .exitBtn {
+    align-self: flex-end;
+    background-color: transparent;
+    background-image: url('../../../../../public/icons/exit.svg');
+    background-repeat: no-repeat;
+  }
+  h2 {
+    font-size: 3rem;
+  }
 }
 
-.pointsIndicationGroup {
-  display: flex;
-  justify-content: center;
-  gap: 1em;
-  min-height: 10px;
-}
-.pointsIndicationDot {
-  list-style: none;
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-
-  background-color: $green-normal;
-}
-.buttonGroup {
-  display: flex;
-  justify-content: center;
-  gap: 1em;
-}
-.audioBtn {
-  width: 2em;
-  height: 2em;
-}
-.answer {
-  display: flex;
-  gap: 1em;
-  justify-content: space-between;
-}
-.title {
-  font-weight: bold;
-  text-align: center;
-}
-
-.categoriesBtnGroup {
-  display: flex;
-  gap: 1em;
-}
-
-.categoriesBtn {
-  border: none;
-  width: 2em;
-  height: 2em;
-  &:nth-child(1) { 
-    background-color: $color-11;
-  }
-  &:nth-child(2) { 
-    background-color: $blue-light;
-  }
-  &:nth-child(3) { 
-    background-color: $green-light;
-  }
-  &:nth-child(4) { 
-    background-color: $yellow-normal;
-  }
-  &:nth-child(5) { 
-    background-color: $red-light;
-  }
-  &:nth-child(6) { 
-    background-color: $color-5;
-  }
-}
+// .game {
+//   width: 100%;
+  
+// }
