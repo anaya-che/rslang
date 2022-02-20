@@ -5,12 +5,14 @@ import { IWordData } from '../../../../utils/interfaces';
 import { playAudio } from '../../../../utils/textbook-helpers/audio';
 import style from './card.module.scss';
 
-export const Card: React.FC<{ wordInfo: IWordData }> = ({ wordInfo }) => {
+export const Card: React.FC<{ wordInfo: IWordData, cardStyle: string } > = ({ wordInfo, cardStyle }) => {
   const textMeaning = { __html: `${wordInfo.textMeaning}` };
   const textExample = { __html: `${wordInfo.textExample}` };
   const urlImage = `${baseUrl + wordInfo.image}`;
+  const styleGroup = `style.${cardStyle}`
+
   return (
-    <div className={style.card} style={{ backgroundImage: `url(${urlImage})` }}>
+    <div className={style.card + ' ' + style[cardStyle]} style={{ backgroundImage: `url(${urlImage})`}}>
       {userState.isAuthorized && (
         <div className={style.wordContainer}>
           <button

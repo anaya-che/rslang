@@ -1,0 +1,64 @@
+@import '../../../../consts.scss';
+
+.navContainer {
+  position: sticky;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: rgba($bg-color, 0.3);
+  backdrop-filter: blur(5px);
+  z-index: 4;
+}
+
+.pagination {
+}
+
+.groupsContainer {
+}
+
+.categoriesBtn {
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px $font;
+}
+
+.categorie1 {
+  background-color: $yellow-normal;
+  
+}
+
+.categorie2 {
+  background-color: $green-light;
+  
+}
+
+.categorie3 {
+  background-color: $red-light;
+
+}
+
+.categorie4 {
+  background-color: $blue-light;
+  
+}
+
+.categorie5 {
+  background-color: $color-11;
+}
+
+.categorie6 {
+  background-color: $color-13;
+}
+.difficultBtn {
+  border: none;
+  width: 10rem;
+  height: 2rem;
+  color: white;
+  border-radius: 3px;
+  box-shadow: 0px 0px 2px $font;
+  background-color: $color-14;
+}

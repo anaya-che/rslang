@@ -10,14 +10,15 @@ import {
   getNextPage,
   getPrevPage,
 } from '../../../../utils/textbook-helpers/navigation';
+import style from './navigation.module.scss';
 
 export const Navigation: React.FC<{ group: string; page: string }> = (
   group,
   page
 ) => {
   return (
-    <div>
-      <div>
+    <div className={style.navContainer}>
+      <div className={style.pagination}>
         <Link to={`/textbook/${textbookState.wordGroup + 1}/${getPrevPage()}`}>
           <button>prev</button>
         </Link>
@@ -43,28 +44,40 @@ export const Navigation: React.FC<{ group: string; page: string }> = (
           </button>
         </Link>
       </div>
-      <div>
+      <div className={style.groupsContainer}>
         <Link to="/textbook/1/1">
-          <button>1</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie1}>
+            1
+          </button>
         </Link>
         <Link to="/textbook/2/1">
-          <button>2</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie2}>
+            2
+          </button>
         </Link>
         <Link to="/textbook/3/1">
-          <button>3</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie3}>
+            3
+          </button>
         </Link>
         <Link to="/textbook/4/1">
-          <button>4</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie4}>
+            4
+          </button>
         </Link>
         <Link to="/textbook/5/1">
-          <button>5</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie5}>
+            5
+          </button>
         </Link>
         <Link to="/textbook/6/1">
-          <button>6</button>
+          <button className={style.categoriesBtn + ' ' + style.categorie6}>
+            6
+          </button>
         </Link>
         {userState.isAuthorized && (
           <Link to="/textbook/7/1">
-            <button>Сложные слова</button>
+            <button className={style.difficultBtn}>Сложные слова</button>
           </Link>
         )}
       </div>

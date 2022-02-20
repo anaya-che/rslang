@@ -6,7 +6,8 @@ import style from './card-container.module.scss';
 
 export const CardContainer: React.FC<{
   wordsCollection: IWordData[];
-}> = ({ wordsCollection }) => {
+  cardStyle: string;
+}> = ({ wordsCollection, cardStyle }) => {
   const pageFrom = textbookState.wordPage * 20;
   const pageTo = (textbookState.wordPage + 1) * 20;
 
@@ -14,7 +15,7 @@ export const CardContainer: React.FC<{
     <div className={style.cardContainer}>
       {textbookState.wordGroup !== 6 ? (
         wordsCollection.map((el: IWordData) => (
-          <Card wordInfo={el} key={el.id}></Card>
+          <Card wordInfo={el} key={el.id} cardStyle={cardStyle}></Card>
         ))
       ) : textbookState.wordGroup === 6 && wordsCollection.length === 0 ? (
         <div>Извините, здесь пока ничего нет</div>
@@ -22,7 +23,9 @@ export const CardContainer: React.FC<{
         wordsCollection.map(
           (el: IWordData, index: number) =>
             index >= pageFrom &&
-            index < pageTo && <Card wordInfo={el} key={el.id}></Card>
+            index < pageTo && (
+              <Card wordInfo={el} key={el.id} cardStyle={cardStyle}></Card>
+            )
         )
       )}
     </div>

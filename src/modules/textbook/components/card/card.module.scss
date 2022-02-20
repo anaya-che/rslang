@@ -9,7 +9,6 @@
   height: 480px;
   padding: 15px;
   border-radius: 10px;
-  background-color:rgba($color-5, 0.5);
   background-blend-mode: multiply;
   background-repeat: no-repeat;
   background-size: contain;
@@ -68,4 +67,32 @@
 
 .playButton:hover {
   opacity: 0.8;
+}
+
+.cardGroup0 {
+  background-color:rgba($yellow-normal, 0.5);
+}
+
+.cardGroup1 {
+  background-color:rgba($green-light, 0.5);
+}
+
+.cardGroup2 {
+  background-color:rgba($red-light, 0.5);
+}
+
+.cardGroup3 {
+  background-color:rgba($blue-light, 0.5);
+}
+
+.cardGroup4 {
+  background-color:rgba($color-11, 0.5);
+}
+
+.cardGroup5 {
+  background-color:rgba($color-13, 0.5);
+}
+
+.cardGroup6 {
+  background-color:rgba($color-14, 0.5);
 }
