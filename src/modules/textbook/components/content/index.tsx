@@ -23,13 +23,6 @@ export const Content: React.FC = observer(() => {
       <div className={style.contentContainer}>
         <div className={style.titleContainer}>
           <h1>Учебник</h1>
-          <div>
-            Группа:
-            {textbookState.wordGroup !== 6
-              ? textbookState.wordGroup + 1
-              : 'сложные слова'}
-          </div>
-          <div>Страница: {textbookState.wordPage + 1}</div>
         </div>
 
         {textbookState.wordGroup !== 6 && (
