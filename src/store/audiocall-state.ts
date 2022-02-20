@@ -80,8 +80,7 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.answersArr = answersArr
       audiocallState.isAnswered = false
     } else if (audiocallState.amountOfRemainingWords > 0) {
-      let dynamicAnswer = audiocallState.counter - 1
-      let answersArr = [dynamicAnswer, -1, -2, -3, -4]
+      let answersArr = [0, -1, -2, -3, -4]
       let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(answersArr)
       questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
       const proxy = new Proxy(audiocallState.words, {
@@ -316,10 +315,9 @@ export const audiocallState: IaudiocallStat = observable({
 
   getFilteredWords: action( async() => {
     audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
-    console.log(toJS(audiocallState.aggregatedWords))
     let pageCount = audiocallState.page
     let final: IWordData[]
-    let sliced: string | any[]
+    let sliced: string | IWordData[]
     let copy
     let delta
     let reserve
@@ -331,7 +329,7 @@ export const audiocallState: IaudiocallStat = observable({
     while (audiocallState.aggregatedWords.length < 15) {
       isForbidden = pageCount >= 1 ? false : true
       pageCount = pageCount >= 1 ? pageCount-1 : 29
-      reserve =  await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${pageCount}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+      reserve = isForbidden === true ? [] : await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${pageCount}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
       delta = 15 - audiocallState.aggregatedWords.length
       sliced = isForbidden === true ?  [] : toJS(reserve.slice(0, delta))
       pageCount = isForbidden === true ? 0 : pageCount
@@ -344,7 +342,7 @@ export const audiocallState: IaudiocallStat = observable({
           if (final.length < 5 && final.length > 0) {
             audiocallState.amountOfRemainingWords = final.length
             audiocallState.counterConditionValue = final.length + 1
-            let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(0,20)}}]}`)
+            let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(1,20)}}]}`)
             let result = final.concat(somewords)
             audiocallState.setAggWords(toJS(result))
           } else if (final.length === 0) {
