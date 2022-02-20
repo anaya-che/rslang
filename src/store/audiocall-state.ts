@@ -229,6 +229,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
    }
+   console.log(audiocallState.counterConditionValue)
   }),
 
   getWordAudio: action( (url: string) => {
@@ -337,7 +338,7 @@ export const audiocallState: IaudiocallStat = observable({
         audiocallState.aggregatedWords = [...audiocallState.aggregatedWords, ...sliced]
         continue
         } else if (pageCount === 0 && sliced.length < delta) {
-          if (final.length < 5 && final.length > 0) {
+          if (final.length <= 5 && final.length > 0) {
             audiocallState.amountOfRemainingWords = final.length
             audiocallState.counterConditionValue = final.length + 1
             let somewords = await getUserAggregatedWords(userState.tokenInfo.userId, '4', `{"$and": [{"group":${getRandomInt(0,4)}},{"page":${getRandomInt(1,20)}}]}`)
