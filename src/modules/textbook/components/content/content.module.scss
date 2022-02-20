@@ -1,0 +1,9 @@
+.contentContainer {
+  min-height: calc(100vh - 7em);
+}
+
+.titleContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

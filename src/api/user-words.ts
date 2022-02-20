@@ -1,8 +1,7 @@
 import axios from 'axios';
 import { baseUrl, HttpStatus } from '.';
-import { userState } from '../store';
 import { IOptions, IUserWord } from '../utils/interfaces/user-words';
-import { getTokenFromStorage } from '../utils/user-helpers/local-storage';
+import { clearLocalStorage, getTokenFromStorage } from '../utils/user-helpers/local-storage';
 
 export const getAllUserWords = async (
   userId: string
@@ -14,12 +13,12 @@ export const getAllUserWords = async (
     .then((res): Promise<IUserWord[]> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        await userState.refreshTokenInfo();
-        await getAllUserWords(userId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        await userState.refreshTokenInfo();
-        await getAllUserWords(userId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       } else {
         throw new Error(error);
       }
@@ -44,12 +43,12 @@ export const createUserWord = async (
     .then((res): Promise<IUserWord> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        await userState.refreshTokenInfo();
-        await createUserWord(userId, wordId, wordDifficulty, wordOptions);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        await userState.refreshTokenInfo();
-        await createUserWord(userId, wordId, wordDifficulty, wordOptions);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
@@ -70,12 +69,12 @@ export const getUserWordById = async (
     .then((res): Promise<IUserWord> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        await userState.refreshTokenInfo();
-        await getUserWordById(userId, wordId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        await userState.refreshTokenInfo();
-        await getUserWordById(userId, wordId);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.NOT_FOUND)
         console.log("User's word not found.");
@@ -103,12 +102,12 @@ export const updateUserWordById = async (
     .then((res): Promise<IUserWord> => res.data)
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
-        await userState.refreshTokenInfo();
-        await updateUserWordById(userId, wordId, wordDifficulty, wordOptions);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        await userState.refreshTokenInfo();
-        await updateUserWordById(userId, wordId, wordDifficulty, wordOptions);
+        clearLocalStorage()
+        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.BAD_REQUEST)
         console.log('Bad request.');
