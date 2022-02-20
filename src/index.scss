@@ -1,0 +1,46 @@
+@import './consts';
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+html,
+body {
+	height: 100%;
+}
+body {
+  font-family: 'Roboto', sans-serif;
+  color: $font;
+}
+
+button {
+  min-height: 20px;
+  min-width: 20px;
+  border: none;
+  font-family: 'Roboto', sans-serif;
+  margin: 1em;
+  cursor: pointer;
+}
+
+button:disabled, button:disabled:hover {
+  background-color: #efefef4d;
+  color: #1010104d;
+  border-color: #7676764d;
+  cursor: auto;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.wrapper {
+  display: flex;
+	flex-direction: column;
+	min-height: 100%;
+}
+
+.content {
+	flex: 1 0 auto;
+}
+
