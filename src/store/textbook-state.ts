@@ -9,12 +9,41 @@ export const textbookState = observable({
   currentWords: [] as IWordData[],
   isAuthorized: false,
   difficultWords: [] as IWordData[],
+  isPageLearned: false,
 
   setPage: action((group: string, page: string) => {
     const currentGroup = Number(group) - 1;
     textbookState.wordGroup = currentGroup;
     const currentPage = Number(page) - 1;
     textbookState.wordPage = currentPage;
+  }),
+
+  checkIfPageIsLearned: action(() => {
+    const audiocallButtons = document.querySelector(
+      '#textbook-audiocall'
+    ) as HTMLButtonElement;
+    const sprintButtons = document.querySelector(
+      '#textbook-sprint'
+    ) as HTMLButtonElement;
+    if (textbookState.wordGroup !== 6) {
+      const testResult = textbookState.currentWords.every(
+        (el) => el.userWord?.difficulty === 'easy'
+      );
+      textbookState.isPageLearned = testResult;
+    } else if (textbookState.difficultWords.length === 0) {
+      textbookState.isPageLearned = true;
+    }
+    if (textbookState.isPageLearned) {
+      audiocallButtons.classList.add('disabled');
+      audiocallButtons.setAttribute('disabled', 'disabled');
+      sprintButtons.classList.add('disabled');
+      sprintButtons.setAttribute('disabled', 'disabled');
+    } else {
+      audiocallButtons.classList.remove('disabled');
+      audiocallButtons.removeAttribute('disabled');
+      sprintButtons.classList.remove('disabled');
+      sprintButtons.removeAttribute('disabled');
+    }
   }),
 
   setWordGroup: action((group: number) => {
@@ -42,6 +71,7 @@ export const textbookState = observable({
           textbookState.wordPage
         );
       } else await textbookState.getDifficultWords();
+      textbookState.checkIfPageIsLearned();
     }
   }),
 
@@ -52,6 +82,7 @@ export const textbookState = observable({
   changeDifficulty: action(async (wordId: string, difficulty: string) => {
     await userWordsStore.changeDifficulty(wordId, difficulty);
     textbookState.getCurrentWords();
+    textbookState.checkIfPageIsLearned();
   }),
 
   getAggregatedWords: action(async (group: number, page: number) => {

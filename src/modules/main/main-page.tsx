@@ -5,6 +5,8 @@ import { Footer } from '../../components/footer/footer';
 
 
 export const MainPage = observer(() => {
+
+
   return (
     <div className='wrapper'>
       <Header />

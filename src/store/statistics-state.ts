@@ -89,6 +89,7 @@ export const statisticsState = observable({
   createStatisticForToday: action(async () => {
     const learnedWords = 0;
     const curDate: Date = new Date();
+
     let textDate: string = curDate.toLocaleString('en-GB', {
       dateStyle: 'short',
     });

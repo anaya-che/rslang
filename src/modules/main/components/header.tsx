@@ -22,23 +22,23 @@ export const Header = observer(() => {
         <div>
           <Link to="/games/audiocall">Аудиовызов</Link>
         </div>
-        { userState.isAuthorized ? 
-          (<div>
+        {userState.isAuthorized ? (
+          <div>
             <Link to="/statistics">Статистика</Link>
-          </div>) 
-          : 
-          (<div></div>)
-        }
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
       <div>
-      { userState.isAuthorized ? 
-          (<div>
+        {userState.isAuthorized ? (
+          <div>
             <img src="../../../../icons/user.svg" alt="User" />
             <LogOut />
-          </div>) 
-          : 
-          (<Link to="/user">Войти</Link>)
-      }
+          </div>
+        ) : (
+          <Link to="/user">Войти</Link>
+        )}
       </div>
     </div>
   );

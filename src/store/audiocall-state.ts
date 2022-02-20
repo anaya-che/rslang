@@ -85,14 +85,15 @@ export const audiocallState: IaudiocallStat = observable({
       let questionAnswers: Array<number> = audiocallState.randomArrayShuffle(answersArr)
       questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
       const proxy = new Proxy(audiocallState.words, {
-        get(target, prop: any) {
-            if (!isNaN(prop)) {
-                prop = parseInt(prop, 10);
+        get(target, prop: number | string | symbol) {
+            if (!isNaN(Number(prop))) {
+
+                prop = parseInt(String(prop), 10);
                 if (prop < 0) {
                     prop += target.length;
                 }
             }
-            return target[prop];
+            return target[Number(prop)];
         }
       });
       audiocallState.counter = audiocallState.counter + 1
@@ -203,14 +204,14 @@ export const audiocallState: IaudiocallStat = observable({
       questionAnswers = audiocallState.randomArrayShuffle(arr)
       questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
       const proxy = new Proxy(wordsArr, {
-        get(target, prop: any) {
-            if (!isNaN(prop)) {
-                prop = parseInt(prop, 10);
+        get(target, prop:  number | string | symbol) {
+            if (!isNaN(Number(prop))) {
+                prop = parseInt(String(prop), 10);
                 if (prop < 0) {
                     prop += target.length;
                 }
             }
-            return target[prop];
+            return target[Number(prop)];
         }
       });
       audiocallState.first = proxy[questionAnswers[0]].wordTranslate
@@ -224,13 +225,13 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.isStarted = true
   }),
 
-  setStart: action(() => {
+  setStart: action(async () => {
   audiocallState.seriesCounter = []
    audiocallState.isStarted = true
    if (audiocallState.counterConditionValue > 1) {
     audiocallState.getNextWords()
     audiocallState.getWordAudio(audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].audio)
-  }
+   }
   }),
 
   getWordAudio: action( (url: string) => {
@@ -314,9 +315,9 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   getFilteredWords: action( async() => {
-    audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+    audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
     let pageCount = audiocallState.page
-    let final: any
+    let final: IWordData[]
     let sliced
     let copy
     let delta
@@ -362,7 +363,7 @@ export const audiocallState: IaudiocallStat = observable({
     }
   }),
 
-  setAggWords: action( (arr: any)=> {
+  setAggWords: action( (arr: IWordData[])=> {
     audiocallState.words = arr
   })
 

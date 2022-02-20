@@ -23,7 +23,8 @@ button {
   cursor: pointer;
 }
 
-button:disabled, button:disabled:hover {
+button:disabled,
+button:disabled:hover {
   background-color: #efefef4d;
   color: #1010104d;
   border-color: #7676764d;
@@ -43,13 +44,10 @@ a:hover, button:hover {
 
 .wrapper {
   display: flex;
-	flex-direction: column;
-	min-height: 100%;
+  flex-direction: column;
+  min-height: 100%;
 }
 
 .content {
-	flex: 1 0 auto;
+  flex: 1 0 auto;
 }
-
-
-
