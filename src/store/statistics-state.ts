@@ -41,8 +41,8 @@ export const statisticsState = observable({
     let audiocallPercent = 0;
     if (audoicallStats.totalMistakes + audoicallStats.totalWins !== 0)
       audiocallPercent = Math.floor(
-        (audoicallStats.totalWins / audoicallStats.totalMistakes +
-          audoicallStats.totalWins) *
+        (audoicallStats.totalWins /
+          (audoicallStats.totalMistakes + audoicallStats.totalWins)) *
           100
       );
     statisticsState.todayAudiocallStatistics = {
@@ -55,8 +55,8 @@ export const statisticsState = observable({
     let sprintPercent = 0;
     if (sprintStats.totalMistakes + sprintStats.totalWins !== 0) {
       sprintPercent = Math.floor(
-        (sprintStats.totalWins / sprintStats.totalMistakes +
-          sprintStats.totalWins) *
+        (sprintStats.totalWins /
+          (sprintStats.totalMistakes + sprintStats.totalWins)) *
           100
       );
     }
@@ -68,10 +68,14 @@ export const statisticsState = observable({
 
     let totalPercent = 0;
     if (audoicallStats.totalMistakes + sprintStats.totalMistakes !== 0) {
-      totalPercent =
+      totalPercent = Math.floor(
         ((sprintStats.totalWins + audoicallStats.totalWins) /
-          (sprintStats.totalMistakes + audoicallStats.totalMistakes)) *
-        100;
+          (sprintStats.totalMistakes +
+            audoicallStats.totalMistakes +
+            sprintStats.totalWins +
+            audoicallStats.totalWins)) *
+          100
+      );
     }
     statisticsState.todayWordsStatistics = {
       newWords: sprintStats.newWords + audoicallStats.newWords,
@@ -85,6 +89,7 @@ export const statisticsState = observable({
   createStatisticForToday: action(async () => {
     const learnedWords = 0;
     const curDate: Date = new Date();
+
     let textDate: string = curDate.toLocaleString('en-GB', {
       dateStyle: 'short',
     });
