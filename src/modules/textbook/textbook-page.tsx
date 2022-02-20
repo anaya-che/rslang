@@ -1,10 +1,8 @@
-import { observer } from 'mobx-react-lite';
-import style from './textbook.module.scss';
 import { Header } from '../../components/header/header';
 import { Footer } from '../../components/footer/footer';
 import { Content } from './components/content';
 
-export const TextbookPage: React.FC = observer(() => {
+export const TextbookPage: React.FC = () => {
   return (
     <>
       <Header />
@@ -12,4 +10,4 @@ export const TextbookPage: React.FC = observer(() => {
       <Footer />
     </>
   );
-});
+};

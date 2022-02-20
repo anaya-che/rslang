@@ -70,29 +70,33 @@
 }
 
 .cardGroup0 {
-  background-color:rgba($yellow-normal, 0.5);
+  background-color: rgba($yellow-normal, 0.5);
 }
 
 .cardGroup1 {
-  background-color:rgba($green-light, 0.5);
+  background-color: rgba($green-light, 0.5);
 }
 
 .cardGroup2 {
-  background-color:rgba($red-light, 0.5);
+  background-color: rgba($red-light, 0.5);
 }
 
 .cardGroup3 {
-  background-color:rgba($blue-light, 0.5);
+  background-color: rgba($blue-light, 0.5);
 }
 
 .cardGroup4 {
-  background-color:rgba($color-11, 0.5);
+  background-color: rgba($color-11, 0.5);
 }
 
 .cardGroup5 {
-  background-color:rgba($color-13, 0.5);
+  background-color: rgba($color-13, 0.5);
 }
 
 .cardGroup6 {
-  background-color:rgba($color-14, 0.5);
+  background-color: rgba($color-14, 0.5);
+}
+
+.learnedCard {
+  filter: grayscale(1);
 }

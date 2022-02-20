@@ -12,10 +12,7 @@ import {
 } from '../../../../utils/textbook-helpers/navigation';
 import style from './navigation.module.scss';
 
-export const Navigation: React.FC<{ group: string; page: string }> = (
-  group,
-  page
-) => {
+export const Navigation: React.FC = () => {
   return (
     <div className={style.navContainer}>
       <div className={style.pagination}>
@@ -37,7 +34,10 @@ export const Navigation: React.FC<{ group: string; page: string }> = (
           <button
             id="textbook-sprint"
             onClick={async () =>
-              sprintState.startFromTextbook(+group - 1, +page - 1)
+              sprintState.startFromTextbook(
+                textbookState.wordGroup,
+                textbookState.wordPage
+              )
             }
           >
             Спринт
