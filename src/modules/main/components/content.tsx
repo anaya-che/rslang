@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import style from '../main.module.scss';
 
 export const Content = () => {

@@ -3,8 +3,11 @@ import { observer } from 'mobx-react-lite';
 import style from '../main.module.scss';
 import { userState } from '../../../store';
 import { LogOut } from '../../user/components/log-out';
+import { useState } from 'react';
+import { UserPage } from '../../user/user-page';
 
 export const Header = observer(() => {
+  const [userActive, setUserActive] = useState(false)
   return (
     <div className={style.header}>
       <div>
@@ -37,9 +40,11 @@ export const Header = observer(() => {
             <LogOut />
           </div>
         ) : (
-          <Link to="/user">Войти</Link>
+          <button onClick={() => setUserActive(true)}>войти</button>
+          // <Link to="/user" >Войти</Link>
         )}
       </div>
+      <UserPage active={userActive} setActive={setUserActive}/>
     </div>
   );
 });
