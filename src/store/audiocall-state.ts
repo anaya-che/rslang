@@ -315,7 +315,8 @@ export const audiocallState: IaudiocallStat = observable({
   }),
 
   getFilteredWords: action( async() => {
-    audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+    audiocallState.aggregatedWords = await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${audiocallState.page}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
+    console.log(await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${0}},{"page":${7}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`))
     let pageCount = audiocallState.page
     let final: IWordData[]
     let sliced
@@ -327,7 +328,7 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.setAggWords(toJS(audiocallState.aggregatedWords))
     }
     while (audiocallState.aggregatedWords.length < 15) {
-      pageCount -= 1
+      pageCount >= 1 ? pageCount -= 1 : pageCount = pageCount + 0
       reserve =  await getUserAggregatedWords(userState.tokenInfo.userId, '20', `{"$and": [{"group":${audiocallState.category}},{"page":${pageCount}},{"$or":[{"userWord.difficulty":"difficult"},{"userWord":null},{"userWord.difficulty":"normal"}]}]}`)
       delta = 15 - audiocallState.aggregatedWords.length
       sliced = toJS(reserve.slice(0, delta))
