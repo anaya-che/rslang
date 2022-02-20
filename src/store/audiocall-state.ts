@@ -122,6 +122,7 @@ export const audiocallState: IaudiocallStat = observable({
           learnedWordsId: easyWords
         })
       }
+      audiocallState.amountOfRemainingWords = 0
     }
   }),
 
@@ -259,6 +260,7 @@ export const audiocallState: IaudiocallStat = observable({
     audiocallState.incorrectAnswers = []
     audiocallState.isStarted = null
     audiocallState.isAnswered = null
+    audiocallState.aggregatedWords = []
   }),
 
   handleAudiocallStart: action( async () => {
