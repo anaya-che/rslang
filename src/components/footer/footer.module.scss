@@ -26,6 +26,9 @@
   a {
     visibility: hidden;
   }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 .github {

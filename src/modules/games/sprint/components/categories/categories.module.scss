@@ -1,0 +1,50 @@
+@import '../../../../../consts.scss';
+
+.categories {
+  h1 {
+    font-size: 3rem;
+    padding-top: 3rem;
+  }
+  flex: 1 0 auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7rem;
+}
+
+.categoriesBtnGroup {
+  display: flex;
+  gap: 1em;
+  padding-top: 13%;
+}
+
+.categoriesBtn {
+  border: none;
+  border: none;
+  width: 5rem;
+  height: 5rem;
+  font-size: 24px;
+  color: $bg-color;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px $font;
+  font-weight: 700;
+  &:nth-child(1) { 
+    background-color: $yellow-normal;
+  }
+  &:nth-child(2) { 
+    background-color: $green-light;
+  }
+  &:nth-child(3) { 
+    background-color: $red-light;
+  }
+  &:nth-child(4) { 
+    background-color: $blue-light;
+  }
+  &:nth-child(5) { 
+    background-color: $color-11;
+  }
+  &:nth-child(6) { 
+    background-color: $color-13;
+  }
+}
