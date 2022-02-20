@@ -1,0 +1,89 @@
+@import '../../../../../consts.scss';
+
+.resultWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.answer {
+  display: flex;
+  gap: 1em;
+  justify-content: space-between;
+  align-items: center;
+  .audioBtn {
+    width: 1.5rem;
+    height: 1.5rem;
+    background-size: contain;
+    margin: 0.5em;
+    background-image: url('../../../../../../public/icons/sound2.svg');
+    background-repeat: no-repeat;
+    text-align: center;
+    background-color: transparent;
+  }
+}
+.title {
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+.answersContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 5rem;
+  min-width: 83%;
+}
+
+.playAgain {
+  width: 8.5rem;
+  height: 3.5rem;
+  background-color: $blue-light;
+  box-shadow: 0px 0px 5px $font;
+  border-radius: 3px;
+  background-repeat: no-repeat;
+  color: $bg-color;
+  font-size: 16px;
+}
+
+.resultDescription {
+  display: flex;
+  gap: 4rem;
+  min-width: 90%;
+  padding-bottom: 2rem;
+  button {
+    display: block;
+  }
+}
+
+.rightAnswList {
+  background-color: $green-opacity;
+  box-shadow: 0px 0px 10px $font;
+  padding: 1rem;
+  border-radius: 5px;
+    .title {
+      padding-bottom: 1rem;
+    }
+    .percentage {
+      color: $green-dark;
+    }
+}
+
+.mistakeAnswList {
+  background-color: $red-opacity;
+  box-shadow: 0px 0px 10px $font;
+  padding: 1rem;
+  border-radius: 5px;
+    .title {
+      padding-bottom: 1rem;
+    }
+    .percentage {
+      color: $red-dark;
+    }
+}
+
+.percentage {
+  text-align: center;
+  padding-bottom: 1rem;
+  font-weight: 700;
+  font-size: 16px;
+}

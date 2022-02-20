@@ -1,7 +1,7 @@
 import { observer } from 'mobx-react-lite';
-import { Footer } from '../../../../components/footer/footer';
-import { sprintState } from '../../../../store/sprint-state';
-import style from './sprint.module.scss';
+import { Footer } from '../../../../../components/footer/footer';
+import { sprintState } from '../../../../../store/sprint-state';
+import style from './categories.module.scss';
 
 export const Categories: React.FC = observer(()=> {
   return (
