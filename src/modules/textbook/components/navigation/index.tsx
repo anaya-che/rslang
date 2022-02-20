@@ -15,35 +15,6 @@ import style from './navigation.module.scss';
 export const Navigation: React.FC = () => {
   return (
     <div className={style.navContainer}>
-      <div className={style.pagination}>
-        <Link to={`/textbook/${textbookState.wordGroup + 1}/${getPrevPage()}`}>
-          <button>prev</button>
-        </Link>
-        <Link to={`/textbook/${textbookState.wordGroup + 1}/${getNextPage()}`}>
-          <button>next</button>
-        </Link>
-        <Link to="/games/audiocall">
-          <button
-            id="textbook-audiocall"
-            onClick={audiocallState.handleAudiocallStart}
-          >
-            Аудиовызов
-          </button>
-        </Link>
-        <Link to="/games/sprint">
-          <button
-            id="textbook-sprint"
-            onClick={async () =>
-              sprintState.startFromTextbook(
-                textbookState.wordGroup,
-                textbookState.wordPage
-              )
-            }
-          >
-            Спринт
-          </button>
-        </Link>
-      </div>
       <div className={style.groupsContainer}>
         <Link to="/textbook/1/1">
           <button className={style.categoriesBtn + ' ' + style.categorie1}>
@@ -80,6 +51,49 @@ export const Navigation: React.FC = () => {
             <button className={style.difficultBtn}>Сложные слова</button>
           </Link>
         )}
+      </div>
+      <div className={style.btnContainer}>
+        <Link to="/games/audiocall">
+          <button
+            className={style.audiocallBtn}
+            id="textbook-audiocall"
+            onClick={audiocallState.handleAudiocallStart}
+          >
+            Аудиовызов
+          </button>
+        </Link>
+        <div className={style.pagination}>
+          <Link
+            to={`/textbook/${textbookState.wordGroup + 1}/${getPrevPage()}`}
+          >
+            <div className={style.prevButton}></div>
+          </Link>
+          <div className={style.pageInfo}>
+            {textbookState.wordGroup !== 6
+              ? textbookState.wordGroup + 1
+              : 'сложные слова'}{' '}
+            / {textbookState.wordPage + 1}
+          </div>
+          <Link
+            to={`/textbook/${textbookState.wordGroup + 1}/${getNextPage()}`}
+          >
+            <div className={style.nextButton}></div>
+          </Link>
+        </div>
+        <Link to="/games/sprint">
+          <button
+            className={style.sprintBtn}
+            id="textbook-sprint"
+            onClick={async () =>
+              sprintState.startFromTextbook(
+                textbookState.wordGroup,
+                textbookState.wordPage
+              )
+            }
+          >
+            Спринт
+          </button>
+        </Link>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@ export const Card: React.FC<{ wordInfo: IWordData; cardStyle: string }> = ({
   return (
     <div className={style.card + ' ' + style[currentStyle]}>
       <div
-        className={style.imageContainer}
+        className={style.imageContainer + ' ' + style[currentStyle]}
         style={{ backgroundImage: `url(${urlImage})` }}
       >
         <div className={style.cardWrapper}>
@@ -64,7 +64,7 @@ export const Card: React.FC<{ wordInfo: IWordData; cardStyle: string }> = ({
         </div>
       </div>
 
-      <div>
+      <div className={style.textWrapper}>
         <div className={style.textContainer}>
           <div className={style.meaningInfo}>
             <div
@@ -84,9 +84,9 @@ export const Card: React.FC<{ wordInfo: IWordData; cardStyle: string }> = ({
             wordInfo.userWord &&
             (wordInfo.userWord?.optional.mistakes !== 0 ||
               wordInfo.userWord?.optional.wins !== 0) && (
-              <div className={style.wordContainer}>
-                <div>угадано: {wordInfo.userWord?.optional.wins}</div>
-                <div>не угадано: {wordInfo.userWord?.optional.mistakes}</div>
+              <div className={style.wordGameInfo}>
+                угадано: {wordInfo.userWord?.optional.wins} / ошибок:{' '}
+                {wordInfo.userWord?.optional.mistakes}
               </div>
             )}
         </div>

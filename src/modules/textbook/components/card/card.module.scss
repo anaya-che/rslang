@@ -35,7 +35,7 @@
   justify-content: space-around;
   min-height: 200px;
   gap: 15px;
-  width: 100%;
+  width: calc(100% - 20px);
   padding: 10px;
   background-color: rgba($bg-color, 0.5);
   backdrop-filter: blur(5px);
@@ -117,12 +117,14 @@
 .easyWord:hover,
 .difficultWord:hover {
   opacity: 0.8;
-  transition: 0.8s;
-  filter: invert(46%) sepia(51%) saturate(372%) hue-rotate(117deg) brightness(94%) contrast(98%);
+  transition: 0.5s;
+  filter: invert(46%) sepia(51%) saturate(372%) hue-rotate(117deg)
+    brightness(94%) contrast(98%);
 }
 
 .difficultWord.active {
-  filter: invert(94%) sepia(91%) saturate(708%) hue-rotate(313deg) brightness(98%) contrast(98%);
+  filter: invert(94%) sepia(91%) saturate(708%) hue-rotate(313deg)
+    brightness(98%) contrast(98%);
 }
 
 .cardWrapper {
@@ -152,4 +154,16 @@
   background-color: rgba($bg-color, 0.5);
   backdrop-filter: blur(5px);
   border-radius: 10px;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 230px;
+}
+
+.wordGameInfo {
+  display: flex;
+  justify-content: flex-end;
 }
