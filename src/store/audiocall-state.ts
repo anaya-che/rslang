@@ -195,11 +195,9 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.answersArr = questionAnswers
       audiocallState.answered = wordsArr
     } else if (audiocallState.amountOfRemainingWords > 0) {
-
       wordsArr = audiocallState.words
       wordsArr = toJS(wordsArr)
-      let dynamicAnswer = audiocallState.counter - 1
-      let arr = [dynamicAnswer, -1, -2, -3, -4]
+      let arr = [0, -1, -2, -3, -4]
       questionAnswers = audiocallState.randomArrayShuffle(arr)
       questionAnswers.map((el, index) => el >= 0 ? audiocallState.randomAnsw = index : null)
       const proxy = new Proxy(wordsArr, {
