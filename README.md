@@ -22,7 +22,7 @@
 - Clear code  
 - More possibilities
 - Allows you to use variables
-- Nested rules, mixins and inline imports, etc. 
+- Nested rules, mixins and inline imports, etc
 
 **Cons:** 
 - Difficult troubleshooting
@@ -31,8 +31,8 @@
 **3. MobX** - is a standalone library for managing the state of an application, which we use in conjunction with react.
 
 **Pros:** 
-- It lets you define specific pieces of data as being "observable", then wraps those up and tracks any changes made to that data and automatically updates any other piece of code that is observing the data. 
-- It encourages use of standard mutating code, like someObject.someField = someValue, and someArray.push(someValue), with the real update logic being hidden internal to MobX.
+- It lets you define specific pieces of data as being "observable", then wraps those up and tracks any changes made to that data and automatically updates any other piece of code that is observing the data
+- It encourages use of standard mutating code, like someObject.someField = someValue, and someArray.push(someValue), with the real update logic being hidden internal to MobX
 - Idiomatic MobX code keeps your data in nested form and maintain direct references from one object to another
 
 **Cons:** 
@@ -57,9 +57,9 @@
 **5. Chart.js** - is an easy way to include animated, interactive graphs on your website.
 
 **Pros:** 
-- 9 types of graphs and charts: Line, Linear with Areas, Bar, Doughnut and Pie, Radar, Polar, Bubble and Scatterplot (Scatter) and Mixed Chart Types. 
-- All types of graphs can be customized and animated, and they are all responsive when working on the web. 
-- The functionality can be extended through the use of plugins.
+- 9 types of graphs and charts: Line, Linear with Areas, Bar, Doughnut and Pie, Radar, Polar, Bubble and Scatterplot (Scatter) and Mixed Chart Types
+- All types of graphs can be customized and animated, and they are all responsive when working on the web
+- The functionality can be extended through the use of plugins
 
 **Cons:** 
 - Pure library approach that Chart.js represents does not provide data extraction utilities, integrations to different data sources, data collection, transformation (ETL), data warehousing, administration UIs, role management nor configurable interactive widgets, so, for more complex visualization you should prefer other tools.
