@@ -37,8 +37,8 @@ export const Card: React.FC = observer(() => {
       <div>{sprintState.currentWord && sprintState.currentWord.word}</div>
       <div>{sprintState.translate}</div>
       <div className={style.buttonGroup}>
-        <button className={style.answerBtn + ' ' + style.true} ref={noBtn} onClick={(): void => checkRightPair(false)}>Не верю</button>
-        <button className={style.answerBtn + ' ' + style.false} ref={yesBtn} onClick={(): void => checkRightPair(true)}>Верю</button>
+        <button className={style.answerBtn + ' ' + style.false} ref={noBtn} onClick={(): void => checkRightPair(false)}>Не верю</button>
+        <button className={style.answerBtn + ' ' + style.true} ref={yesBtn} onClick={(): void => checkRightPair(true)}>Верю</button>
       </div>
     </div>
     </>

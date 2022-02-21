@@ -1,3 +1,63 @@
-.class123 {
-  background-color: aquamarine;
+@import '../../consts.scss';
+
+.statisticPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h1, h2 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-bottom: 2rem;
+  }
+  h1 {
+    padding-top: 1rem;
+  }
+}
+
+.statisticWrapper {
+  flex: 1 0 auto;
+  min-height: calc(100vh - 7em);
+  width: 70%;
+}
+
+.statTodayContainer {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex-wrap: wrap;
+  padding-bottom: 2rem;
+  gap: 1rem;
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    border-radius: 3px;
+    width: 36%;
+    padding: 1rem 1rem;
+    height: 10rem;
+    font-size: 1.15em;
+    box-shadow: 0px 0px 5px $font;
+    &:nth-child(1) { 
+      background-color: rgba($blue-light, .8);
+      width: 73%;
+    }
+    &:nth-child(2) { 
+      background-color: rgba($yellow-normal, .8);
+    }
+    &:nth-child(3) { 
+      background-color: rgba($red-light, .8);
+    }
+    h3 {
+      text-align: center;
+    }
+    span {
+      font-weight: 700;
+    }
+  }
+}
+
+.statLongContainer {
+  width: 100%;
+  padding: 0 8rem;
 }
