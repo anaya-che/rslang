@@ -39,7 +39,7 @@ export const Header: React.FC = observer(() => {
               <LogOut />
             </div>
           ) : (
-            <button onClick={() => userState.setActive(true)}>войти</button>
+            <button onClick={() => userState.setActive(true)}>Войти</button>
           )}
         </div>
       </div>
