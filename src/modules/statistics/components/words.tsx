@@ -3,11 +3,11 @@ import { IDailyWordsStatistic } from '../../../utils/interfaces';
 
 export const WordsStat: React.FC<{ data: IDailyWordsStatistic }> = (data) => {
   return (
-    <div>
+    <section>
       <h3>Статистика по словам</h3>
-      <div>Новых слов: {data.data.newWords}</div>
-      <div>Изученных слов: {data.data.learnedWords}</div>
-      <div>Процент правильных ответов: {data.data.percentOfAnswers}%</div>
-    </div>
+      <div>Новых слов:  <span>{data.data.newWords}</span></div>
+      <div>Изученных слов:  <span>{data.data.learnedWords}</span></div>
+      <div>Процент правильных ответов:  <span>{data.data.percentOfAnswers}%</span></div>
+    </section>
   );
 };
