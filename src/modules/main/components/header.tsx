@@ -1,14 +1,13 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { LogOut } from '../../user/components/log-out';
 import { userState } from '../../../store';
-import { UserPage } from '../../user/user-page';
 import style from '../main.module.scss';
+import { UserContent } from '../../user/components/user-content';
 
-export const Header: React.FC<{ active: boolean; setActive: Function }> =
-  observer(({ active, setActive }) => {
-    return (
+export const Header: React.FC = observer(() => {
+  return (
+    <>
       <div className={style.header}>
         <div>
           <div className={style.home}>
@@ -40,10 +39,11 @@ export const Header: React.FC<{ active: boolean; setActive: Function }> =
               <LogOut />
             </div>
           ) : (
-            <button onClick={() => setActive(true)}>войти</button>
-            // <Link to="/user" >Войти</Link>
+            <button onClick={() => userState.setActive(true)}>войти</button>
           )}
         </div>
       </div>
-    );
-  });
+      <UserContent />
+    </>
+  );
+});

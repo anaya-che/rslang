@@ -15,6 +15,11 @@ export const userState = observable({
   userInfo: {} as IUser,
   tokenInfo: {} as IToken,
   message: '',
+  isModalActive: false,
+
+  setActive: action((isActive: boolean) => {
+    userState.isModalActive = isActive;
+  }),
 
   checkAuth: action(async () => {
     await getWords(0, 0);

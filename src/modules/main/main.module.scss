@@ -88,4 +88,13 @@
     align-items: center;
     gap: 1em;
   }
+  button {
+    border: none;
+    width: 9rem;
+    height: 2rem;
+    color: $font;
+    border-radius: 3px;
+    box-shadow: 0px 0px 2px $font;
+    background-color: $bg-color;
+  }
 }
