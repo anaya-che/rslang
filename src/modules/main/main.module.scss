@@ -52,7 +52,12 @@
   }
   .teamsImg {
     align-self: end;
-    max-width: 650px;
+    width: 650px;
+    height: 540px;
+    background-image: url('../../../public/img/main-page.jpg');
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat
   }
 }
 
@@ -73,6 +78,24 @@
     flex-direction: row;
     justify-content: space-around;
     width: 450px;
+    .avatar {
+      width: 160px;
+      height: 130px;
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      
+      
+    }
+    .avatarAnastasia {
+      background-image: url('../../../public/img/anastasia.jpg');
+    }
+    .avatarMaria {
+      background-image: url('../../../public/img/maria.png');
+    }
+    .avatarAndrew {
+      background-image: url('../../../public/img/andrew.jpg');
+    }
     .developerInfo {
       display: flex;
       flex-direction: column;

@@ -64,11 +64,6 @@ export const Content = () => {
             </div>
 
             <div className={style.teamsImg}>
-              <img
-                src="../../../../img/main-page.jpg"
-                width="100%"
-                alt="team"
-              />
             </div>
           </div>
         </section>
@@ -77,8 +72,7 @@ export const Content = () => {
           <h2 className={style.aboutTeamLogo}>О команде:</h2>
           <div className={style.team}>
             <div className={style.developer}>
-              <div className={style.avatar}>
-                <img src="../../../../img/anastasia.jpg" width="160px" alt="" />
+              <div className={style.avatarAnastasia + ' ' + style.avatar}>
               </div>
               <div className={style.developerInfo}>
                 <h3>Анастасия</h3>
@@ -90,8 +84,7 @@ export const Content = () => {
               </div>
             </div>
             <div className={style.developer}>
-              <div className={style.avatar}>
-                <img src="../../../../img/maria.png" width="160px" alt="" />
+              <div className={style.avatarMaria + ' ' + style.avatar}>
               </div>
               <div className={style.developerInfo}>
                 <h3>Мария</h3>
@@ -100,8 +93,7 @@ export const Content = () => {
               </div>
             </div>
             <div className={style.developer}>
-              <div className={style.avatar}>
-                <img src="../../../../img/andrew.jpg" width="160px" alt="" />
+              <div className={style.avatarAndrew + ' ' + style.avatar}>
               </div>
               <div className={style.developerInfo}>
                 <h3>Андрей</h3>
