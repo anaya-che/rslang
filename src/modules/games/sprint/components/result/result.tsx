@@ -48,14 +48,14 @@ export const Result: React.FC = observer(()=> {
   
       <section className={style.answersContainer}>
         <div className={style.rightAnswList}>
-          <div className={style.title}>Угадано правильно {rightAnswers.length} слов</div>
-          <div className={style.percentage}>Правильных ответов: {rightAnswersPercentage} % </div>
+          <div className={style.title}>&nbsp;&nbsp;Правильных ответов: {rightAnswers.length}</div>
+          <div className={style.percentage}>Угадано правильно {rightAnswersPercentage} % </div>
           <ul>{rightAnswers.map((answer, i) => renderAnswers(answer, i))}</ul>
         </div>
 
         <div className={style.mistakeAnswList}>
-          <div className={style.title}>Угадано неправильно {mistakeAnswers.length} слов</div>
-          <div className={style.percentage}>Неправильных ответов: {mistakeAnswersPercentage} % </div>
+          <div className={style.title}>Неправильных ответов: {mistakeAnswers.length}</div>
+          <div className={style.percentage}>Угадано неправильно {mistakeAnswersPercentage} % </div>
           <ul>{mistakeAnswers.map((answer, i) => renderAnswers(answer, i))}</ul>
         </div>
       </section>
