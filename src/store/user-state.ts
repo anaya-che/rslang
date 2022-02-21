@@ -15,6 +15,11 @@ export const userState = observable({
   userInfo: {} as IUser,
   tokenInfo: {} as IToken,
   message: '',
+  isModalActive: false,
+
+  setActive: action((isActive: boolean) => {
+    userState.isModalActive = isActive;
+  }),
 
   checkAuth: action(async () => {
     await getWords(0, 0);
@@ -66,6 +71,8 @@ export const userState = observable({
         userState.userInfo = res;
         await userState.signIn();
       }
+    } else {
+      userState.getWarningMessage('Пожалуйста, введите все данные.');
     }
   }),
 

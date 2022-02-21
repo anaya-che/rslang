@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { IToken } from '../utils/interfaces/token';
 import { IUser } from '../utils/interfaces/user';
 import { baseUrl, HttpStatus } from '.';
 import {
@@ -29,16 +28,20 @@ export const createUser = async (
         const errorMessages = error.response.data.error.errors;
         errorMessages.forEach((el: any) => {
           if (el.path.includes('email'))
-            userState.getWarningMessage('Please, enter a valid email.');
+            userState.getWarningMessage(
+              'Пожалуйста, введите корректный адрес электронной почты.'
+            );
           if (el.path.includes('password'))
             userState.getWarningMessage(
-              'Please, enter a valid password. Length must be at least 8 characters.'
+              'Пожалуйста, введите корректный пароль. Длинна должна быть не менее 8 символов.'
             );
         });
       }
-      if (error.response.status === HttpStatus.USER_EXISTS)
-        userState.getWarningMessage('User with this e-mail already exists.');
-      else {
+      if (error.response.status === HttpStatus.USER_EXISTS) {
+        userState.getWarningMessage(
+          'Пользователь с такой почтой уже существует.'
+        );
+      } else {
         throw new Error(error);
       }
     });
@@ -53,14 +56,11 @@ export const getUser = async (userId: string): Promise<void | IUser> => {
     .catch(async (error) => {
       if (error.response.status === HttpStatus.NEED_TOKEN) {
         clearLocalStorage();
-        console.log('кинуть на страницу логина');
       }
       if (error.response.status === HttpStatus.UNAUTHORIZED) {
-        clearLocalStorage()
-        console.log('кинуть на страницу логина');
+        clearLocalStorage();
       }
-      if (error.response.status === HttpStatus.NOT_FOUND)
-        userState.getWarningMessage('User not found');
+      if (error.response.status === HttpStatus.NOT_FOUND) userState.getWarningMessage('Пользователь не найден.');
       else {
         throw new Error(error);
       }
@@ -83,27 +83,8 @@ export const updateUser = async (
     )
     .then((res): Promise<IUser> => res.data)
     .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('User is unauthorized.');
-      if (error.response.status === HttpStatus.BAD_REQUEST)
-        console.log('Bad request.');
-      else {
-        throw new Error(error);
-      }
-    });
-};
-
-export const deleteUser = async (userId: string): Promise<void> => {
-  return axios
-    .delete(`${baseUrl}users/${userId}`, {
-      headers: { Authorization: `Bearer ${getTokenFromStorage()}` },
-    })
-    .then((res) => {
-      if (res.status === 204) console.log('The user has been deleted.');
-    })
-    .catch((error) => {
-      if (error.response.status === HttpStatus.UNAUTHORIZED)
-        console.log('User is unauthorized.');
+      if (error.response.status === HttpStatus.UNAUTHORIZED) {}
+      if (error.response.status === HttpStatus.BAD_REQUEST) {}
       else {
         throw new Error(error);
       }
