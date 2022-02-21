@@ -2,12 +2,17 @@ import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import style from './header.module.scss';
 import { sprintState, userState } from '../../store';
+import { longTermState } from '../../store/long-term-state';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header}>
+    <div className={style.header} onClick={() => {
+      sprintState.setDefault()
+      longTermState.setDefault()
+    }
+      }>
       <div>
-        <div className={style.home} onClick={sprintState.setDefault}>
+        <div className={style.home}>
           <Link to="/">
             <img src="../../../../icons/home.svg" alt="Home page" />
           </Link>
