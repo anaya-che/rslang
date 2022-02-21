@@ -1,6 +1,6 @@
 import { isNewWord } from './../utils/statistics-helpers/new-words';
 import { wordsStore, getWords, userWordsStore } from './words-store';
-import { observable, action, toJS } from 'mobx';
+import { observable, action } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
 import { textbookState, userState } from '.';
@@ -256,7 +256,6 @@ export const sprintState: ISprintState = observable({
           totalMistakes: sprintState.totalMistakes,
           learnedWordsId: sprintState.learnedWords,
         })
-        console.log('learnedWordsId:', toJS(sprintState.learnedWords));
         
        }
       }
