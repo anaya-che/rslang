@@ -1,6 +1,7 @@
 import { observer } from 'mobx-react-lite';
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Footer } from '../../components/footer/footer';
+import { Header } from '../../components/header/header';
 import { longTermState } from '../../store/long-term-state';
 import { statisticsState } from '../../store/statistics-state';
 import { AudiocallStat, SprintStat, WordsStat } from './components';
@@ -13,16 +14,22 @@ export const StatisticsPage = observer(() => {
   }, [])
 
   return (
-    <div>
-      <div onClick={longTermState.setDefault}>
-        <Link to="/">Главная страница</Link>
+    <div className={style.statisticPage}>
+      <Header />
+      <div className={style.statisticWrapper}>
+        <h1>Статистика</h1>
+        <h2>Статистика за день</h2>
+        <section className={style.statTodayContainer}>
+          <WordsStat data={statisticsState.todayWordsStatistics} />
+          <AudiocallStat data={statisticsState.todayAudiocallStatistics} />
+          <SprintStat data={statisticsState.todaySprintStatistics} />
+        </section>
+        <h2>Долгосрочная статистика</h2>
+        <section className={style.statLongContainer}>
+          {longTermState.isTrue ? <Chart/> : null}
+        </section>
       </div>
-      <h1>Статистика</h1>
-      <h2>Статистика за день</h2>
-      <WordsStat data={statisticsState.todayWordsStatistics} />
-      <AudiocallStat data={statisticsState.todayAudiocallStatistics} />
-      <SprintStat data={statisticsState.todaySprintStatistics} />
-      {longTermState.isTrue ? <Chart/> : null}
+      <Footer />
     </div>
   );
 });

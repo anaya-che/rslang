@@ -7,7 +7,7 @@ export const Header = observer(() => {
   return (
     <div className={style.header}>
       <div>
-        <div className={style.home} onClick={() => {
+        <div className={style.home} onClick={ ()=> {
           sprintState.setDefault()
           audiocallState.setDefault()
         }}>

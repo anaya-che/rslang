@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import style from '../main.module.scss';
 
 export const Content = () => {
@@ -18,7 +17,7 @@ export const Content = () => {
               <p><img src="../../../../icons/bullet.svg" width='20px' height='20px' alt="" /> повторяй сложные слова для быстрого запоминания!</p>
               <p><img src="../../../../icons/bullet.svg" width='20px' height='20px' alt="" /> отслеживай свой прогресс ежедневно и ставь новые цели!</p>
             </div>
-            <div>
+            <div className={style.teamsImg}>
               <img src="../../../../img/main-page.jpg" width="100%" alt="team" />
             </div>
           </div>
@@ -47,9 +46,7 @@ export const Content = () => {
             </div>
           </div>
         </section>
-
       </div>
-      
     </div>
   );
 };

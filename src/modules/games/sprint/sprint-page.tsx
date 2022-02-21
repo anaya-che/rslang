@@ -14,7 +14,7 @@ export const SprintPage: React.FC = observer(() => {
         {sprintState.isGame && sprintState.currentWord !== null ? (
           <>
             <button className={style.exitBtn} onClick={sprintState.setDefault}>
-            <Link to="/"></Link>
+              <Link to="/"></Link>
             </button>
             <Game />
           </>
