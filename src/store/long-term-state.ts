@@ -44,17 +44,17 @@ export const longTermState = observable({
       datasets: [
         {
           data: longTermState.newWords,
-          label: "Изученных слов",
-          borderColor: "rgb(255, 99, 132)",
-          backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          label: "Новых слов",
+          borderColor: '#f7cc7e',
+          backgroundColor: '#fbe0b3',
           fill: true,
           lineTension: 0
         },
         {
           data: longTermState.learnedWords,
-          label: "Новых слов",
-          borderColor: 'rgb(53, 162, 235)',
-          backgroundColor: 'rgba(53, 162, 235, 0.5)',
+          label: "Изученных слов",
+          borderColor: '#3c8f7d',
+          backgroundColor: '#51bfa6',
           fill: true,
           lineTension: 0
         }
