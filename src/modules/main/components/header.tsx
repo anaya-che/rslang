@@ -6,7 +6,7 @@ import { LogOut } from '../../user/components/log-out';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header} onClick={()=> audiocallState.setDefault()} >
+    <div className={style.header} >
       <div>
         <div className={style.home}>
           <Link to="/">

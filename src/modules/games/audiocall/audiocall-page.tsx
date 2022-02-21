@@ -2,7 +2,7 @@ import React from 'react';
 import { audiocallState } from "./../../../store/audiocall-state";
 import { observer } from 'mobx-react-lite';
 import { CreateAudioCallGame } from './components/game-page/page';
-import { Header } from '../../main/components/header';
+import { Header } from '../../../components/header/header';
 import { Footer } from '../../../components/footer/footer';
 import style from './audiocall.module.scss';
 import choose from '../audiocall/audiocall-page-styles/categories.module.scss'
