@@ -19,7 +19,7 @@ button {
   min-width: 20px;
   border: none;
   font-family: 'Roboto', sans-serif;
-  margin: 1em;
+  margin: 1rem;
   cursor: pointer;
 }
 
@@ -37,13 +37,15 @@ a {
   color: inherit;
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   transition: 0.5s;
   transform: translate(1px, -1px);
   filter: brightness(110%);
 }
 
-a:focus, button:focus {
+a:focus,
+button:focus {
   outline: transparent;
 }
 
@@ -57,8 +59,16 @@ a:focus, button:focus {
   flex: 1 0 auto;
 }
 
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  border: none;
+  outline: none;
+  padding: 0;
+}
+
 ::-webkit-scrollbar {
-  width: 6px; 
+  width: 6px;
   height: 6px;
   background-color: #96d9c846;
 }
@@ -72,4 +82,3 @@ a:focus, button:focus {
 ::-webkit-scrollbar-thumb:hover {
   background-color: $green-normal;
 }
-

@@ -14,11 +14,14 @@ export const signIn = async (
     })
     .then((res): Promise<IToken> => res.data)
     .catch((error) => {
-      if (error.response.status === HttpStatus.INCORRECT)
-        userState.getWarningMessage('Incorrect e-mail or password.');
-      if (error.response.status === HttpStatus.NOT_FOUND)
-        userState.getWarningMessage('Incorrect e-mail or password.');
-      else {
+      if (error.response.status === HttpStatus.INCORRECT) {
+        userState.getWarningMessage('Некорректный адрес почты или пароль.');
+      }
+
+      if (error.response.status === HttpStatus.NOT_FOUND) {
+        
+        userState.getWarningMessage('Некорректный адрес почты или пароль.');
+      } else {
         throw new Error(error);
       }
     });
