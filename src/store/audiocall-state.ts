@@ -46,6 +46,8 @@ export const audiocallState: IaudiocallStat = observable({
   counterConditionValue: 0,
   amountOfRemainingWords: 0,
   amountOfNewWords: 0,
+  lastAnswer: null,
+  isSimpleGame: false,
 
   setCategory: action(async (category: number) => {
     audiocallState.category = category;
@@ -86,7 +88,6 @@ export const audiocallState: IaudiocallStat = observable({
       const proxy = new Proxy(audiocallState.words, {
         get(target, prop: number | string | symbol) {
             if (!isNaN(Number(prop))) {
-
                 prop = parseInt(String(prop), 10);
                 if (prop < 0) {
                     prop += target.length;
@@ -141,6 +142,7 @@ export const audiocallState: IaudiocallStat = observable({
       audiocallState.amountOfNewWords = audiocallState.amountOfNewWords + 1
     }
     if (target.innerHTML === audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].wordTranslate) {
+      audiocallState.lastAnswer = true
       playAnswerAudio(`../../right.mp3`);
       const wordId = audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       audiocallState.statisticsWordsID.push(wordId)
@@ -155,6 +157,7 @@ export const audiocallState: IaudiocallStat = observable({
       })
       audiocallState.seriesCounter.push(1)
     } else {
+      audiocallState.lastAnswer = false
       playAnswerAudio(`../../mistake.mp3`);
       const wordId = audiocallState.words[audiocallState.answersArr[audiocallState.randomAnsw]].id as string
       audiocallState.statisticsWordsID.push(wordId)
@@ -311,6 +314,7 @@ export const audiocallState: IaudiocallStat = observable({
         audiocallState.counter = 1
       }
     }
+    audiocallState.isSimpleGame = false
     audiocallState.setStart()
   }),
 
@@ -368,6 +372,10 @@ export const audiocallState: IaudiocallStat = observable({
 
   setAggWords: action( (arr: IWordData[])=> {
     audiocallState.words = arr
+  }),
+
+  setConditionValue: action( (val: number)=> {
+    audiocallState.counterConditionValue = val
   })
 
 });

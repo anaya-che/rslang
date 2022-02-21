@@ -1,21 +1,22 @@
 import { audiocallState } from "../../../../../../store/audiocall-state";
 import { observer } from 'mobx-react-lite';
+import style from './answer.module.scss'
 
 export const Answer = observer(()=> {
 
     return(
-      <div>
+      <div className={style.answerWrapper}>
         <div>
-          <img src={`${audiocallState.image}`} alt="" />
+          <img className={style.answerImg} src={`${audiocallState.image}`} alt="" />
         </div>
-        <div>
-          <button onClick={() => {
+        <div className={style.descriptionWrapper}>
+          <button className={style.audioBtn} onClick={() => {
               audiocallState.getWordAudio(audiocallState.savedAudioUrl)
-            }}>sound button</button>
+            }}></button>
           <div>
-            <p>{audiocallState.originalWord}</p>
-            <p>{audiocallState.transcription}</p>
-            <p>{audiocallState.translate}</p>
+            <p className={style.answer}>{audiocallState.originalWord}</p>
+            <p className={style.answer}>{audiocallState.transcription}</p>
+            <p className={style.answer}>{audiocallState.translate}</p>
           </div>
         </div>
       </div>
