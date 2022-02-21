@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import style from '../main.module.scss';
-import { userState } from '../../../store';
+import { audiocallState, userState } from '../../../store';
 import { LogOut } from '../../user/components/log-out';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header}>
+    <div className={style.header} onClick={()=> audiocallState.setDefault()} >
       <div>
         <div className={style.home}>
           <Link to="/">

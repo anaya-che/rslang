@@ -1,5 +1,89 @@
+@import '../../../../../../consts.scss';
+
 .audioAnswer {
   list-style: none;
   display: inline-flex;
   gap: 30px;
+}
+
+.sprintCard {
+  width: 30rem;
+  height: 30rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1em;
+  border-radius: 5px;
+  box-shadow: 0px 0px 10px $font;
+  background-color: $yellow-opacity;
+  font-size: 1.5rem;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  padding: 0 2rem;
+  align-items: center;
+}
+
+.audioContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.audioBtn {
+  width: 3.5rem;
+  height: 3.5rem;
+  background-color: transparent;
+  background-image: url('../../../../../../../public/icons/sound2.svg');
+  background-repeat: no-repeat;
+  text-align: center;
+}
+
+.buttonGroup {
+  display: flex;
+  justify-content: center;
+  gap: 1em;
+}
+
+.answerBtn {
+  width: 13vw;
+  height: 3rem;
+  border-radius: 3px;
+  color: $bg-color;
+  background-color: $green-light;
+  font-size: 18px;
+  font-weight: 500;
+  word-wrap: break-word;
+
+  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
+
+}
+
+.true {
+  width: 13vw;
+  height: 3rem;
+  border-radius: 3px;
+  color: $bg-color;
+  background-color: $color-9;
+  box-shadow: 0px 0px 5px $font;
+  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
+  font-size: 18px;
+  font-weight: 500;
+  word-wrap: break-word;
+}
+
+.false {
+  background-color: $red-light;
+  box-shadow: 0px 0px 5px $font;
+  width: 13vw;
+  height: 3rem;
+  border-radius: 3px;
+  color: $bg-color;
+  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
+  font-size: 18px;
+  font-weight: 500;
+  word-wrap: break-word;
 }

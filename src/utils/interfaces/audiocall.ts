@@ -57,5 +57,8 @@ export interface IaudiocallStat {
   counterConditionValue: number,
   amountOfRemainingWords: number,
   statisticsWordsID: string[],
-  amountOfNewWords: number
+  amountOfNewWords: number,
+  lastAnswer: boolean | null,
+  isSimpleGame: boolean,
+  setConditionValue: Function
 }
