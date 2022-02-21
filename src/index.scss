@@ -37,7 +37,8 @@ a {
   color: inherit;
 }
 
-a:hover, button:hover {
+a:hover,
+button:hover {
   opacity: 0.8;
   transition: 0.8s;
 }
@@ -50,4 +51,12 @@ a:hover, button:hover {
 
 .content {
   flex: 1 0 auto;
+}
+
+input[type='text'],
+input[type='email'],
+input[type='password'] {
+  border: none;
+  outline: none;
+  padding: 0;
 }

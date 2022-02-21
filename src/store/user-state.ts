@@ -66,6 +66,8 @@ export const userState = observable({
         userState.userInfo = res;
         await userState.signIn();
       }
+    } else {
+      userState.getWarningMessage('Пожалуйста, введите все данные.');
     }
   }),
 
