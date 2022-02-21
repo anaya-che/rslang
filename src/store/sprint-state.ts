@@ -1,6 +1,6 @@
 import { isNewWord } from './../utils/statistics-helpers/new-words';
 import { wordsStore, getWords, userWordsStore } from './words-store';
-import { observable, action } from 'mobx';
+import { observable, action, toJS } from 'mobx';
 import { compareId, getRandomInt, getTrueOrFalse, playAnswerAudio, shuffle } from '../utils/sprint-helpers';
 import { ISprintState } from '../utils/interfaces/sprint';
 import { textbookState, userState } from '.';
@@ -182,6 +182,7 @@ export const sprintState: ISprintState = observable({
         && (sprintState.currentWordIdx === sprintState.wordsFromTextbook.length-1)) {
       sprintState.secondsInRound = 0;
       if (userState.isAuthorized) {
+        await sprintState.checkLearnedWords();
         statisticsState.updateStatistics(sprintState.date, 'sprint', {
           gamesCount: 1,
           newWords: sprintState.newWordsCount,
@@ -218,6 +219,7 @@ export const sprintState: ISprintState = observable({
   }),
   
   startRound: action ((category: number): void => {
+    sprintState.setDefault();
     sprintState.setCategory(category);
     sprintState.startGamePage = 'main';
     sprintState.setStateForRound();
@@ -226,6 +228,7 @@ export const sprintState: ISprintState = observable({
   }),
 
   startFromTextbook: action (async(category: number, page: number): Promise<void> => {
+    sprintState.setDefault();
     sprintState.startGamePage = 'textbook';
     sprintState.setCategory(category);
     sprintState.page = page;
@@ -238,12 +241,13 @@ export const sprintState: ISprintState = observable({
   }),
 
   timerHandler: action (() => {
-    sprintState.interval = setInterval(action(() => {
+    sprintState.interval = setInterval(action(async () => {
       if (sprintState.secondsInRound > 0) {
         sprintState.setTimer();
       } else {
         clearInterval(sprintState.interval);
         if (userState.isAuthorized) {
+          await sprintState.checkLearnedWords();
           statisticsState.updateStatistics(sprintState.date, 'sprint', {
           gamesCount: 1,
           newWords: sprintState.newWordsCount,
@@ -252,7 +256,9 @@ export const sprintState: ISprintState = observable({
           totalMistakes: sprintState.totalMistakes,
           learnedWordsId: sprintState.learnedWords,
         })
-      }
+        console.log('learnedWordsId:', toJS(sprintState.learnedWords));
+        
+       }
       }
     }), 1000);
   }),
