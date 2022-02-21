@@ -24,10 +24,11 @@ export const CreateAudioCallQuestion = observer(()=> {
 
     return (
     <div>
+      { !audiocallState.isAnswered ?
       <div className={style.audioContainer}>
-        { !audiocallState.isAnswered ? <button className={style.audioBtn} onClick={() => {audiocallState.playAudio()}}></button> : null}
-      </div>
-      <div>
+         <button className={style.audioBtn} onClick={() => {audiocallState.playAudio()}}></button>
+      </div> : null}
+      <div className={style.answersWrapper}>
         <ul className={style.audioAnswer}>
           <button className={handleStyle(0)} ref={firstBtn} onClick={(e) => handleAnswerButton(e)}>{audiocallState.first}</button>
           <button className={handleStyle(1)} ref={secBtn} onClick={(e) => handleAnswerButton(e)}>{audiocallState.second}</button>

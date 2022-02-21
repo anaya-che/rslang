@@ -6,6 +6,11 @@
   gap: 30px;
 }
 
+.answersWrapper {
+  margin-top: 50px;
+  position:relative;
+}
+
 .sprintCard {
   width: 30rem;
   height: 30rem;
@@ -31,6 +36,7 @@
 .audioContainer {
   display: flex;
   justify-content: center;
+  min-height: 190px;
 }
 
 .audioBtn {
@@ -50,27 +56,23 @@
 
 .answerBtn {
   width: 13vw;
-  height: 3rem;
+  height: 5rem;
   border-radius: 3px;
   color: $bg-color;
   background-color: $green-light;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   word-wrap: break-word;
-
-  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
-
 }
 
 .true {
   width: 13vw;
-  height: 3rem;
+  height: 5rem;
   border-radius: 3px;
   color: $bg-color;
-  background-color: $color-9;
+  background-color: $green-light;
   box-shadow: 0px 0px 5px $font;
-  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   word-wrap: break-word;
 }
@@ -79,11 +81,10 @@
   background-color: $red-light;
   box-shadow: 0px 0px 5px $font;
   width: 13vw;
-  height: 3rem;
+  height: 5rem;
   border-radius: 3px;
   color: $bg-color;
-  text-shadow: -1px -1px 0 $color-12, 1px -1px 0 $color-12, -1px 1px 0 $color-12, 1px 1px 0 $color-12;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 500;
   word-wrap: break-word;
 }

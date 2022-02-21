@@ -9,7 +9,7 @@ export const Answer = observer(()=> {
         <div>
           <img className={style.answerImg} src={`${audiocallState.image}`} alt="" />
         </div>
-        <div>
+        <div className={style.descriptionWrapper}>
           <button className={style.audioBtn} onClick={() => {
               audiocallState.getWordAudio(audiocallState.savedAudioUrl)
             }}></button>
