@@ -5,11 +5,10 @@ import { audiocallState, sprintState, userState } from '../../store';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header}>
+    <div className={style.header} onClick={()=> {audiocallState.setDefault()}}>
       <div>
         <div className={style.home} onClick={ ()=> {
           sprintState.setDefault()
-          audiocallState.setDefault()
         }}>
           <Link to="/">
             <img src="../../../../icons/home.svg" alt="Home page" />

@@ -36,7 +36,7 @@ export const  AudiocallPage = observer(()=> {
       {audiocallState.isStarted ? <CreateAudioCallGame /> : null}
     </div>
   </div>
-  <Footer/>
+  {!audiocallState.isStarted ? <Footer/> : null}
   </>
 
 })
