@@ -5,11 +5,11 @@ export const Content = () => {
     <div className="content">
       <div className={style.main}>
         <section className={style.appInfo}>
-          <h1>
-            <span>RS</span>Lang
-          </h1>
           <div className={style.description}>
             <div className={style.descriptionText}>
+              <h1>
+                <span>RS</span>Lang
+              </h1>
               <p>
                 Интерактивное приложение для изучения английского языка, которое
                 поможет в лёгкой игровой форме повысить свой уровень
@@ -74,39 +74,39 @@ export const Content = () => {
         </section>
 
         <section>
-          <div>О команде:</div>
+          <h2 className={style.aboutTeamLogo}>О команде:</h2>
           <div className={style.team}>
             <div className={style.developer}>
               <div className={style.avatar}>
                 <img src="../../../../img/anastasia.jpg" width="160px" alt="" />
               </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-                doloribus incidunt nam, est consequatur cupiditate officia nemo?
-                Excepturi, dignissimos, officia est totam obcaecati, magnam
-                recusandae distinctio qui quisquam tempore enim.
+              <div className={style.developerInfo}>
+                <h3>Анастасия</h3>
+                <h4>Team lead, front-end developer</h4>
+                <p>
+                  Координация команды, разработка архитектуры, текстбук,
+                  авторизация, краткосрочная статистика, дизайн.
+                </p>
               </div>
             </div>
             <div className={style.developer}>
               <div className={style.avatar}>
                 <img src="../../../../img/maria.png" width="160px" alt="" />
               </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-                doloribus incidunt nam, est consequatur cupiditate officia nemo?
-                Excepturi, dignissimos, officia est totam obcaecati, magnam
-                recusandae distinctio qui quisquam tempore enim.
+              <div className={style.developerInfo}>
+                <h3>Мария</h3>
+                <h4>Front-end developer</h4>
+                <p>Разработка игры Спринт, дизайн.</p>
               </div>
             </div>
             <div className={style.developer}>
               <div className={style.avatar}>
                 <img src="../../../../img/andrew.jpg" width="160px" alt="" />
               </div>
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Minima
-                doloribus incidunt nam, est consequatur cupiditate officia nemo?
-                Excepturi, dignissimos, officia est totam obcaecati, magnam
-                recusandae distinctio qui quisquam tempore enim.
+              <div className={style.developerInfo}>
+                <h3>Андрей</h3>
+                <h4>Front-end developer</h4>
+                <p>Разработка игры Аудиовызов, долгосрочная статистика.</p>
               </div>
             </div>
           </div>
