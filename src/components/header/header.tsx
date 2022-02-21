@@ -6,33 +6,35 @@ import { audiocallState, sprintState, userState } from '../../store';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header} onClick={()=> {
-      audiocallState.setDefault()
-      sprintState.setDefault()
-      longTermState.setDefault()
-      }}>
+    <div
+      className={style.header}
+      onClick={() => {
+        audiocallState.setDefault();
+        sprintState.setDefault();
+      }}
+    >
       <div>
-        <div className={style.home}>
+        <div className={style.home} onClick={() => longTermState.setDefault()}>
           <Link to="/">
             <img src="../../../../icons/home.svg" alt="Home page" />
           </Link>
         </div>
-        <div>
+        <div onClick={() => longTermState.setDefault()}>
           <Link to="/textbook/1/1">Учебник</Link>
         </div>
-        <div>
+        <div onClick={() => longTermState.setDefault()}>
           <Link to="/games/sprint">Спринт</Link>
         </div>
-        <div>
+        <div onClick={() => longTermState.setDefault()}>
           <Link to="/games/audiocall">Аудиовызов</Link>
         </div>
-        { userState.isAuthorized ?
-          (<div>
+        {userState.isAuthorized ? (
+          <div>
             <Link to="/statistics">Статистика</Link>
-          </div>)
-          :
-          (<div></div>)
-        }
+          </div>
+        ) : (
+          <div></div>
+        )}
       </div>
     </div>
   );

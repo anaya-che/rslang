@@ -32,7 +32,14 @@ export const Chart = observer(() => {
       responsive: true,
       maintainAspectRatio: true,
       aspectRatio: 3,
-       plugins: {
+      scales: {
+        y: {
+            position: 'left',
+            type: 'linear',
+            beginAtZero: true,
+        },
+      },
+      plugins: {
           legend: {
            display: true,
                position:'bottom',
@@ -40,7 +47,7 @@ export const Chart = observer(() => {
                   padding: 40
                },
             },
-          },
+          }
        }}
     />
   );
