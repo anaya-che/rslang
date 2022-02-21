@@ -22,8 +22,8 @@ export const Card: React.FC<{ wordInfo: IWordData; cardStyle: string }> = ({
         style={{ backgroundImage: `url(${urlImage})` }}
       >
         <div className={style.cardWrapper}>
-          <div className={style.cardButtons}>
-            {userState.isAuthorized && (
+          {userState.isAuthorized && (
+            <div className={style.cardButtons}>
               <>
                 <div
                   className={
@@ -43,8 +43,8 @@ export const Card: React.FC<{ wordInfo: IWordData; cardStyle: string }> = ({
                   }}
                 ></div>
               </>
-            )}
-          </div>
+            </div>
+          )}
           <div className={style.wordInfo}>
             <div>{wordInfo.word}</div>
             <div>{wordInfo.transcription}</div>

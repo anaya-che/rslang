@@ -24,9 +24,9 @@ const App: React.FC = () => {
           <Route path="/statistics">
             <StatisticsPage />
           </Route>
-          {/* <Route path="/user">
+          <Route path="/user">
             <UserPage />
-          </Route> */}
+          </Route>
           <Route path="/">
             <MainPage />
           </Route>
@@ -34,6 +34,6 @@ const App: React.FC = () => {
       </Router>
     </div>
   );
-}
+};
 
 export default App;
