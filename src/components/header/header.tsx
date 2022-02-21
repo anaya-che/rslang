@@ -1,15 +1,18 @@
 import { Link } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import style from './header.module.scss';
+import { longTermState } from '../../store/long-term-state';
 import { audiocallState, sprintState, userState } from '../../store';
 
 export const Header = observer(() => {
   return (
-    <div className={style.header} onClick={()=> {audiocallState.setDefault()}}>
+    <div className={style.header} onClick={()=> {
+      audiocallState.setDefault()
+      sprintState.setDefault()
+      longTermState.setDefault()
+      }}>
       <div>
-        <div className={style.home} onClick={ ()=> {
-          sprintState.setDefault()
-        }}>
+        <div className={style.home}>
           <Link to="/">
             <img src="../../../../icons/home.svg" alt="Home page" />
           </Link>
