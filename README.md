@@ -1,46 +1,80 @@
-# Getting Started with Create React App
+# rslang
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+# Stack
 
-## Available Scripts
+**1. React.js** - allows build encapsulated components that manage their own state.
 
-In the project directory, you can run:
+**Pros:** 
+- Pretty simple syntax
+- Virtual Object Model Document
+- Repeated use of components
+- React developer browser tools
+- Huge community
+- Permanent support with issues resolving
 
-### `npm start`
+**Cons:** 
+- Focus on the user interface => necessary to integrate additional tools for routing i.e.
+- Poor documentation
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+**2. SCSS** - facilitates you to write clean, easy and less CSS in a programming construct. It contains fewer codes so you can write CSS quicker. It is more stable, powerful, and elegant.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+**Pros:** 
+- Clear code  
+- More possibilities
+- Allows you to use variables
+- Nested rules, mixins and inline imports, etc
 
-### `npm test`
+**Cons:** 
+- Difficult troubleshooting
+- Code has to be compiled
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+**3. MobX** - is a standalone library for managing the state of an application, which we use in conjunction with react.
 
-### `npm run build`
+**Pros:** 
+- It lets you define specific pieces of data as being "observable", then wraps those up and tracks any changes made to that data and automatically updates any other piece of code that is observing the data
+- It encourages use of standard mutating code, like someObject.someField = someValue, and someArray.push(someValue), with the real update logic being hidden internal to MobX
+- Idiomatic MobX code keeps your data in nested form and maintain direct references from one object to another
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+**Cons:** 
+- Hard to debug
+- Documentation for mobx-react could be better
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+**4. Typescript** - is a strict syntactical superset of JavaScript and adds optional static typing to the language.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**Pros:** 
+- Strict typing
+- Structural typing
+- Implicit typing
+- Easier to debug
+- Quicker development
+- Increases overall performance
 
-### `npm run eject`
+**Cons:** 
+- More initial setup
+- Overly complicated typing system
+- Required compilation while JS doesn’t
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+**5. Chart.js** - is an easy way to include animated, interactive graphs on your website.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+**Pros:** 
+- 9 types of graphs and charts: Line, Linear with Areas, Bar, Doughnut and Pie, Radar, Polar, Bubble and Scatterplot (Scatter) and Mixed Chart Types
+- All types of graphs can be customized and animated, and they are all responsive when working on the web
+- The functionality can be extended through the use of plugins
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+**Cons:** 
+- Pure library approach that Chart.js represents does not provide data extraction utilities, integrations to different data sources, data collection, transformation (ETL), data warehousing, administration UIs, role management nor configurable interactive widgets, so, for more complex visualization you should prefer other tools.
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+**6. Axios** - promise based HTTP client for the browser and node.js.
 
-## Learn More
+**Pros:** 
+- Compatible with some older browsers (ie. IE11)
+- Provides Cancelling Request ⇒ that can also be done without Axios using AbortController)
+- Very popular third-party library actively supported
+- Wrapper / decorator pattern which offers nice and convenient interface
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+**Cons:** 
+- Must be installed and imported (not native in JavaScript)
+- Not the standard so it is important to manage the conflict possibilities
+- Third-party libraries adds weight/load on the application or website (to be considered)
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+**7. Git** - distributed version control system designed to handle everything from small to very large projects with speed and efficiency.
