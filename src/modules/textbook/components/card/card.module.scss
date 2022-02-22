@@ -1,0 +1,169 @@
+@import '../../../../consts.scss';
+
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 380px;
+  height: 480px;
+  border-radius: 10px;
+  color: $font;
+  box-shadow: 0px 0px 10px $font;
+}
+
+.hidden {
+  display: none;
+}
+
+.wordInfo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  min-width: 120px;
+  background-color: rgba($bg-color, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.textContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  min-height: 200px;
+  gap: 15px;
+  width: calc(100% - 20px);
+  padding: 10px;
+  background-color: rgba($bg-color, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+  align-self: center;
+  font-size: 0.9em;
+}
+
+.meaningInfo,
+.exampleInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.playButton {
+  width: 25px;
+  height: 25px;
+  background-image: url('../../../../../public/icons/sound2.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.cardGroup0 {
+  background-color: rgba($yellow-normal, 0.5);
+}
+
+.cardGroup1 {
+  background-color: rgba($green-light, 0.5);
+}
+
+.cardGroup2 {
+  background-color: rgba($red-light, 0.5);
+}
+
+.cardGroup3 {
+  background-color: rgba($blue-light, 0.5);
+}
+
+.cardGroup4 {
+  background-color: rgba($color-11, 0.5);
+}
+
+.cardGroup5 {
+  background-color: rgba($color-13, 0.5);
+}
+
+.cardGroup6 {
+  background-color: rgba($color-14, 0.5);
+}
+
+.learnedCard {
+  filter: grayscale(1);
+}
+
+.difficultWord {
+  width: 25px;
+  height: 25px;
+  background-image: url('../../../../../public/icons/difficult.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.easyWord {
+  width: 30px;
+  height: 30px;
+  background-image: url('../../../../../public/icons/learned.svg');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+}
+
+.playButton:hover,
+.easyWord:hover,
+.difficultWord:hover {
+  opacity: 0.8;
+  transition: 0.5s;
+  filter: invert(46%) sepia(51%) saturate(372%) hue-rotate(117deg)
+    brightness(94%) contrast(98%);
+}
+
+.difficultWord.active {
+  filter: invert(94%) sepia(91%) saturate(708%) hue-rotate(313deg)
+    brightness(98%) contrast(98%);
+}
+
+.cardWrapper {
+  display: flex;
+  flex-direction: row-reverse;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.imageContainer {
+  width: 100%;
+  height: 250px;
+  background-blend-mode: multiply;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 10px 10px 0 0;
+  padding: 15px;
+}
+
+.cardButtons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 70px;
+  background-color: rgba($bg-color, 0.5);
+  backdrop-filter: blur(5px);
+  border-radius: 10px;
+}
+
+.textWrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 230px;
+}
+
+.wordGameInfo {
+  display: flex;
+  justify-content: flex-end;
+}

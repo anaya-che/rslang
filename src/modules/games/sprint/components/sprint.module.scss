@@ -1,0 +1,20 @@
+@import '../../../../consts';
+
+.sprintPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: calc(100vh - 4em);
+  flex: 1 0 auto;
+  gap: 7rem;
+  background-color: #fbe1b346;
+  .exitBtn {
+    align-self: flex-end;
+    background-color: transparent;
+    background-image: url('../../../../../public/icons/exit.svg');
+    background-repeat: no-repeat;
+  }
+  h2 {
+    font-size: 3rem;
+  }
+}
